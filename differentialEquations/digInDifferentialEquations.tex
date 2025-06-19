@@ -1,0 +1,221 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+
+\outcome{Identify a differential equation.}
+\outcome{Verify a solution to a differential equation.}
+\outcome{Compute a general solution to a differential equation via integration.}
+\outcome{Solve initial value problems.}
+\outcome{Determine the order of a differential equation.}
+
+
+\title[Dig-In:]{Differential equations}
+
+\begin{document}
+\begin{abstract}
+  Differential equations show you relationships between rates of
+  functions.
+\end{abstract}
+\maketitle
+
+A \textit{differential equation}\index{differential equation} is
+simply an equation with a derivative in it. Here is an example:
+\[
+a\cdot f''(x) + b\cdot f'(x) + c\cdot f(x) = g(x). 
+\]
+\begin{question}
+  What is a differential equation?
+  \begin{multipleChoice}
+    \choice{An equation that you take the derivative of.}
+    \choice[correct]{An equation that relates the rate of a function to other values.}
+    \choice{It is a formula for the slope of a tangent line at a given point.}  
+  \end{multipleChoice}
+\end{question}
+
+When a mathematician solves a differential equation, they are finding
+\textit{functions} satisfying the equation.
+\begin{question}
+  Which of the following functions solve the differential equation
+  \[
+  f^{(4)}(x) = f(x)?
+  \]
+  \begin{hint}
+    Remember, $f^{(4)}$ is the fourth derivative of $f$.
+  \end{hint}
+  \begin{selectAll}
+    \choice[correct]{$f(x) = \sin(x)$}
+    \choice{$f(x) = x^2$}
+    \choice[correct]{$f(x) = e^x$}
+    \choice[correct]{$f(x) = e^{-x}$}
+    \choice{$f(x) = \tan(x)$}
+  \end{selectAll}
+  \begin{feedback}
+    It turns out that the complete solution to this differential equation
+    is $c_1\sin(x)+c_2\cos(x)+c_3e^x+c_4e^{-x}$.  In other words, every
+    solution to this differential equation can be written in this form.
+    You should check that these are all solutions (for example $f(x) =
+    \sin(x)+3\cos(x)-7e^x+\pi e^{-x}$ is a solution).  Proving that these
+    are \textbf{all} of the solutions is beyond the scope of this course.
+  \end{feedback}
+\end{question}
+
+
+The differential equation above is an example of a fourth \dfn{order}
+differential equation, because the highest derivative in the equation
+is a ``fourth'' derivative. In general the highest derivative in a
+differential equation is the order.
+
+
+Differential equations are one of the most practical objects of
+mathematical study.  They appear constantly in every field of science
+and engineering.  They are a powerful way to model many diverse
+situations.
+
+
+
+
+
+\section{Modeling with differential equations}
+
+Setting up differential equations is a skill to be acquired. However,
+you can try your hand with our next question.
+
+\begin{question}
+  Imagine that a glass of water has initial temperature $5^\circ
+  \unit{C}$, and that the ambient temperature is $22^\circ \unit{C}$.
+  The water will warm up over time.  Assume that the rate of change in
+  the temperature of the water is directly proportional to the
+  difference between the current water temperature and the ambient
+  temperature.  Which of the following differential equations must be
+  satisfied by the function $H(t)$ which measures the temperature of
+  the water with respect to time?
+  \begin{multipleChoice}
+    \choice{$y' = 5+\frac{y}{22}$}
+    \choice[correct]{$y' = k(22-y)$ for some $k>0$}
+    \choice{$y' = k(y-22)$ for some $k>0$}
+    \choice{$y' = k(5-y)$ for some $k>0$}
+    \choice{$y' = k(y-5)$ for some $k>0$}
+  \end{multipleChoice}
+  \begin{hint}
+    This is just a straight translation job.  ``The rate of change in
+    the temperature of the water'' is $y'$.  ``Directly proportional
+    to'' means that it is equal to some constant (say $k$) times
+    whatever it is proportional to.  ``The difference between the
+    current water temperature and the ambient temperature" is either
+    $22-y$ or $y-22$, since $y$ is the temperature of the water and
+    $22$ is the ambient temperature.  Think about which we should
+    choose before looking at the next hint.  Will it be $y'=k(22-y)$
+    or $y'=k(y-22)$ where $k>0$?
+  \end{hint}
+  \begin{hint}
+    Since the temperature of the water is increasing over time, we
+    want $y'>0$.  Since the temperature will be increasing (and it is
+    reasonable to assume it never surpasses the ambient temperature!)
+    $22-y$ is positive.  So we can conclude that $y' = k(22-y)$ for
+    some $k>0$.
+  \end{hint}
+  
+  \begin{feedback}
+    The differential equation does not involve the number $5$.  If we
+    wanted to incorporate that piece of data into our model we could
+    ask ``Which solution(s) to this differential equation satisfy
+    $H(0) = 5$?''  This is known as an \textbf{initial value problem}.  %%%
+  \end{feedback}
+\end{question}
+
+
+Sometimes the rates in question are constant. 
+
+
+
+\begin{question}
+  One can approximate the force of gravity as constant near the Earth.
+  So the acceleration of a falling object is a constant $g>0$.  If
+  $h(t)$ is the height of an object at time $t$, which differential
+  equation must $h$ satisfy?
+  \begin{multipleChoice}
+    \choice{$y' = g$}
+    \choice{$y=-g$}
+    \choice[correct]{$y''=-g$}
+    \choice{$y'' = g$}
+    \choice{$y'' = -gy$}
+  \end{multipleChoice}
+  
+  \begin{hint}
+    The acceleration of an object is the second derivative of its
+    position, so the differential equation should say the second
+    derivative, $y''$, is constant.  Should it be a positive of
+    negative constant?
+  \end{hint}
+  \begin{hint}
+    A falling object will fall quicker and quicker, so the second
+    derivative of its height should be negative.  Thus $y''=-g$ is the
+    correct answer.
+  \end{hint}	
+\end{question}
+
+\section{Initial value problems}
+
+
+We have already seen, and solved, a particular kind of differential
+equation in this course.  Namely a solution $F$ to the differential
+equation $y' = f(x)$ is just an antiderivative of $f$!  We know the
+``general solution'' of this differential equation is just $F(x)+C$,
+as long as the domain of $f$ is an interval.  We can use this idea to
+solve differential equations of the form $y^{(n)} = f(x)$, by just
+repeatedly integrating and solving for ``$C$'' when we can.
+
+\begin{example}
+  Find the general solution to the differential equation $y''(x) = x$.
+  \begin{explanation}
+    Since $y''(x) = x$, we know that
+    \begin{align*}
+      y'(x) &= \int x \d x\\
+      &= \answer[given]{\frac{x^2}{2}} + C_1.
+    \end{align*}
+    This further implies that
+    \[
+    y(x) = \int \frac{x^2}{2} + C_1 \d x,
+    \]
+    so we must have that
+    \[
+    y(x) = \answer[given]{\frac{x^3}{6}}+C_1x+C_2,
+    \]
+    for some constant $C_2$.  This is the general solution of the
+    differential equation, in fact, \textit{every} solution of this
+    differential equation is of the form $y(x) =
+    \frac{1}{6}x^3+C_1x+C_2$.
+  \end{explanation}
+\end{example}
+
+We can use the general solution to give specific solutions.
+
+\begin{example}
+  Find the solution to the differential equation $y''(x) = x$ that
+  passes through the points $(0,1)$ and $(1,2)$.
+  \begin{explanation}
+    From our work above we know that
+    \[
+    y(x) = \frac{x^3}{6}+C_1x+C_2.
+    \]
+    To find the particular solution we are interested in, we solve the
+    system of equations
+    \begin{align*}
+      \answer[given]{1}= y(\answer[given]{0}) &= \frac{1}{6}\cdot 0^3+C_1\cdot 0+C_2,\\
+      \answer[given]{2}= y(\answer[given]{1}) &= \frac{1}{6}\cdot 1^3+C_1\cdot 1+C_2.
+    \end{align*}
+    The first line tells us that $C_2 = \answer[given]{1}$, and now the second line is
+    \[
+    2= \frac{1}{6}+C_1+1.
+    \]
+    and so $C_1 = \answer[given]{\frac{5}{6}}$. Our solution is now
+    \[
+    y(x) = \answer[given]{\frac{x^3}{6}+\frac{5 x}{6}+1}.
+    \]
+  \end{explanation}
+\end{example}
+
+
+
+\end{document}

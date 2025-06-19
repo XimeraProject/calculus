@@ -1,0 +1,286 @@
+\documentclass[handout]{ximera}
+%handout:  for handout version with no solutions or instructor notes
+%handout,instructornotes:  for instructor version with just problems and notes, no solutions
+%noinstructornotes:  shows only problem and solutions
+
+%% handout
+%% space
+%% newpage
+%% numbers
+%% nooutcomes
+
+%I added the commands here so that I would't have to keep looking them up
+%\newcommand{\RR}{\mathbb R}
+%\renewcommand{\d}{\,d}
+%\newcommand{\dd}[2][]{\frac{d #1}{d #2}}
+%\renewcommand{\l}{\ell}
+%\newcommand{\ddx}{\frac{d}{dx}}
+%\everymath{\displaystyle}
+%\newcommand{\dfn}{\textbf}
+%\newcommand{\eval}[1]{\bigg[ #1 \bigg]}
+
+%\begin{image}
+%\includegraphics[trim= 170 420 250 180]{Figure1.pdf}
+%\end{image}
+
+%add a ``.'' below when used in a specific directory.
+
+\input{../preamble.tex}
+
+
+
+\author{Tom Needham and Jim Talamo}
+
+\outcome{Recognize when a definite integral is improper.}
+\outcome{Determine whether an improper integral converges or diverges.}
+\outcome{Evaluate convergent improper integrals.}
+
+\title[]{Improper Integrals}
+
+\begin{document}
+\begin{abstract}
+\end{abstract}
+\maketitle
+
+\vspace{-0.7in}
+
+\section{Discussion Questions}
+
+\begin{problem}
+Determine whether the following integrals are improper.
+\begin{center}
+\begin{tabular}{llll}
+I. $\int_{-1}^1 \frac{1}{x-2} \d x$ \hspace{.2in} II. $\int_{-1}^2 \frac{1}{x-2} \d x$ \hspace{.2in} III. $\int_1^\infty \d x$ \hspace{.2in} IV. $\int_1^3 \sec (x) \d x$
+\end{tabular}
+\end{center}
+\end{problem}
+
+\begin{freeResponse}
+I. This integral is not improper, since the integrand function is continuous on the closed interval $[-1,1]$.
+
+II. This integral is improper, since $\lim_{x \rightarrow 2^-} \frac{1}{x-2} = -\infty$.
+
+III. This integral is improper, since one of the limits of integration is $\infty$.
+
+IV. This integral is improper, since $y=\sec(x)$ has a vertical asymptote at $x = \frac{\pi}{2}$ and this value is contained in the region of integration.
+\end{freeResponse}
+
+\begin{problem}
+Consider the integral
+$$
+\int_{-1}^1 \frac{1}{x} \d x.
+$$
+A student evaluates the integral using the Fundamental Theorem of Calculus to obtain
+$$
+\int_{-1}^1 \frac{1}{x} \d x = \eval{ \ln |x| }_{-1}^1 = \ln |1| - \ln |-1| = \ln (1)  - \ln (1) = 0.
+$$
+Is the student's work correct? If not, which step in the calculation was unjustified?
+\end{problem}
+
+\begin{freeResponse}
+The student is not correct. One hypothesis of the  Fundamental Theorem of Calculus is that the integrand is continuous over the region of integration. That is not the case here, as $y=\frac{1}{x}$ has a vertical asymptote at $x=0$, which lies within the region of integration. This integral is improper, so more sophisticated methods must be used to evaluate it or to determine that it diverges.
+\end{freeResponse}
+
+\begin{problem}
+A student notes that $\frac{1}{\sqrt{x}}$ has a vertical asymptote when $x=0$ and claims that the improper integral $\int_0^1 \frac{1}{\sqrt{x}} \d x$ thus diverges.  
+
+
+Is the student correct?  If not, determine whether $\int_0^1 \frac{1}{\sqrt{x}} \d x$ converges or diverges for a different reason than he student provided.
+\end{problem}
+
+\begin{freeResponse}
+The student is not necessarily correct; in order to determine whether $\int_0^1 \frac{1}{\sqrt{x}} \d x$ converges or diverges, we need to analyze $\lim_{a \to 0^+} \int_a^1 \frac{1}{\sqrt{x}} \d x$.  Note that for $0<a<1$, $\frac{1}{\sqrt{x}}$ is continuous on $[a,1]$, so we can apply the Fundamental Theorem of Calculus to conclude
+
+\[
+\int_a^1 \frac{1}{\sqrt{x}} \d x = \int_a^1 x^{-1/2} \d x = \eval{2x^{1/2}}_a^1 = 2-2\sqrt{a}.
+\]
+
+Thus, $\lim_{a \to 0^+} \int_a^1 \frac{1}{\sqrt{x}} \d x = \lim_{a \to 0^+} \left(2- 2\sqrt{a}\right) =2$, so the improper integral converges to $2$.
+\end{freeResponse}
+
+\begin{problem}
+Consider the improper integral below.  Write down the limits of \emph{proper} integrals that must analyzed in order to determine whether the improper integral converges or diverges.
+
+\begin{center}
+\begin{tabular}{ll}
+I. $\int_0^{\infty} \frac{e^x\sin(2x)}{x^2-x-2} \d x$ \hspace{.5in} II. $\int_0^2 \frac{\tan(x)}{x^2+x+2} \d x$
+\end{tabular}
+\end{center}
+\end{problem}
+
+\begin{freeResponse}
+I.  The functions in the numerator have no vertical asymptotes.  Note that the denominator factors as $x^2-x-2 = (x+1)(x-2)$, so the function $\frac{e^x\sin(2x)}{x^2-x-2}$ has a vertical asymptote at $x=-1$ and $x=2$.  Only $x=2$ is in the interval of integration, so we should analyze
+
+\[
+\lim_{b \to 2^-} \int_0^b \frac{e^x\sin(2x)}{x^2-x-2} \d x +\lim_{a \to 2^+} \int_a^c \frac{e^x\sin(2x)}{x^2-x-2} \d x + \lim_{d \to \infty} \int_c^d \frac{e^x\sin(2x)}{x^2-x-2} \d x
+\]
+
+where $c$ is any (finite) number greater than $2$.  As a reminder, each limit must be evaluated independently.  the improper integral will only converge if \emph{all} of the limits exist; if any of them does not exist, the integral will diverge.
+
+II.  Note that $\tan(x)$ has a vertical asymptote at odd integer multiples of $\frac{\pi}{2}$; that is at $x = (2n+1) \cdot \frac{\pi}{2}$ for each integer $n$.  The only asymptote that falls in the interval of integration is $\frac{\pi}{2}$.  Note that the denominator is an irreducible quadratic.  Indeed, if $x^2+x+2=0$, the quadratic formula gives 
+
+\[
+x = \frac{-1 \pm \sqrt{(1)^2-4(1)(2)}}{2(1)} =  \frac{-1 \pm \sqrt{-7}}{2},
+\]
+so there are no real solutions.  Thus, there are no vertical asymptotes other than the one at $x=\frac{\pi}{2}$, and we can determine if the improper integral converges or diverges by evaluating 
+
+\[
+\lim_{b \to \pi/2^-} \int_0^b \frac{\tan(x)}{x^2+x+2} \d x +\lim_{a \to 2^+} \int_a^2 \frac{\tan(x)}{x^2+x+2} \d x. 
+\]
+
+As a reminder, each limit must be evaluated independently.  the improper integral will only converge if \emph{all} of the limits exist; if any of them does not exist, the integral will diverge.
+
+
+\end{freeResponse}
+
+\section{Group Work}
+
+\begin{problem}
+Determine whether the improper integrals below converge or diverge.  If an integral converges, give its value.  Make sure to indicate the limit that must be analyzed to determine whether the improper integral converges or diverges.
+\begin{center}
+\begin{tabular}{lll}
+I.  $\int_3^5 \frac{4x}{\sqrt{x^2-9}} \d x$  \hspace{.5in} & II. $\int_{-\infty}^0 x e^x \d x$  \hspace{.5in}  & III. $\int_0^{\pi/4} \tan(2x)\sec^4(2x) \d x$
+\end{tabular}
+\end{center}
+\end{problem}
+
+\begin{freeResponse} In the context of these problems, any of the integration techniques we have studied thus far can arise.
+
+I. Note that $\frac{4x}{\sqrt{x^2-9}}$ has a vertical asymptote at $x=3$, so we must analyze 
+\[\lim_{a \to 3^+} \left[\int_a^5 \frac{4x}{\sqrt{x^2-9}} \d x \right].\]
+
+Note that it is not necessary to perform a trigonometric substitution to find antiderivatives here; by setting $u=x^2-9$, we have that
+
+\[
+\int \frac{4x}{\sqrt{x^2-9}} \d x = 4 \sqrt{x^2-9}+C
+\]
+
+Thus, we can compute the limit.
+
+\begin{align*}
+\lim_{a \to 3^+} \left[\int_a^5 \frac{4x}{\sqrt{x^2-9}} \d x \right] &= \lim_{a \to 3^+} \eval{4 \sqrt{x^2-9}}_a^5\\
+&= 4(4) - 4 \lim_{a \to 3^+} \sqrt{x^2-a^2} \\
+&= 16
+\end{align*}
+
+The improper integral thus converges to $16$.
+
+II. This integral is improper because one of the limits is infinite, so we must analyze 
+\[\lim_{b \to -\infty} \left[\int_b^0 x e^x \d x \right].\]
+
+For any number $b \geq 0$, we evaluate the integral using integration by parts with $u=x$, $\d u = \d x$, $\d v = e^x \d x$ and $v = e^x$ as
+\begin{align*}
+\int_{-b}^0 x e^x \d x &= \eval{x e^x}_{-b}^0 - \int_{-b}^0 e^x \d x \\
+&= \eval{x e^x - e^x}_{-b}^0 \\
+&= 0 \cdot e^0 - e^0 - (-b)e^{-b} + e^{-b} \\
+&= b e^{-b} + e^{-b} - 1.
+\end{align*}
+To evaluate the improper integral, we take the limit as $b \rightarrow \infty$. The term $e^{-b}$ approaches zero and the term $-1$ is constant. On the other hand, the limit of $b e^{-b}$ is of the form $\infty \cdot 0$, so we rewrite the limit as
+$$
+\lim_{b\rightarrow \infty}b e^{-b} = \lim_{b\rightarrow \infty} \frac{b}{e^b} = \lim_{b\rightarrow \infty} \frac{1}{e^b} = 0.
+$$
+The second equality follows from an application of L'H\^{o}pital's rule. We conclude that 
+$$
+\int_{-\infty}^0 x e^x \d x = -1.
+$$
+
+III. Note that both $\tan(2x)$ and $\sec(2x)$ have vertical asymptotes at $x=\frac{\pi}{4}$.  We thus have to analyze
+
+\[
+\lim_{b \to \pi/4^-} \left[\int_0^b  \tan(2x)\sec^4(2x) \d x \right].
+\]
+Setting $u = \tan(2x)$, $\d u = 2 \sec^2(2x) \d x$, and $\sec^2(2x) = \tan^2(2x)+1 = u^2+1$, so 
+
+\begin{align*}
+\int \tan(2x)\sec^4(2x) \d x &= \int u \sec^4(2x) \cdot \frac{\d u}{2 \sec^2(2x)} \\
+&= \int \frac{1}{2} u \sec^2(2x)\d u \\
+&= \int \frac{1}{2} u(u^2+1) \d u \\
+&= \int \frac{1}{2} u^3+ \frac{1}{2} u \d u \\
+&=  \frac{1}{8} u^4+\frac{1}{4}u^2 +C \\
+&=  \frac{1}{8} \tan^4(2x)+\frac{1}{4}\tan^2(2x) +C
+\end{align*}
+
+We find that 
+
+\[
+\lim_{b \to \pi/4^-} \left[\int_0^b  \tan(2x)\sec^4(2x) \d x \right] = \lim_{b \to \pi/4^-} \left[ \frac{1}{8} \tan^4(2x)+\frac{1}{4}\tan^2(2x) \right] = + \infty.
+\]
+Thus, the improper integral diverges.
+\end{freeResponse}
+
+\begin{problem}
+Consider the function $f(x) = \frac{2x-4}{(x^2+1)(2x+1)}$.
+
+\begin{itemize}
+\item[I.] Show that $f(x) = \frac{2x}{x^2+1} - \frac{4}{2x+1}$ by using partial fraction decomposition.  Make sure to start with the correct general form.
+\item[II.] Determine whether the improper integral $\int_0^{\infty} \frac{2x-4}{(x^2+1)(2x+1)} \d x$ converges or diverges.  If it converges, give the value to which it converges.  Make sure to indicate the limit that must be analyzed to determine whether the improper integral converges or diverges.
+\end{itemize}
+\end{problem}
+
+\begin{freeResponse}
+I. The partial fraction decomposition of $f(x)$ is 
+$$
+\frac{2x-4}{(x^2+1)(2x+1)} = \frac{Ax+B}{x^2+1} + \frac{C}{2x+1}.
+$$
+Clearing denominators, we have
+\begin{align*}
+2x-4 &= (Ax+B)(2x+1) + C(x^2+1) \\
+\end{align*}
+
+We first find whatever constants we can by using convenient $x$-values.  By letting $x=-\frac{1}{2}$, we find that $C=-4$.
+
+We can find the other constants by doing the following.
+
+\begin{itemize}
+\item Substitute in for the known constants, expand, and simplify.
+
+\begin{align*}
+2x-4 &= (Ax+B)(2x+1) + (-4)(x^2+1) \\
+2x-\cancel{4} &= 2Ax^2+Ax+2Bx+B - 4x^2-\cancel{4}
+\end{align*}
+
+\item Collect like powers of $x$.
+
+\begin{align*}
+2x &= (2A-4)x^2 (A+2B)x 
+\end{align*}
+
+\item Equate coefficients of the like degree terms.
+
+\[
+\begin{array}{rll}
+x^2: & 0 &= 2A-4 \\ 
+x: & 2 &= A + 2B \\ 
+const: & 0 &= B.
+\end{array}
+\]
+\end{itemize}
+
+From the first equation, we have $A=2$ and from the last one, $B=0$.  We check to make sure that these values give a consistent result for the middle equation, which they do.
+ 
+Putting it together, we have 
+$$
+\frac{2x-4}{(x^2+1)(2x+1)} = \frac{2x}{x^2+1} - \frac{4}{2x+1}.
+$$
+
+II. To determine whether the improper integral converges or diverges, we need to analyze $\lim_{b \to \infty} \int_0^b \frac{2x-4}{(x^2+1)(2x+1)}  \d x$.
+
+Note for any $b \geq 0$, $\frac{2x-4}{(x^2+1)(2x+1)} $ is continuous on $[0,b]$, so we can use the FTC to calculate the definite integral. 
+\begin{align*}
+\int_0^b \frac{2x-4}{(x^2+1)(2x+1)}  \d x &= \int_0^b \frac{2x}{x^2+1} - \frac{4}{2x+1} \d x \\
+&= \eval{\ln |x^2+1| - 2\ln |2x+1|}_0^b \\
+&= \ln (b^2+1) - 2 \ln (2b+1) - \ln 1 + 2 \ln 1 \\
+&= \ln (b^2+1) - 2 \ln (2b+1).
+\end{align*}
+To evaluate the improper integral, we take the limit as $b\rightarrow \infty$. Note that the form of this limit will be $\infty - \infty$, so we will exploit log rules to derive the answer. The limit is given by
+\begin{align*}
+\lim_{b\rightarrow \infty} \ln (b^2+1) - 2 \ln (2b+1) &= \lim_{b\rightarrow \infty} \ln \frac{b^2+1}{(2b+1)^2} \\
+&= \ln \left(\lim_{b\rightarrow \infty} \frac{b^2+1}{(2b+1)^2}\right) \\
+&= \ln\left( \frac{1}{4}\right).
+\end{align*}
+The second-to-last equality uses the continuity of the natural logarithm function and the last equality uses limit rules for evaluating rational functions of polynomials. Therefore 
+$$
+\int_0^\infty \frac{2x-4}{(x^2+1)(2x+1)} \d x = \ln\left( \frac{1}{4}\right).
+$$
+\end{freeResponse}
+\end{document}

@@ -1,0 +1,40 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\author{Jason Miller}
+\license{Creative Commons 3.0 By-NC}
+
+
+\outcome{Compute integrals involving powers of sine and cosine,  Recognize the patterns that appear in trigonometric integrals,
+  and use appropriate substitutions to compute them.}
+
+
+\begin{document}
+\begin{exercise}
+Compute the integral
+\[
+\int \sin^2 (3x)  \d x 
+\]
+
+
+\[
+\int \sin^2(3x) \d x=\answer{\frac{1}{2}x-\frac{1}{12}\sin(6x) +C}
+\]
+
+(Use $C$ for the constant of integration)
+
+\begin{hint}
+To integrate $\sin^2(3x)$, the identity
+
+\[
+\sin^2(\theta) = \frac{1}{2}-\frac{1}{2} \cos(2\theta)
+\]
+will be helpful.  Here, $\theta = \answer{3x}$, so we can write
+
+\[
+\sin^2(3x) = \frac{1}{2}-\frac{1}{2} \cos\left(\answer{6x}\right)
+\]
+\end{hint}
+\end{exercise}
+\end{document}

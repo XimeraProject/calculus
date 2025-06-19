@@ -1,0 +1,55 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\author{Jim Talamo}
+\license{Creative Commons 3.0 By-bC}
+
+
+\outcome{}
+
+
+\begin{document}
+\begin{exercise}
+Suppose that $\sum_{k=1}^{\infty} |a_k|$ converges.  Which of the following \emph{must} be true?  
+
+\begin{selectAll}
+\choice{$\sum_{k=1}^{\infty} (-1)^k a_k$ is an alternating series.}
+\choice[correct]{$\sum_{k=1}^{\infty} (-1)^k a_k$ must converge.}
+\choice[correct]{$\lim_{n \to \infty} a_n =0$.}
+\choice[correct]{$\{a_n\}$ must be bounded.}
+\choice{$\{a_n\}$ is monotonic.}
+\end{selectAll}
+
+\begin{hint}
+\begin{question}
+For the first choice, there is no assumption that $a_k$ itself is positive.  It is true that $\sum_{k=1}^{\infty} (-1)^k |a_k|$ is alternating though.
+\end{question}
+
+\begin{question}
+For the second choice, what does checking the given series for absolute convergence tell us?
+
+\begin{multipleChoice}
+\choice[correct]{The series converges absolutely.}
+\choice{The series does not converge absolutely.}
+\choice{The series diverges.}
+\end{multipleChoice}
+Thus, the series converges.
+\end{question}
+
+\begin{question}
+For the third option, since $\sum_{k=1}^{\infty} |a_k|$ converges, $\lim_{n \to \infty} |a_n| = \answer{0}$.  Does this allow us to conclude $\lim_{n \to \infty} a_n = \answer{0}$?
+\end{question}
+
+\begin{question}
+If a sequence has a limit, it \wordChoice{\choice[correct]{must be}\choice{might not be}\choice{must not be}} bounded.
+\end{question}
+
+\begin{question}
+For the last choice, suppose that $a_k = -\frac{1}{k^2}$.   Are the assumptions stated in the problem true?  Is $\{a_n\}$ monotonic?
+\end{question}
+
+\end{hint}
+
+\end{exercise}
+\end{document}

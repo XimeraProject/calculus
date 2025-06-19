@@ -1,0 +1,154 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Use limits to find the slope of the tangent line at a point.}
+\outcome{Understand the definition of the derivative at a point.}
+
+\title[Break-Ground:]{Slope of a curve}
+
+\begin{document}
+\begin{abstract}
+Two young mathematicians discuss the novel idea of the ``slope of a curve.''
+\end{abstract}
+\maketitle
+
+
+Check out this dialogue between two calculus students (based on a true
+story):
+
+\begin{dialogue}
+\item[Devyn] Riley, do you remember ``slope?'
+\item[Riley] Most definitely. ``Rise over run.''
+\item[Devyn] You know it.
+\item[Riley] ``Change in $y$ over change in $x$.''
+\item[Devyn] That's right.  
+\item[Riley] Brought to you by the letter ``$m$.''
+\item[Devyn] Enough! My important question is: could we define
+  ``slope'' for a curve that's not a straight line?
+\item[Riley] Well, maybe if we ``zoom in'' on a curve, it would look
+  like a line, and then we could call it ``the slope at that point.''
+\item[Devyn] Ah! And this ``zoom in'' idea sounds like a limit!
+\item[Riley] This is so awesome. We just made math!
+\end{dialogue}
+
+The concept introduced above, of the ``slope of a curve at a point,''
+is in fact one of the central concepts of calculus. It will,
+of course, be completely explained.  Let's explore Devyn
+and Riley's ideas a little more, first.
+
+
+
+To find the ``slope of a curve at a point,'' Devyn and Riley spoke of
+``zooming in'' on a curve until it looks like a line. When you zoom in
+on a \textit{smooth} curve, it will eventually look like a line. This
+line is called the tangent line.
+
+\begin{image}
+\begin{tikzpicture}
+  \begin{axis}[
+            domain=0:6, range=0:7,
+            ymin=-.2,ymax=7,
+            width=6in,
+            height=2.5in, %% Hard coded height! Moreover this effects the aspect ratio of the zoom--sort of BAD
+            axis lines=none,
+          ]   
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,1.25) (5.334,3.666)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(5.334,3.666) (6.666,3.666)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(1.2,1.25) (6.666,3.666)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(.8,1.25) (1.2,1.25)} \closedcycle; %% zoom fill
+
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,.833) (5.334,2.334)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(5.334,2.334) (6.666,2.334)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(.8,.833) (6.666,2.334)} \closedcycle; %% zoom fill
+
+          \addplot[very thick,penColor, smooth,domain=(0:1.833)] {-1/(x-2)};
+
+
+          \addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {x-3}; %% 5 to 6.833
+          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% point to be zoomed
+
+          \addplot [dashed] plot coordinates {(6,2.334) (6,3)}; %% zoom fill
+          \addplot [dashed] plot coordinates {(5.334,3) (6,3)}; %% zoom fill
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(6,3)};  %% zoomed pt 2
+
+          \addplot [->,textColor] plot coordinates {(0,0) (0,6)}; %% axis
+          \addplot [->,textColor] plot coordinates {(0,0) (2,0)}; %% axis
+          
+          \addplot [textColor!50!background] plot coordinates {(.8,.833) (.8,1.25)}; %% box around pt
+          \addplot [textColor!50!background] plot coordinates {(1.2,.833) (1.2,1.25)}; %% box around pt
+          \addplot [textColor!50!background] plot coordinates {(.8,1.25) (1.2,1.25)}; %% box around pt
+          \addplot [textColor!50!background] plot coordinates {(.8,.833) (1.2,.833)}; %% box around pt
+          
+          \addplot [textColor] plot coordinates {(5.334,2.334) (5.334,3.666)}; %% zoomed box 2
+          \addplot [textColor] plot coordinates {(6.666,2.334) (6.666,3.666)}; %% zoomed box 2
+          \addplot [textColor] plot coordinates {(5.334,2.334) (6.666,2.334)}; %% zoomed box 2
+          \addplot [textColor] plot coordinates {(5.334,3.666) (6.666,3.666)}; %% zoomed box 2
+
+          \node at (axis cs:6,2.334) [anchor=north] {$a$};
+          \node at (axis cs:6.666,2.334) [anchor=north] {$x_2$};
+          \node at (axis cs:5.334,2.334) [anchor=north] {$x_1$};
+
+          \node at (axis cs:5.334,3) [anchor=east] {$f(a)$};
+          \node at (axis cs:5.334,3.666) [anchor=east] {$f(x_2)$};
+          \node at (axis cs:5.334,2.334) [anchor=east] {$f(x_1)$};
+          
+          \node at (axis cs:2.2,0) [anchor=east] {$x$};
+          \node at (axis cs:0,6.6) [anchor=north] {$y$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
+
+
+\begin{problem}
+  Which of the following approximate the slope of the ``zoomed line''? (You can select more than one.)
+  \begin{selectAll}
+  	\choice{$\frac{f(x_1)-f(a)}{x_2-a}$}
+	\choice{$\frac{f(x_1)-f(a)}{a-x_1}$}
+  	\choice[correct]{$\frac{f(x_1)-f(a)}{x_1-a}$}
+	\choice{$\frac{f(x_1)-a}{x_1-a}$}
+	\choice[correct]{$\frac{f(a)-f(x_2)}{a-x_2}$}
+	\choice[correct]{$\frac{f(x_2)-f(a)}{x_2-a}$}
+	\choice{$\frac{x_2-a}{f(x_2)-f(a)}$}
+	\choice{$\frac{f(x_1)-f(a)}{f(x_2)-f(a)}$}
+	\choice{$a(f(x_2)-f(x_1))$}
+	\choice[correct]{$\frac{f(a)-f(x_1)}{a-x_1}$}
+  \end{selectAll}
+\end{problem}
+
+\begin{problem}
+   Let $f(x) = 3x-1$.  Zoom in on the curve around $a = -2$ so that $x_1
+   = -1.9$.  Use one of the formulations in the problem above to
+   approximate the slope of the curve.  The slope of the curve at $a =
+   -2$ is approximately\dots \begin{prompt}$\answer{3}$\end{prompt}
+\end{problem}
+
+\begin{problem}
+   Repeat the previous problem for $f(x) = x^2 - 1$, $a = 0$, and $x_2 =
+   0.2$.  Choose a formulation that will give you a positive answer
+   for the slope.  The (positive) slope of the curve at $a = 0$ is
+   approximately\dots\begin{prompt} $\answer{0.2}$\end{prompt}
+\end{problem}
+
+
+\begin{problem}
+   Zoom in on the curve $f(x) = x^2 - 1$ near $x=0$ again.  By looking
+   at the graph, what is your best guess for the actual slope of the
+   curve at zero?
+   \begin{prompt}
+   \begin{multipleChoice}
+     \choice{impossible to say}
+     \choice[correct]{zero}
+     \choice{one}
+     \choice{infinity}
+   \end{multipleChoice}
+   \end{prompt}
+   \end{problem}
+   
+
+%%\input{../leveledQuestions.tex}
+
+
+\end{document}

@@ -1,0 +1,23 @@
+\documentclass{ximera}
+\input{../../preamble.tex}
+\author{Steven Gubkin\and Nela Lakos \and Bobby Ramsey}
+\license{Creative Commons 3.0 By-NC}
+\begin{document}
+\begin{exercise}
+
+\[
+\int \frac{\cos(\frac{1}{x})}{x^2} \d x \begin{prompt} = \answer{-\sin\left(\frac{1}{x}\right)}+C \end{prompt}
+\]
+\begin{hint}
+	Try substitution with $v=\frac{1}{x}$.
+\end{hint}
+\begin{hint}
+	Then: $\d v=-\frac{1}{x^2}\d x$ so that   
+	\begin{align*}
+		\int \frac{\cos(\frac{1}{x})}{x^2} \d x &= \int \left(-\cos(\frac{1}{x})\right) \cdot\left(\frac{-1}{x^2}\right)\d x\\
+			&=-\int \cos(v) \d v
+	\end{align*}
+
+\end{hint}
+\end{exercise}
+\end{document}

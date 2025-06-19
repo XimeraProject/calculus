@@ -1,0 +1,88 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{}
+
+\title[Break-Ground:]{Multiplication to addition}
+
+\begin{document}
+\begin{abstract}
+Two young mathematicians think about derivatives and logarithms.
+\end{abstract}
+\maketitle
+
+
+Check out this dialogue between two calculus students (based on a true
+story):
+
+\begin{dialogue}
+\item[Devyn] Riley, why is the product rule so much harder than the sum rule?
+\item[Riley] Ever since 2nd grade, I've known that multiplication is
+  \textit{harder} than addition.
+\item[Devyn] I know! I was reading somewhere that a slide-rule somehow
+  turns ``multiplication into addition.''
+\item[Riley] Wow! I wonder how that works?
+\item[Devyn] I \textit{think} it has something to do with logs?
+\item[Riley] What? How does this work?
+\end{dialogue}
+
+Devyn is right, logarithms are used (and were invented) to convert
+difficult multiplication problems into simpler addition problems.
+
+\begin{problem}
+  Let $f(x) =  \sqrt{x} \cos(x) \cdot e^x$. Compute
+  \[
+  \ddx f(x)\begin{prompt} = \answer{\frac{1}{2\sqrt{x}}\cos(x)e^x -  \sqrt{x}\sin(x)e^x +  \sqrt{x}\cos(x) e^x}\end{prompt}
+  \]
+\end{problem}
+
+Now, let's see what happens if we do the same problem but we take the
+natural log of both sides first:
+\begin{align*}
+  f(x) &= \sqrt{x}\cdot\cos(x)\cdot e^x\\
+  \ln(f(x)) &= \ln( \sqrt{x}\cdot\cos(x)\cdot e^x)\\
+  \ln(f(x)) &=\frac{1}{2}\ln{(x)} + \ln(\cos(x)) + \ln(e^x)
+\end{align*}
+
+Now we'll take the derivative of both sides of the equation.
+By the chain rule
+\[
+\ddx \ln(f(x))= \frac{f'(x)}{f(x)}
+\]
+
+
+\begin{problem}
+  Compute %(using the chain rule)%
+  \[
+  \ddx \ln(x)  \begin{prompt}=\answer{\frac{1}{x}}\end{prompt}
+  \]
+\end{problem}
+
+\begin{problem}
+  Compute %(using the chain rule)%
+  \[
+  \ddx \ln(\cos(x))  \begin{prompt}=\answer{\frac{-\sin(x)}{\cos(x)}}\end{prompt}
+  \]
+\end{problem}
+
+\begin{problem}
+  Compute %(using the chain rule)%
+  \[
+  \ddx \ln(e^x)  \begin{prompt}=\answer{1}\end{prompt}
+  \]
+\end{problem}
+
+So we have
+\begin{align*}
+  \frac{f'(x)}{f(x)} &= \frac{1}{2x} - \frac{\sin(x)}{\cos(x)} + 1\\
+  f'(x) &= f(x) \left(\frac{1}{2x} - \frac{\sin(x)}{\cos(x)} + 1\right)\\
+  &= \sqrt{x}\cos(x)e^x\left(\frac{1}{2x} - \frac{\sin(x)}{\cos(x)} + 1\right)
+\end{align*}
+
+
+
+%\input{../leveledQuestions.tex}
+
+
+\end{document}

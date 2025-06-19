@@ -1,0 +1,33 @@
+\documentclass{ximera}
+\input{../../preamble.tex}
+\author{Emma Smith Zbarsky\and Nela Lakos \and Bobby Ramsey}
+\license{Creative Commons Attribution 3.0 Unported}
+\acknowledgement{https://quadbase.org/questions/q14432v1}
+\begin{document}
+
+\begin{exercise}
+
+Find the antiderivative: \[\int 2e^{4x}\; dx.\]
+
+
+\begin{hint}
+	Try the substitution $w=4x$.
+\end{hint}
+
+
+\begin{hint}
+	The differential of $w=4x$ is $\d w = 4\d x$, so that $\d x=\frac{1}{4}\d w$. That makes
+	\[\int 2e^{4x}\; dx=\int 2e^{2}\frac{1}{4}\d 2\;.\]
+\end{hint}
+
+
+\begin{multipleChoice}
+	\choice{$2e^{4x}+C$}
+	\choice{$8e^{4x}+C$}
+	\choice{$8e^{4x}$}
+	\choice{$2e^{4x}$}
+	\choice[correct]{$\frac{1}{2}e^{4x}+C$}
+\end{multipleChoice}
+
+\end{exercise}
+\end{document}

@@ -1,0 +1,670 @@
+\documentclass{ximera}
+
+
+\outcome{Calculate limits using the limit laws.}
+
+\input{../preamble.tex}
+\title[Dig-In:]{The limit laws}
+\begin{document}
+\begin{abstract}
+We give basic laws for working with limits. 
+\end{abstract}
+\maketitle
+In the previous section were able to compute the limits
+
+\[
+\lim_{x\to \pi} x^3=\pi^3,\quad\lim_{x\to \pi} \sqrt{2}=\sqrt{2},\quad\lim_{x\to \pi} \cos(x)= -1,
+\]
+
+using continuity of the functions $x^3$, $\sqrt{2}$, and $\cos{x}$, at
+$x=\pi$.  Does this imply that we can compute the limits
+\begin{align*}
+  &\lim_{x\to \pi} (x^3-\cos{x}),\\
+  &\lim_{x\to \pi} \frac{\sqrt{2}}{\cos(x)},\\
+  &\lim_{x\to \pi} (\sqrt{2}\cdot x^3\cdot\cos(x)), \text{ or}\\
+  &\lim_{x\to \pi} \cos({x^3})?
+\end{align*}
+
+Well, we cannot use continuity here, because we don't know if the
+functions $x^3-\cos(x)$, $\frac{\sqrt{2}}{\cos(x)}$, $\sqrt{2}\cdot
+x^3\cdot\cos(x)$, and $\cos({x^3})$ are continuous at $x=\pi$, and
+
+ we have no other tools available, since the graphs and tables are not reliable. Obviously, we need more tools to help us with computation of limits.
+
+ 
+
+In this section, we present a handful of rules, called the \textit{Limit Laws},
+that allow us to find limits of various combinations of functions.
+
+\begin{theorem}[Limit Laws]\index{limit laws}\label{theorem:limit-laws}
+Suppose that $\lim_{x\to a}f(x)=L$, $\lim_{x\to a}g(x)=M$.
+\begin{description}
+%\item[\textbf{Constant Multiple Law}] $\lim_{x\to a} kf(x) = k\lim_{x\to a}f(x)=kL$.
+\item[Sum/Difference Law] $\lim_{x\to a} (f(x) \pm g(x)) =
+  \lim_{x\to a}f(x) \pm \lim_{x\to a}g(x)=L \pm M$.
+\item[Product Law]  $\lim_{x\to a} (f(x)g(x)) = \lim_{x\to
+  a}f(x)\cdot\lim_{x\to a}g(x)=LM$.
+\item[Quotient Law]  $\lim_{x\to a} \frac{f(x)}{g(x)} =
+  \frac{\lim_{x\to a}f(x)}{\lim_{x\to a}g(x)}=\frac{L}{M}$, if
+  $M\ne0$.
+\end{description}
+\label{thm:limit laws}
+\end{theorem}
+
+In plain language, ``limit of a sum equals the sum of the limits,'' ``limit of a product equals the product of the limits,'' etc.
+
+Let's examine how the Limit Laws can be used in computation of limits.
+%begin{question}
+  %True or false: If $f$ and $g$ are continuous functions on an
+  %interval $I$, then $f\pm g$ is continuous on $I$.
+  %\begin{multipleChoice}
+   % \choice[correct]{True}
+  %  \choice{False}
+ % \end{multipleChoice}
+ % \begin{feedback}
+    %This follows from the Sum/Difference Law.
+ % \end{feedback}
+%\end{question}
+
+%\begin{question}
+ % True or false: If $f$ and $g$ are continuous functions on an
+ % interval $I$, then $f/g$ is continuous on $I$.
+ % \begin{multipleChoice}
+    %\choice{True}
+   % \choice[correct]{False}
+ % \end{multipleChoice}
+ % \begin{feedback}
+   % In this case, $f/g$ will not be continuous for $x$ where $g(x) =
+    %0$.
+ % \end{feedback}
+%\end{question}
+
+
+\begin{example}
+  Compute the following limits using Limit Laws:
+  \begin{enumerate}
+  \item\label{lle1a} $\lim_{x\to \pi} (x^3-\cos{x})$
+  \item\label{lle1b} $\lim_{x\to \pi} \frac{\sqrt{2}}{\cos{x}}$
+  \item\label{lle1c} $\lim_{x\to \pi} (\sqrt{2}\cdot x^3\cdot\cos{x})$
+  \item\label{lle1d} $\lim_{x\to \pi} \cos({x^3})$
+  \end{enumerate}
+  \begin{explanation}
+    For $\lim_{x\to \pi} (x^3-\cos(x))$, write:
+    \begin{align*}
+      \lim_{x\to \pi} (x^3-\cos(x))&=\lim_{x\to \pi} x^3-\lim_{x\to \pi}\cos(x) && \text{by Difference Law}\\
+      &=\pi^3-(-1)\\
+      &=\pi^3+1
+    \end{align*}
+    For $\lim_{x\to \pi} \frac{\sqrt{2}}{\cos(x)}$, write:
+    \begin{align*}
+      \lim_{x\to \pi} \frac{\sqrt{2}}{\cos(x)}&=\frac{\lim_{x\to \pi}\sqrt{2}}{\lim_{x\to \pi}\cos(x)} && \text{by Quotient Law}\\
+      &=\frac{\sqrt{2}}{-1}\\
+      &=-\sqrt{2}
+    \end{align*}
+    For $\lim_{x\to \pi} (\sqrt{2}\cdot x^3\cdot\cos(x))$, using the Product Law, we can write:
+    \[
+    \lim_{x\to \pi} (\sqrt{2}\cdot x^3\cdot\cos(x))=\lim_{x\to \pi} \sqrt{2}\cdot \lim_{x\to \pi}x^3\cdot \lim_{x\to \pi}\cos(x)
+    \]
+    \begin{align*}
+      &=\sqrt{2}\cdot \pi^3\cdot(-1)\\
+      &=-\sqrt{2}\pi^3
+    \end{align*}
+    For $\lim_{x\to \pi} \cos({x^3})$, write:
+    \[
+    \lim_{x\to \pi} \cos({x^3})= \cdots 
+    \]
+    The function $\cos({x^3})$ is a combination of the functions
+    $\cos({x})$ and $x^3$, but it is neither a sum/difference, nor a
+    product, nor a quotient of these two functions, so we cannot apply
+    any of the Limit Laws. This function is a composition of the two
+    functions, $\cos(x)$ and $x^3$.
+  \end{explanation}
+\end{example}
+\begin{example}
+\begin{enumerate}
+\item  Compute the following limit using limit laws:
+\[
+  \lim_{x\to 1}(5x^2+3x-2)
+\]
+\begin{explanation}
+  Well, get out your pencil and write with me:
+  \[
+  \lim_{x\to 1} (5x^2+3x-2) = \lim_{x\to 1} 5x^2 + \lim_{x\to 1} \answer[given]{3x} - \lim_{x\to 1}2
+  \]
+  by the Sum/Difference Law. So now
+  \[
+  = 5\lim_{x\to 1} x^2 + 3\lim_{x\to 1} x - \lim_{x\to 1}\answer[given]{2}
+  \]
+  by the Product Law. Finally by continuity of $x^b$ and $k$,
+  \[
+  = 5(1)^2 + 3(1) - 2 =\answer[given]{6}.
+  \]
+  \begin{onlineOnly}
+    We can check our answer by looking at the graph of $y=f(x)$:
+    \[
+    \graph{5x^2+3x-2}
+    \]
+  \end{onlineOnly}
+\end{explanation}  
+
+\item Use the definition of continuity to determine whether the polynomial function  $f(x)=5x^2+3x-2$ continuous at $x=1$.
+\begin{explanation}
+We'll use the continuity checklist that was mentioned just below the definition of continuity.
+
+We start with the first item of our continuity checklist: Does $f(1)$ exist? We know $f(1)=5(1)^2 + 3(1) - 2 = 6$, so yes. $f(1)$ does exist.
+
+The next item of our continuity checklist asks whether $\lim_{x\to 1}f(x) exists$. 
+Since we just calculated that $ \lim_{x\to 1} (5x^2+3x-2)=6$,  we know that this limit exists.
+
+The last item of our continuity checklist asks whether the value we found for $f(1)$ matches the value we found for $\lim_{x\to 1}f(x)$. Since these were both $6$, this condition is also satisfied.
+
+Therefore, the polynomial function $f$ is continuous at $x=1$.
+
+But what about continuity at any other value $x$? Is the function $f$ continuous on its entire domain?
+
+And what about any other polynomial function?
+
+Are polynomials continuous on their domains?
+\end{explanation}
+\end{enumerate}
+\end{example}
+
+We can generalize the example above to get the following theorems.
+
+\begin{theorem}[Continuity of Polynomial Functions]\index{continuity of polynomial functions}
+ \textbf{All polynomial functions}, meaning functions of the form
+  \[
+  f(x) = a_nx^n + a_{n-1}x^{n-1} + \dots + a_1 x + a_0
+  \]
+  where $n$ is a positive integer  and each coefficient $a_i$, $i=0, 1,...,n$, is a real number, are
+  \textbf{continuous for all real numbers}.
+  \begin{explanation}
+  In order to show that any polynomial, $f$, is continuous at any real number, $a$, we have to show that
+  \[
+  \lim_{x\to a} f(x)=f(a).
+  \]
+  Write with me:
+  \[
+  \lim_{x\to a} f(x) = \lim_{x\to a} (a_nx^n + a_{n-1}x^{n-1} + \dots + a_1 x + a_0 )
+  \]
+  Now by the Sum Law,
+  \[
+  = \lim_{x\to a} a_nx^n + \lim_{x\to a} a_{n-1}x^{n-1} + \dots +  \lim_{x\to a}a_1 x + \lim_{x\to a} a_0
+  \]
+  and by the Product Law,
+  \begin{align*}
+    = \lim_{x\to a} a_n\cdot \lim_{x\to a}x^n + \lim_{x\to a} a_{n-1}\cdot \lim_{x\to a}x^{n-1} &+ \dots\\
+    &+  \lim_{x\to a}a_1 \cdot \lim_{x\to a}x + \lim_{x\to a} a_0
+  \end{align*}
+  and by Continuity
+  \[
+  = a_n\cdot a^n +  a_{n-1}\cdot a^{n-1} + \dots + a_1 \cdot a + a_0
+  \]
+  And this equals\dots
+  \[
+  =f(a)
+  \]
+  Since we have shown that $\lim_{x\to a} f(x) = f(a)$, we have
+  shown that $f$ is continuous at $x=a$.
+\end{explanation}
+\end{theorem}
+
+\begin{theorem}[Continuity of Rational Functions]\index{continuity of rational functions}
+   A \textbf{rational function} h, meaning a function of the form 
+  \[
+  h(x)=\frac{f(x)}{g(x)}
+  \]
+  where $f $and $g$ are polynomials, is \textbf{continuous} for all real numbers except where $g(x)=0$.  That is,
+  rational functions are continuous wherever they are defined.
+\begin{explanation}
+      Let $a$ be a real number such that $g(a)\neq 0$.  Then, since
+      $g(x)$ is continuous at $a$, $\lim_{x\to a} g(x) \neq 0$.
+      Therefore, write with me, 
+      \[
+      \lim_{x \to a} h(x) = \lim_{x\to a} \frac{f(x)}{g(x)}
+      \]
+      and now by the Quotient Law, 
+      \[
+      \frac{\lim_{x\to a} f(x)}{ \lim_{x\to a} g(x)}
+      \]
+      and by the continuity of polynomials we may now set $x=a$
+      \[
+      \frac{f(a)}{g(a)}=h(a).
+      \]
+      Since we have shown that $\lim_{x\to a} h(x) = h(a)$, we have
+      shown that $h$ is continuous at $x=a$.
+\end{explanation}
+\end{theorem}
+
+\begin{question}
+  Where is $f(x) = \frac{x^2-3x+2}{x-2}$ continuous?
+  \begin{prompt}
+  \begin{multipleChoice}
+    \choice{for all real numbers}
+    \choice{at $x=2$}
+    \choice[correct]{for all real numbers, except $x=2$}
+    \choice{impossible to say}
+  \end{multipleChoice}
+  \end{prompt}
+\end{question}
+\begin{question}
+  True or false: If $f$ and $g$ are continuous functions on an
+  interval $I$, then $f\pm g$ is continuous on $I$.
+  \begin{prompt}
+  \begin{multipleChoice}
+    \choice[correct]{True}
+    \choice{False}
+  \end{multipleChoice}
+  \begin{feedback}
+     Let's assume that $I$ is an open interval and $a$ is a number in $I$. Remember, since $f$ and $g$ are both continuous on $I$, they are both continuous at $a$. 
+     
+     This means that $ \lim_{x\to a}f(x)=f(a)$ and $ \lim_{x\to a}g(x)=g(a)$.
+     
+      Now, define a new function, $h$, where $h(x)= f(x)+g(x)$, for all $x$ in $I$. We have to show that $h$ is continuous at $a$, or that
+    
+    \[
+    \lim_{x\to a} h(x) = h(a).
+    \]
+    Lat's start with
+     
+    \[
+    \lim_{x\to a} h(x) =  \lim_{x\to a} (f(x)+g(x)) = \lim_{x\to a} f(x)+\lim_{x\to a}g(x)\hspace{0.04in}by \hspace{0.04in}Sum\hspace{0.04in} Law,
+    \]
+    and, therefore,
+    
+     \[
+    \lim_{x\to a} h(x) =  f(a)+g(a)=h(a) \checkmark
+    \]
+We have proved that $h$ is continuous at  any number $a$ in $I$. Therefore, $h$ is continuous on $I$.
+Similarly, we can prove that $f+g$ is continuous on any interval $I$, by showing it is left-or right-continuous at the endpoints.
+We can adjust the proof for the function $f-g$.
+  \end{feedback}
+  \end{prompt}
+\end{question}
+
+\begin{question}
+  True or false: If $f$ and $g$ are continuous functions on an
+  interval $I$, then $f/g$ is continuous on $I$.
+  \begin{prompt}
+  \begin{multipleChoice}
+    \choice{True}
+    \choice[correct]{False}
+  \end{multipleChoice}
+  \begin{feedback}
+    In this case, $f/g$ will not be continuous for $x$ where $g(x) =
+    0$.
+  \end{feedback}
+  \end{prompt}
+\end{question}
+
+
+We still don't know how to compute a limit of a composition of two functions.
+Our next theorem provides basic rules for how limits interact with composition
+of functions.
+
+\begin{theorem}[Composition Limit Law]\index{composition limit law}
+  If $f(x)$ is continuous at $b = \lim_{x\to a} g(x)$, then
+  \[
+  \lim_{x\to a} f(g(x)) = f(\lim_{x\to a} g(x)).
+  \]
+\end{theorem}
+
+Because the limit of a continuous function is the same as the function
+value, we can now pass limits inside continuous functions.
+
+\begin{corollary}[Continuity of Composite Functions]
+
+If $g$ is continuous at $x=a$, and if $f $ is continuous at $g(a)$,  then $f(g(x))$ is continuous at $x=a$.
+
+
+
+\end{corollary}
+Using the Composition Limit Law, we can compute the last example from the beginning of this section.
+\begin{example}
+  Compute the following limit using limit laws:
+  \[
+  \lim_{x \to \pi}\cos({x^3})
+  \]
+  \begin{explanation}
+  We will use the Composition Limit Law. 
+Let
+ \[ 
+ f(g(x))=\cos({x^3}),
+ \]
+ where $f(x)=\cos(x)$, and $g(x)=x^3$.
+  Now, continuity of $x^3$ implies that $\lim_{x \to \pi}g(x)=\pi^3$.
+    Continuity of $\cos(x)$ implies that $f$ is continuous at $\pi^3=\lim_{x \to \pi}g(x)$.
+     Now, the Composition Limit Law implies that
+    \[
+    \lim_{x \to \pi}\cos({x^3})= \cos\Bigl({\lim_{x \to \pi} x^3}\Bigr)=\cos({\pi^3})\approx 0.91726.
+    \]
+   
+  \begin{onlineOnly}
+    We can confirm our results by checking out the graph of $y=f(g(x))$:
+    \[
+    \graph{\cos({x^3})}
+    \]
+  \end{onlineOnly}
+  \end{explanation}
+\end{example}
+
+Many of the Limit Laws and theorems about continuity in this section
+might seem like they should be obvious.  You may be wondering why we
+spent an entire section on these theorems.  The answer is that these
+theorems will tell you exactly when it is easy to find the value of a
+limit, and exactly what to do in those cases.
+
+The most important thing to learn from this section is whether the
+limit laws can be applied for a certain problem, and when we need to
+do something more interesting.  We will begin discussing those more
+interesting cases in the next section.  
+\section{A list of questions}
+
+Let's try this out.
+
+\begin{question}
+  Can this limit be directly computed by limit laws?
+  \[
+  \lim_{x\to 2}\frac{x^2+3x+2}{x+2} 
+  \]
+  \begin{prompt}
+  \begin{multipleChoice}
+    \choice[correct]{yes}
+    \choice{no}
+  \end{multipleChoice}
+  \begin{question}
+    Compute:
+    \[
+    \lim_{x\to 2}\frac{x^2+3x+2}{x+2}\begin{prompt} =\answer{3}\end{prompt}
+    \]
+    \begin{feedback}
+      Since $f(x)=\frac{x^2+3x+2}{x+2}$ is a rational function, and
+      the denominator does not equal $0$, we see that $f(x)$ is
+      continuous at $x=2$.  Thus, to find this limit, it suffices to
+      plug $2$ into $f(x)$.
+    \end{feedback}
+  \end{question}
+  \end{prompt}
+\end{question}
+
+
+\begin{question}
+  Can this limit be directly computed by limit laws?
+  \[
+  \lim_{x\to 2}\frac{x^2-3x+2}{x-2}
+  \]
+  \begin{prompt}
+  \begin{multipleChoice}
+    \choice{yes}
+    \choice[correct]{no}
+  \end{multipleChoice}
+  \begin{feedback}
+    $f(x) = \frac{x^2-3x+2}{x-2}$ is a rational function, but the
+    denominator $x-2$ equals $0$ when $x=2$. None of our current
+    theorems address the situation when the denominator of a fraction
+    approaches $0$.
+  \end{feedback}
+  \end{prompt}
+\end{question}
+
+
+\begin{question}
+  Can this limit be directly computed by limit laws?
+  \[
+  \lim_{x\to 0} x\sin(1/x)
+  \]
+  \begin{prompt}
+  \begin{multipleChoice}
+    \choice{yes}
+    \choice[correct]{no}
+  \end{multipleChoice}
+  \begin{feedback}
+    If we are trying to use limit laws to compute this limit, we would
+    first have to use the Product Law to say that
+    \[
+    \lim_{x\to 0}x\sin(1/x)= \lim_{x\to 0} x \cdot \lim_{x\to 0} \sin(1/x).
+    \]
+    We are only allowed to use this law if both limits exist, so we
+    must check this first.  We know from continuity that
+    \[
+    \lim_{x\to  0}x=0.
+    \]
+    However, we also know that $\sin(1/x)$ oscillates ``wildly'' as
+    $x$ approaches $0$, and so the limit
+    \[
+    \lim_{x\to 0} \sin(1/x)
+    \]does not exist.  Therefore, we cannot use the
+    Product Law.
+  \end{feedback}
+  \end{prompt}
+\end{question}
+
+
+\begin{question}
+  Can this limit be directly computed by limit laws?
+  \[
+  \lim_{x\to 0} \cot(x^3)
+  \]
+  \begin{prompt}
+  \begin{multipleChoice}
+    \choice{yes}
+    \choice[correct]{no}
+  \end{multipleChoice}
+  \begin{feedback}
+    Notice that
+    \[
+    \cot(x^3) = \frac{\cos(x^3)}{\sin(x^3)}.
+    \]
+    If we are trying to use limit laws to compute this limit, we would
+    like to use the Quotient Law to say that
+    \[
+    \lim_{x\to 0} \frac{\cos(x^3)}{\sin(x^3)} = \frac{\lim_{x\to 0}
+      \cos(x^3)}{\lim_{x\to 0} \sin(x^3)}.
+    \]
+    We are only allowed to use this law if both limits exist and the
+    denominator is not $0$. We suspect that the limit in the
+    denominator might equal $0$, so we check this limit.
+    \begin{align*}
+      \lim_{x\to 0} \sin(x^3) &= \sin(\lim_{x\to 0}x^3)\\
+      &=\sin(0) \\
+      &=0.
+  \end{align*}
+  This means that the denominator is zero and hence we cannot use the
+  Quotient Law.
+  \end{feedback}
+  \end{prompt}
+\end{question}
+
+
+\begin{question}
+  Can this limit be directly computed by limit laws?
+  \[
+  \lim_{x\to 0}\sec^2(e^x-1)
+  \]
+  \begin{prompt}
+  \begin{multipleChoice}
+    \choice[correct]{yes}
+    \choice{no}
+  \end{multipleChoice}
+  \begin{question}
+    Compute:
+    \[
+    \lim_{x\to 0}\sec^2(e^x-1)\begin{prompt} =\answer{1}\end{prompt}
+    \]
+    \begin{feedback}
+      Notice that
+      \[
+      \lim_{x\to 0} \sec^2(e^x-1) = \lim_{x\to 0} \frac{1}{\cos^2(e^x-1)}.
+      \]
+      If we are trying to use Limit Laws to compute this limit, we
+      would now have to use the Quotient Law to say that
+      \[
+      \lim_{x\to 0} \frac{1}{\cos^2(e^x-1)} = \frac{ \lim_{x\to 0}1}{
+        \lim_{x\to 0}\cos^2(e^x-1)}.
+      \]
+      We are only allowed to use this law if both limits exist and the
+      denominator is not $0$.  Let's check the denominator and numerator
+      separately. First we'll compute the limit of the denominator:
+      \begin{align*}
+        \lim_{x\to 0}\cos^2(e^x-1) &= (\lim_{x\to 0}\cos{(e^x-1)})^{2}\\
+        &= \Bigl(\cos{\Big(\lim_{x\to 0}(e^x-1)\Bigr)}\Bigr)^{2}\\
+        & =\cos^2\Bigl(\lim_{x\to 0}(e^x-1)\Bigr)\\
+        &=\cos^2\Bigl(\lim_{x\to 0}(e^x)-\lim_{x\to 0}(1)\Bigr)\\
+        &=\cos^2(1-1)\\
+        &= \cos^2(0)\\
+        &=1
+      \end{align*}
+      Therefore, the limit in the denominator exists and does not
+      equal $0$. We can use the Quotient Law, so we will compute the limit of the numerator:
+      \[
+      \lim_{x\to 0}1=1
+      \]
+      Hence
+      \[
+      \frac{ \lim_{x\to 0}1}{ \lim_{x\to 0}\cos^2(e^x-1)} =
+      \frac{1}{1}=1
+      \]
+    \end{feedback}
+  \end{question}
+  \end{prompt}
+\end{question}
+
+
+\begin{question}
+  Can this limit be directly computed by limit laws?
+  \[
+  \lim_{x\to 1}{(x-1)\cdot \csc(\ln(x))}
+  \]
+  \begin{prompt}
+  \begin{multipleChoice}
+    \choice{yes}
+    \choice[correct]{no}
+  \end{multipleChoice}
+  \begin{feedback}
+    If we are trying to use limit laws to compute this limit, we would have to use the Product Law to say that
+    \[
+    \lim_{x\to 1}{(x-1)\cdot \csc(\ln(x))}= \lim_{x\to 1}{(x-1)\cdot \lim_{x\to 1}\csc(\ln(x))}.
+    \]
+    We are only allowed to use this law if both limits exist.  Let's
+    check each limit separately.
+    \begin{align*}
+      \lim_{x\to 1} (x-1) &= \lim_{x\to 1} (x)-\lim_{x\to 1}(1)\\
+      &=1-1\\
+      &=0.
+    \end{align*}
+   So this limit exists. Now we check the other factor.
+   Notice that
+   \[
+   \lim_{x\to 1}\csc(\ln(x)) = \frac{1}{\sin(\ln(x))}.
+   \]
+   If we are trying to use limit laws to compute this limit, we would now have to use the Quotient Law to say that
+   \[
+   \frac{1}{\sin(\ln(x))} = \frac{\lim_{x\to 1}1}{\lim_{x\to
+       1}\sin(\ln(x))}.
+   \]
+   We are only allowed to use this law if both limits exist and the
+   denominator does not equal $0$.  The limit in the numerator definitely
+   exists, so let's check the limit in the denominator.
+   \begin{align*}
+   \lim_{x\to 1}\sin(\ln(x)) &= \sin(\lim_{x\to 1}\ln(x))\\
+   &=\sin(\ln(1))\\
+   &= \sin(0)\\
+   &= 0
+  \end{align*}
+  Since the denominator is $0$, we cannot apply the Quotient Law.
+  \end{feedback}
+  \end{prompt}
+\end{question}
+
+\begin{question}
+  Can this limit be directly computed by limit laws?
+  \[
+  \lim_{x\to 0} x\ln(x)
+  \]
+  \begin{prompt}
+  \begin{multipleChoice}
+    \choice{yes}
+    \choice[correct]{no}
+  \end{multipleChoice}
+  \begin{feedback}
+  If we are trying to use limit laws to compute this limit, we would
+  have to use the Product Law to say that
+  \[
+  \lim_{x\to 0} x\ln(x) =\lim_{x\to 0} x \cdot \lim_{x\to 0}\ln(x).
+  \]
+  We are only allowed to use this law if both limits exist.  We know
+  $\lim_{x\to 0} x = 0$, but what about $\lim_{x\to 0}\ln(x)$?  We do
+  not know how to find $\lim_{x\to 0}\ln(x)$ using limit laws because $0$
+  is not in the domain of $\ln(x)$.
+  \end{feedback}
+  \end{prompt}
+\end{question}
+
+
+\begin{question}
+  Can this limit be directly computed by limit laws?
+  \[
+  \lim_{x\to0}\frac{2^x-1}{3^{x-1}}
+  \]
+  \begin{prompt}
+  \begin{multipleChoice}
+    \choice[correct]{yes}
+    \choice{no}
+  \end{multipleChoice}
+  \begin{question}
+    Compute:
+    \[
+    \lim_{x\to0}\frac{2^x-1}{3^{x-1}}\begin{prompt} =\answer{0}\end{prompt}
+    \]
+    \begin{feedback}
+      If we are trying to use limit laws to compute this limit, we
+      would have to use the Quotient Law to say that
+      \[
+      \lim_{x\to 0}\frac{2^x-1}{3^{x-1}} = \frac{\lim_{x\to
+          0}(2^x-1)}{\lim_{x\to 0}(3^{x-1})}.
+      \]
+      We are only allowed to use this law if both limits exist and the
+      denominator does not equal $0$.  Let's check each limit
+      separately, starting with the denominator
+      \begin{align*}
+        \lim_{x\to 0}(3^{x-1}) &=3^{\lim_{x\to0}(x-1)}\\
+        &=3^{-1}\\
+        &=\frac{1}{3}
+      \end{align*}
+
+      On the other hand the limit in the numerator is
+      \begin{align*}
+        \lim_{x\to 0}(2^x-1) &=\lim_{x\to0}(2^x)-\lim_{x\to0}(1)\\
+        &=1-1\\
+        &=0
+      \end{align*}
+      The limits in both the numerator and denominator exist and the
+      limit in the denominator does not equal $0$, so we can use the
+      Quotient Law.  We find:
+      \[
+        \frac{\lim_{x\to 0}(2^x-1)}{\lim_{x\to 0}(3^{x-1})}
+        =\frac{0}{\frac{1}{3}}=0.
+        \]
+    \end{feedback}
+  \end{question}
+  \end{prompt}
+\end{question}
+
+
+\begin{question}
+  Can this limit be directly computed by limit laws?
+  \[
+  \lim_{x\to 0}(1+x)^{1/x}
+  \]
+  \begin{prompt}
+  \begin{multipleChoice}
+    \choice{yes}
+    \choice[correct]{no}
+  \end{multipleChoice}
+  \begin{feedback}
+  We do not have any limit laws for functions of the form $f(x)^{g(x)}$, so we cannot compute this limit.
+  \end{feedback}
+  \end{prompt}
+\end{question}
+
+\end{document}

@@ -1,0 +1,118 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\author{Jim Talamo}
+
+\outcome{Study an old problem using new techniques.}
+
+\begin{document}
+\begin{exercise}
+Note that if we have a function of $2$ variables
+and a curve in its domain, we can describe the position of each point
+on the curve in terms of a single parameter $t$.  The outputs
+above this curve are given in terms of $2$ variables, each of which
+can be described in terms of $t$.  This means that the values that the
+function $F$ takes above the curve can be expressed in terms of $t$ only.  
+Since this is the case, we can ask many familiar
+questions from calculus of a single variable, or interpret several old
+problems in this new setting.  Here's an example.
+
+
+Consider trying to find the maximum area of a rectangle that can be inscribed inside of the ellipse $\frac{x^2}{4}+\frac{y^2}{9} =1$.
+
+ \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-10:10, ymax=3.6,xmax=3.6, ymin=-3.6, xmin=-3.6,
+            		axis lines =center, xlabel=$x$, ylabel=$y$, ytick={-3,-2,-1,1,2,3},
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+
+		
+                 %ellipse
+                  \addplot [draw=penColor,domain=-1.8:1.8,ultra thick,smooth] {sqrt(9- 9/4*x^2)};
+                  \addplot [draw=penColor,domain=-2:-1.8,ultra thick,smooth,samples=200] {sqrt(9- 9/4*x^2)};
+                  \addplot [draw=penColor,domain=1.8:2,ultra thick,smooth,samples=200] {sqrt(9- 9/4*x^2)};
+                  \addplot [draw=penColor,domain=-1.8:1.8,ultra thick,smooth] {-sqrt(9- 9/4*x^2)};
+                  \addplot [draw=penColor,domain=-2:-1.8,ultra thick,smooth,samples=200] {-sqrt(9- 9/4*x^2)};
+                  \addplot [draw=penColor,domain=1.8:2,ultra thick,smooth,samples=200] {-sqrt(9- 9/4*x^2)};
+
+               	\node at (axis cs:11,1.55) [penColor] {$\frac{x^2}{4}+\frac{y^2}{9} =1$};
+            	
+		%rectangle
+	     	\addplot [penColor2,very thick] plot coordinates {(-1.2,-2.4) (1.2,-2.4)(1.2,2.4)(-1.2,2.4)(-1.2,-2.4)};
+	
+		 \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(1.2,2.4)};
+		 \node at (axis cs:1.8,2.6) [penColor2] {$(x,y)$};
+	    
+	      \end{axis}
+            \end{tikzpicture}
+            \end{image}
+The area of a rectangle centered at the origin whose upper right corner $(x,y)$ is in the first quadrant is
+
+\[
+A(x,y) = \answer{4xy}.
+\]
+
+We can now see that this area is a function of two variables, $x$ and $y$.  
+
+\begin{exercise}
+With no additional restrictions, we see that by requiring that $(x,y)$ lies in the first quadrant, the domain of $A(x,y)$ will be $\{ (x,y) \in \R^2 : x \geq \answer{0}, y \geq \answer{0} \}$ and the range will be \wordChoice{\choice{$\R$}\choice{$(0,\infty)$}\choice[correct]{$[0,\infty)$}}.  Hence, the function $z = A(x,y)$ is a surface in the $(x,y,z)$-space whose output is the area of such a rectangle to each point in its domain. 
+
+However, we now introduce that $(x,y)$ must also lie on the ellipse $\frac{x^2}{4}+\frac{y^2}{9} =1$, which is a curve in the domain of the function.  We thus must examine the outputs of $z=A(x,y)$ along this curve.  
+
+When you encountered an example like this before discussing parameterizations, you likely solved for one of the variables in terms of the other.  There is nothing wrong about doing this, but it leads to messy differentiation and algebra.  When dealing with circles and ellipses, it is often convenient to use knowledge of polar coordinates (and trigonometric identities) to give a nicer description.  Here, we set
+
+\begin{align*}
+x(\theta) &= \answer{2} \cos(\theta) \\
+y(\theta) &= \answer{3} \sin(\theta)
+\end{align*}
+so we can make use of the identity $\cos^2(\theta) + \sin^2(\theta) =1$.  
+
+\begin{feedback}[correct]
+Indeed, by substituting these results for $x$ and $y$ into the left-hand side, we find:
+
+\begin{align*}
+  \frac{x^2}{4}+\frac{y^2}{9} &=\frac{(2 \cos(\theta))^2}{4}+\frac{(3 \sin(\theta))^2}{9}\\
+  &=\frac{4 \cos^2(\theta)}{4}+\frac{9 \sin(\theta)^2}{9}\\
+  &=1
+\end{align*}
+\end{feedback}
+
+\begin{exercise}
+We can now express the area $A(x,y)$ evaluated along the ellipse as a
+function of a single variable, $\theta$:
+\begin{align*}
+  A &= 4xy \\
+  &= 4(2 \cos(\theta) )(3 \sin(\theta) ) \\
+  &= \answer{24 \sin(\theta)\cos(\theta)}
+\end{align*}
+Since $x$ and $y$ are nonnegative, we have $0\le \theta \le \answer{\pi/2}$.  We can perform the usual analysis (find the critical points, evaluate the function at the relevant ones in $[0,\pi/2]$, check the end points, then select the maximum), or we can use the trigonometric identity $2\sin(\theta)\cos(\theta) = \sin(2\theta)$ and write:
+
+\begin{align*}
+  A(\theta) &= \answer{12} \sin(2 \theta)
+\end{align*}
+
+Since $\sin(2 \theta)$ is maximized when its input $2 \theta = \answer{\frac{\pi}{2}}$, we find the maximum occurs when $\theta = \answer{\frac{\pi}{4}}$.  Since the actual maximum of  $\sin(2 \theta)$ is $1$, we find that the maximum area is $A=\answer{12}$, which occurs when $x= \answer{\sqrt{2}}$ and $y=\answer{\frac{3\sqrt{2}}{2}}$.
+
+
+\begin{feedback}[correct]
+The above example is an example of \emph{constrained
+  optimization}---when we are looking for a minimum or maximum value
+of a function subject to certain conditions.  This is a fundamentally
+important idea and arises in many real world applications where
+companies only have so many raw materials, employees, etc.  After we
+develop more tools later in this chapter, we will revisit problems
+like this one --- as well as more general ones --- and use these tools to
+introduce a new method of solving these called \emph{Lagrange
+  Multipliers}.
+\end{feedback}
+
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{document}

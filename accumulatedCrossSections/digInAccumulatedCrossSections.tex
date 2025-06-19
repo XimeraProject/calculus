@@ -1,0 +1,626 @@
+\documentclass{ximera}
+\author{Jim Talamo}
+\input{../preamble.tex}
+
+\title[Dig-In:]{Accumulated cross-sections}
+
+\outcome{Apply the procedure of ``Slice, Approximate, Integrate'' to compute volumes of solids with given cross-sections.}
+
+\begin{document}
+\begin{abstract}
+  We can also use the procedure of ``Slice, Approximate, Integrate'' to set up integrals to compute volumes.
+\end{abstract}
+\maketitle
+
+\section{Accumulation of cross-sections}
+
+We have seen how to compute certain areas by using integration. The
+same technique used to find those areas can be applied to find volumes
+as well! In this section, we consider volumes whose cross-sections
+taken through their bases are common shapes from geometry.  In fact,
+we can think of these cross-sections as being ``slabs'' that we layer
+either next to each other or over each other to obtain the solid in
+question.\index{slabs}\index{cross-sections} We begin with a
+motivating example.
+
+
+
+%%%%%%%%
+
+\begin{model} The base of a solid is the region in the $xy$-plane bounded by $x=4-y^2$ and the $y$-axis.  Slices through the solid that are perpendicular to the $x$-axis are squares.  
+
+\begin{image}
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=-.3, xmax=4.8,domain=-1:1,
+      ymin=-.4,ymax=1.7,
+      clip=false,
+      ytick={0,.8},yticklabels={$0$,$1$},
+      axis lines =center, xlabel=$x$, ylabel=$z$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot [penColor2,very thick,domain=-.65:4,samples=150] {-.2*sqrt(4-x)};
+     \addplot [penColor2,very thick,domain=.65:3.9,samples=150,dashed] {.05+.2*sqrt(4-x)};
+    
+
+  
+	
+    	\addplot [draw=penColor, fill=none,very thick] plot coordinates { (.63,1.57)(-.63,.73)(-.63,-.42)};
+	\addplot [draw=penColor, fill=none,very thick,dashed] plot coordinates {(-.63,-.42)  (.63,.42) (.63,1.57) };
+
+    \node at (axis cs:3,-0.4) [penColor2] {$x=4-y^2$};
+
+    \addplot [black,very thick,domain=.63:4,samples=100] {sqrt((4-x)/1.3672)};
+     \addplot [black,very thick,domain=-.63:4,samples=100] {sqrt((4-x)/8.688)};
+
+    \addplot [->] plot coordinates {(-1.2,-.8) (1.2,0.8)};
+    \node[anchor=south west] at (axis cs:1.1,0.8) {$y$};
+    
+               
+\addplot [name path=A,domain=-.65:4,samples=150] {-.2*sqrt(4-x)};
+\addplot [name path=B,domain=-.63:4,samples=100] {sqrt((4-x)/8.688)};
+\addplot [fillp] fill between[of=A and B];
+               
+\addplot [name path=C,domain=-.63:4,samples=100] {sqrt((4-x)/8.688)};
+\addplot [name path=D,domain=.63:4,samples=100] {sqrt((4-x)/1.3672)};
+\addplot [fillp!60] fill between[of=C and D];
+
+%Square
+    	\addplot [draw=penColor, fill=none,very thick] plot coordinates {(1.17,-.34) (2,.33)(2,1.2)(-.63+1.8,.58)(-.63+1.8,-.34)};
+
+  \end{axis}
+\end{tikzpicture}
+\end{image}
+
+We can apply the procedure of 	``Slice, Approximate, Integrate'' to set up an integral that computes the volume of the solid.
+
+\paragraph{Step 1: Slice} Since the cross-sections are perpendicular to the $x$-axis, this means that the slices are \wordChoice{\choice{horizontal.}\choice[correct]{vertical.}} 
+
+The slices on the actual three-dimensional solid are shown as well:
+
+\begin{image}
+\begin{tikzpicture}
+\begin{axis}[
+            domain=-3:4, ymax=3.5,xmax=4.5, ymin=-3, xmin=-1,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          
+\addplot[draw=penColor2,very thick,smooth] (4-x^2,x);
+
+           
+\addplot [name path=A,domain=0:4,samples=50,draw=none] {sqrt(4-x)}; 
+\addplot [name path=B,domain=0:4,samples=50,draw=none] {-sqrt(4-x)};  
+\addplot [fillp] fill between[of=A and B];
+
+\addplot [draw=penColor,very thick] coordinates {(1,-1.713)(1,1.713)};
+\addplot [draw=penColor,very thick] coordinates {(2,-1.4)(2,1.4)};
+\addplot [draw=penColor,very thick] coordinates {(3,-1)(3,1)};
+
+%Dark Shade
+\addplot [name path=C,domain=1:2,samples=50,draw=none] {sqrt(4-x)}; 
+\addplot [name path=D,domain=1:2,samples=50,draw=none] {-sqrt(4-x)};  
+\addplot [gray!50] fill between[of=C and D];
+
+\node at (axis cs:3,-1.75) [penColor2] {$x=4-y^2$};
+
+\end{axis}
+\end{tikzpicture}
+
+\end{image}
+
+Recall that these slices on the base are the side of a square cross-section.  The other side extends above the $xy$-plane.  Thus, the actual slices on the solid look like:
+
+\begin{image}
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=-.3, xmax=4.8,domain=-1:1,
+      ymin=-.4,ymax=1.7,
+      clip=false,
+      ytick={0,.8},yticklabels={$0$,$1$},
+      axis lines =center, xlabel=$x$, ylabel=$z$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot [penColor2,very thick,domain=-.65:4,samples=150] {-.2*sqrt(4-x)};
+    \addplot [penColor2,very thick,domain=.65:4,samples=150,dashed] {.2*sqrt(4-x)};
+    
+
+  %Adds slices
+  	\addplot [draw=penColor, fill=none,very thick] plot coordinates {(3.25,.74)(2.65,.394)(2.65,-.233) };
+     	\addplot [draw=penColor, fill=none,very thick] plot coordinates { (2.37,1.09) (1.5,.536)(1.5,-.32)};
+	\addplot [draw=penColor, fill=none,very thick] plot coordinates {(1.47,1.36) (.43,.64)(.43,-.38)};
+	\addplot [draw=penColor, fill=none,very thick] plot coordinates { (.63,1.57)(-.63,.73)(-.63,-.42)};
+
+%adds dashed
+	
+	\addplot [draw=penColor, fill=none,very thick,dashed] plot coordinates {(2.65,-.233) (3.25,.167) (3.25,.74) };
+     	\addplot [draw=penColor, fill=none,very thick,dashed] plot coordinates {(1.5,-.32) (2.37,.246) (2.37,1.09) };
+     	\addplot [draw=penColor, fill=none,very thick,dashed] plot coordinates {(.43,-.38) (1.47,.316) (1.47,1.36) };
+	\addplot [draw=penColor, fill=none,very thick,dashed] plot coordinates {(-.63,-.42)  (.63,.42) (.63,1.57) };
+
+	
+	%%%Adds label
+	
+    \node at (axis cs:3,-0.4) [penColor2] {$x=4-y^2$};
+
+    \addplot [black,very thick,domain=.63:4,samples=100] {sqrt((4-x)/1.3672)};
+     \addplot [black,very thick,domain=-.63:4,samples=100] {sqrt((4-x)/8.688)};
+
+    \addplot [->] plot coordinates {(-1.2,-.8) (1.2,0.8)};
+    \node[anchor=south west] at (axis cs:1.2,0.6) {$y$};
+    
+    \addplot [name path=A,domain=-.65:4,samples=150] {-.2*sqrt(4-x)};
+\addplot [name path=B,domain=-.63:4,samples=100] {sqrt((4-x)/8.688)};
+\addplot [fillp] fill between[of=A and B];
+               
+\addplot [name path=C,domain=-.63:4,samples=100] {sqrt((4-x)/8.688)};
+\addplot [name path=D,domain=.63:4,samples=100] {sqrt((4-x)/1.3672)};
+\addplot [fillp!60] fill between[of=C and D];
+
+%Dark Shade
+
+   \addplot [name path=E,domain=.43:1.47,samples=150] {-.2*sqrt(4-x)};
+\addplot [name path=F,domain=.43:1.47,samples=100] {sqrt((4-x)/8.688)};
+\addplot [gray!50] fill between[of=E and F];
+               
+\addplot [name path=G,domain=.43:1.47,samples=100] {sqrt((4-x)/8.688)};
+\addplot [name path=H,domain=1.5:2.37,samples=100] {sqrt((4-x)/1.3672)};
+\addplot [gray!50] fill between[of=G and H];
+
+\addplot [name path=I,domain=1.47:2.37,samples=100] {.6506*x-.45};
+\addplot [name path=J,domain=1.47:2.37,samples=100] {.6506*x-1.295922};
+\addplot [gray!50] fill between[of=I and J];
+               
+  \end{axis}
+\end{tikzpicture}
+\end{image}
+
+\paragraph{Step 2: Approximate}
+
+As usual, we approximate the base of each slice by a rectangle.  For the sake of example, we use righthand endpoints and rectangles of uniform width $\Delta x$ to draw the picture:
+
+%%%%BASE%%%%%%%%%%%%%
+\begin{image}
+\begin{tikzpicture}
+\begin{axis}[
+            domain=-3:4, ymax=3.5,xmax=4.5, ymin=-3, xmin=-1,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          
+\addplot[draw=penColor2,very thick,smooth] (4-x^2,x);
+
+\addplot [draw=penColor,very thick,fill=fillp] coordinates {(0,-1.713)(1,-1.713)(1,1.713)(0,1.713)(0,-1.713)};
+\addplot [draw=penColor,very thick,fill=gray!50] coordinates {(1,-1.4)(2,-1.4)(2,1.4)(1,1.4)(1,-1.4)};
+\addplot [draw=penColor,very thick,fill=fillp] coordinates {(2,-1)(3,-1)(3,1)(2,1)(2,-1)};
+
+  %Adds Delta x
+    \draw[decoration={brace,mirror, raise=.35cm},decorate,thin] (axis cs:1,-1.4)--(axis cs:2,-1.4);  
+    \node[anchor=north] at (axis cs:1.5,-1.85) {$\Delta x$};
+%Adds s
+
+    \draw[decoration={brace, raise=.1cm},decorate,thin] (axis cs:1,-1.4)--(axis cs:1,1.4);  
+    \node[anchor=north] at (axis cs:.75,.5) {$s$};
+    
+    
+\node at (axis cs:3,-1.75) [penColor2] {$x=4-y^2$};
+
+\end{axis}
+\end{tikzpicture}
+
+\end{image}
+
+The corresponding approximate slices on the solid are shown below:
+%%%%%%%%%%%%%SOLID%%%%%%%%%
+
+\begin{image}
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=-.3, xmax=4.8,domain=-1:1,
+      ymin=-.4,ymax=1.7,
+      clip=false,
+      ytick={0,.8},yticklabels={$0$,$1$},
+      axis lines =center, xlabel=$x$, ylabel=$z$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+ 
+    
+	\addplot [penColor2,very thick,domain=-.65:4,samples=150,] {-.2*sqrt(4-x)};
+ 	\addplot [penColor2,very thick,domain=.65:4,samples=150,dashed] {.2*sqrt(4-x)};
+  
+	     	     	
+    	\addplot [draw=penColor, fill=none,very thick] plot coordinates { (.63,.78) (.63,1.57)(-.63,.73)(-.63,-.42)};
+
+%Draws the approximation 1
+\addplot [draw=penColor, fill=fillp,very thick] plot coordinates {(.43,-.38) (1.47,.316) (1.47,1.36) (.43,.64)(.43,-.38)};
+\addplot [draw=penColor, fill=fillp,very thick] plot coordinates {(.43,-.38) (1.43-2,-.38) (1.43-2,.64) (.43,.64)(.43,-.38)};
+\addplot [draw=penColor, fill=fillp,very thick] plot coordinates {(.43,.64) (1.43-2,.64) (2.47-2,1.36)  (1.47,1.36)(.43,.64)};
+
+%Draws the approximation 2
+\addplot [draw=penColor, fill=gray!50,very thick] plot coordinates {(1.5,-.32) (2.37,.246) (2.37,1.09) (1.5,.536)(1.5,-.32)};
+\addplot [draw=penColor, fill=gray!50,very thick] plot coordinates {(2.5-2,-.32) (3.37-2,.246) (3.37-2,1.09) (2.5-2,.536)(2.5-2,-.32)};
+\addplot [draw=penColor, fill=gray!50,very thick] plot coordinates {(1.5,-.32) (2.5-2,-.32) (2.5-2,.536)(1.5,.536) (1.5,-.32)};
+\addplot [draw=penColor, fill=gray!50,very thick] plot coordinates {(1.5,.536) (2.5-2,.536) (3.37-2,1.09)  (2.37,1.09)(1.5,.536) };
+
+%Draws the approximation 3
+\addplot [draw=penColor, fill=fillp,very thick] plot coordinates {(2.65,-.233) (3.25,.167) (3.25,.74) (2.65,.394)(2.65,-.233)};
+\addplot [draw=penColor, fill=fillp,very thick] plot coordinates {(3.65-2,-.233) (4.25-2,.167) (4.25-2,.74) (3.65-2,.394)(3.65-2,-.233)};
+\addplot [draw=penColor, fill=fillp,very thick] plot coordinates {(2.65,-.233)(3.65-2,-.233) (3.65-2,.394) (2.65,.394)(2.65,-.233)};
+\addplot [draw=penColor, fill=fillp,very thick] plot coordinates {(3.25,.74) (4.25-2,.74) (3.65-2,.394) (2.65,.394)(3.25,.74)};
+
+    \node at (axis cs:3,-0.4) [penColor2] {$x=4-y^2$};
+
+    	\addplot [black,very thick,domain=.63:4,samples=100] {sqrt((4-x)/1.3672)};
+    	\addplot [black,very thick,domain=-.63:4,samples=100] {sqrt((4-x)/8.688)};
+
+%Adds Delta x
+   \draw[decoration={brace,mirror, raise=.35cm},decorate,thin] (axis cs:.5,-.32)--(axis cs:1.47,-.32);  
+    \node[anchor=north] at (axis cs:1,-.52) {$\Delta x$};
+
+    \addplot [->] plot coordinates {(-1.2,-.8) (1.2,0.8)};
+    \node[anchor=south west] at (axis cs:1.2,0.6) {$y$};
+  \end{axis}
+\end{tikzpicture}
+\end{image}
+
+The dark slab is a rectangular prism, so its volume is:
+
+\begin{align*}
+\textrm{Volume} &= \textrm{Area} \times \textrm{thickness} \\
+\Delta V &= s^2 \Delta x
+\end{align*}
+
+Since we are slicing with respect to $x$, we must express the side length $s$ in terms of $x$.  Thus, we describe the curves in the image as functions of $x$.  
+
+
+Note that the parabola $x=4-y^2$ must be described using $\answer[given]{2}$ functions of $x$.  In fact, solving for $y$, we obtain $y=+\answer[given]{\sqrt{4-x}}$ and $y=-\answer[given]{\sqrt{4-x}}$.
+
+Note that the parabola $x=4-y^2$ does not pass the vertical line test, so it must be described using $\answer[given]{2}$ functions of $x$.  This also arises as an algebraic consequence when we solve for $y$ since we must consider the positive and negative square roots.  In fact, solving for $y$ gives $y=+\answer[given]{\sqrt{4-x}}$ and $y=-\answer[given]{\sqrt{4-x}}$.
+
+We update our picture with what we have found so far.
+
+\begin{image}
+\begin{tikzpicture}
+\begin{axis}[
+            domain=-3:4, ymax=3.5,xmax=4.5, ymin=-3, xmin=-1,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          
+\addplot[draw=penColor2,very thick,smooth,domain=-1:4,samples=150] {sqrt(4-x)};
+\addplot[draw=penColor,very thick,smooth,domain=-1:4,samples=150] {-sqrt(4-x)};
+           
+\addplot [name path=A,domain=0:4,samples=50,draw=none] {sqrt(4-x)}; 
+\addplot [name path=B,domain=0:4,samples=50,draw=none] {-sqrt(4-x)};  
+\addplot [fillp] fill between[of=A and B];
+
+
+
+
+
+\addplot [draw=black,very thick,fill=gray!50] coordinates {(1,-1.4)(2,-1.4)(2,1.4)(1,1.4)(1,-1.4)};
+
+
+  %Adds Delta x
+    \draw[decoration={brace,mirror, raise=.35cm},decorate,thin] (axis cs:1,-1.4)--(axis cs:2,-1.4);  
+    \node[anchor=north] at (axis cs:1.5,-1.85) {$\Delta x$};
+%Adds s
+
+    \draw[decoration={brace, mirror, raise=.1cm},decorate,thin] (axis cs:2,-1.4)--(axis cs:2,1.4);  
+    \node[anchor=north] at (axis cs:2.25,.5) {$s$};
+
+
+\node at (axis cs:3,1.75) [penColor2] {$y=\sqrt{4-x}$};
+\node at (axis cs:3,-1.75) [penColor] {$y=-\sqrt{4-x}$};
+
+\end{axis}
+\end{tikzpicture}
+\end{image}
+
+From the image, we see that $s$ is a \wordChoice{\choice[correct]{vertical distance.}\choice{horizontal distance.}}
+
+Thus, we may find $s$ using \wordChoice{\choice{$x_{right}-x_{left}$.}\choice[correct]{$y_{top}-y_{bot}$.}}
+
+From our picture, we find $y_{top} = \answer[given]{\sqrt{4-x}}$ and $y_{bot} = \answer[given]{-\sqrt{4-x}}$.  Thus:
+
+\[
+s = \answer[given]{2\sqrt{4-x}}
+\]
+
+and using $\Delta V = s^2 \Delta x$, we have that the approximate volume of a \emph{single} slice at a given $x$-value is:
+
+\[
+\Delta V = \left(\answer[given]{16-4x}\right) \Delta x
+\]
+
+\paragraph{Step 3: Integrate}
+As before, the approximate volume is obtained by adding all of the volumes of all of the approximate slices together.  The exact volume requires simultaneously that the width of the slices become arbitrarily thin and that the number of slices to be added becomes arbitrarily large.
+
+As before, the definite integral performs both of these operations simultaneously.  In fact, since $\Delta V = (16-4x) \Delta x$, we can write:
+
+and the total approximate volume using $n$ slices is:
+
+\[
+V \approx  \sum_{k=1}^n (16-4x_k) \Delta x
+\]
+where $x_k$ is the righthand endpoint of each slice.
+
+\paragraph{Step 3: Integrate}
+As before, the approximate volume is obtained by adding all of the volumes of all of the approximate slices together.  The exact volume requires simultaneously that the width $\Delta x$ of the slices become arbitrarily small while the number of slices to be added becomes arbitrarily large.  Symbolically, we write:
+
+\[
+V = \lim_{n \to \infty} \left[\sum_{k=1}^n (16-4x_k) \Delta x\right]
+\]
+
+As before, we can write this as a definite integral:
+
+\textbf{Remark:} Since we slice with respect to $x$, we must express the curves in the image as functions of $x$; that is, we must write $y_{top}$ and $y_{bot}$ in terms of $x$.  Once we choose a variable of integration, every quantity (limits of integration, functions in the integrand) must be written in terms of that variable.  This is an important point that arises when we use a Riemann integral to compute any quantity of interest.
+
+\[
+V = \int_{x=0}^{x=4} 16-4x \d x
+\]
+
+and the Fundamental Theorem of Calculus can now be used to evaluate the definite integral, which gives a much more efficient way to find the volume (rather than by calculating the simultaneous limits described above). Evaluating the definite integral, we find the volume is $\answer[given]{32}$ cubic units.
+\end{model}
+
+%%Add some image that delineates how to think of integral; draw for Hans
+
+\section{Volumes of solids with known cross-sections}
+
+We can summarize the previous procedure with a simple formula that respects the geometrical reasoning used to generate the volume of a solid with a known type of cross-section:
+
+\begin{formula}
+Suppose that cross-sections are taken through a given solid. 
+
+\begin{itemize}
+\item If the cross sectional area can be expressed as a function of $x$, then the volume is given by
+\[
+V=\int_{x=a}^{x=b} A(x) \d x. 
+\]
+where $x=a$ is the $x$-position of the leftmost cross-section and $x=b$ is the $x$-location of the rightmost cross-section.
+
+\item If the cross sectional area can be expressed as a function of $y$, then the volume is given by
+\[
+V=\int_{y=c}^{y=d} A(y) \d y. 
+\]
+where $y=c$ is the $y$-position of the leftmost cross-section and $y=d$ is the $y$-location of the rightmost cross-section.
+\end{itemize}
+In each case, $A$ is the cross-sectional area of a slice of the solid.  Note that both the area and the limits of integration must be expressed in terms of the variable of integration.
+
+\end{formula}
+
+So how do we determine which formula to use?  The problem will indicate an orientation for the slice. Draw the base of the solid in the $xy$-plane, and indicate a prototypical slice on your picture. The orientation of the slice will give you the variable of integration.
+
+\begin{question}
+Suppose that slices are taken \emph{parallel} to the $y$-axis.  Then, the slices are \wordChoice{\choice[correct]{the slices are vertical}\choice{the slices are horizontal}} and we should integrate with respect to \wordChoice{\choice[correct]{$x$}\choice{$y$}}.
+
+Suppose that slices are taken \emph{perpendicular} to the $y$-axis.  Then, the slices are \wordChoice{\choice{the slices are vertical}\choice[correct]{the slices are horizontal}} and we should integrate with respect to \wordChoice{\choice{$x$}\choice[correct]{$y$}}.
+
+\end{question}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+Let's see some examples:
+
+\begin{example}
+The base of a solid is the region in the $xy$-plane bounded by $y=9-3x$, $y=-3$, $x=-2$, and $x=0$.  Cross-sections through the solid taken parallel to the $x$-axis are semicircles.  Find the volume of the solid.
+
+\begin{explanation}
+Since the slices are taken \emph{parallel} to the $x$-axis.  Then, the slices are \wordChoice{\choice{the slices are vertical}\choice[correct]{the slices are horizontal}} and we should integrate with respect to \wordChoice{\choice{$x$}\choice[correct]{$y$}}.
+
+Since we have to integrate with respect to $y$, we should describe the line $y=9-3x$ as a function of $y$.  Solving for $x$, we obtain $x=\answer[given]{3- \frac{1}{3}y}$.
+
+We draw a picture of the base and indicate a typical slice. 
+
+\begin{image}
+\begin{tikzpicture}
+\begin{axis}[
+            domain=-5:5, ymax=18.9,xmax=4.9, ymin=-5.9, xmin=-3.9,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          
+\addplot[draw=penColor2,very thick,smooth] {-3};
+\addplot[draw=penColor,very thick,smooth] {9-3*x};
+
+           
+\addplot [name path=A,domain=-2:4,samples=50,draw=none] {9-3*x}; 
+\addplot [name path=B,domain=-2:4,samples=50,draw=none] {-3};  
+\addplot [fillp] fill between[of=A and B];
+\addplot [draw=black!50!green,very thick,] coordinates {(-2,-6)(-2,20)};
+\addplot [draw=penColor,very thick,fill=gray!50] coordinates {(-2,2.5)(2,2.5)(2,3)(-2,3)(-2,2.5)};
+
+
+\node at (axis cs:3,5) [penColor] {$x=3-\frac{1}{3}y$};
+\node at (axis cs:2,-4.5) [penColor2] {$y=-3$};
+\node at (axis cs:-3,6) [black!50!green] {$x=-2$};
+
+%Draws brace and d
+
+    \draw[decoration={brace, mirror, raise=.1cm},decorate,thin] (axis cs:-2,2.3)--(axis cs:2,2.3);  
+    \node[anchor=north] at (axis cs:0.3,2) {$d$};
+    
+    
+\end{axis}
+\end{tikzpicture}
+\end{image}
+
+Note that the cross-sections are semicircles whose base is in the $xy$-plane.  Thus, the quantity labelled $d$ in the image is the \wordChoice{\choice{radius of the semicircle}\choice[correct]{diameter of the semicircle}}.
+
+From the image, we see that $d$ is a \wordChoice{\choice{vertical distance}\choice[correct]{horizontal distance}}.
+
+Thus, we may find $s$ using \wordChoice{\choice[correct]{$x_{right}-x_{left}$}\choice{$y_{top}-y_{bot}$}}.
+
+The right curve is $x_{right} = \answer[given]{3-\frac{1}{3}y}$ and the left curve is $x_{left} = \answer[given]{-2}$.  Thus:
+
+\[
+d=x_{right}-x_{left} = \answer[given]{\left(3-\frac{1}{3} y \right)-(-2)}
+\]
+
+Notice that it is completely irrelevant of the quadrant in which the left and right curves appear; we can always find a horizontal quantity of interest (in this case $d$), by taking $x_{right}-x_{left}$ and using the expressions that describe the relevant curves in terms of $y$.
+ 
+After a little algebra, we find that the the radius $r$ of the semicircle is
+\[
+r = \frac{1}{2}d = \answer[given]{ \left(\frac{5}{2}-\frac{1}{6} y\right)}.
+\]
+and the area of the semicircle is found using:
+
+\[
+A = \frac{1}{2} \pi r^2 = \answer[given]{\frac{1}{2} \pi\left(\frac{5}{2} - \frac{1}{6}y\right)^2}
+\]
+
+Thus, an integral that gives the volume of the solid is
+
+\[
+V = \int_{y=\answer[given]{-3}}^{y=\answer[given]{15}} \answer[given]{\frac{1}{2} \pi\left(\frac{5}{2} - \frac{1}{6}y\right)^2} \d y.
+\]
+
+Evaluating this integral (which you should verify by working it out on your own.), we find that the volume of the solid is $\answer[given]{27} \pi$ cubic units.
+\end{explanation}
+
+\begin{remark}
+Although it has been pointed out before, the following point is important.  The quadrant in which the left and right curves appear does not affect how we find horizontal distances; we can always find a horizontal distance by taking $x_{right}-x_{left}$.  
+\end{remark}
+\end{example}
+
+Sometimes, more than one integral is needed to set up a volume of a solid with known cross-sections.  Drawing a picture helps to identify when this is necessary.
+
+
+\begin{example}
+The base of a solid is the region in the first quadrant of the $xy$-plane bounded by $y=e^x$ and $x=1$. Cross-sections taken perpendicular to the $y$-axis are equilateral triangles.  Set up, but do not evaluate, an integral or sum of integrals that would give the volume of the solid.
+
+\begin{explanation}
+
+Since the slices are taken \emph{perpendicular} to the $y$-axis.  Then, the slices are \wordChoice{\choice{the slices are vertical}\choice[correct]{the slices are horizontal}} and we should integrate with respect to \wordChoice{\choice{$x$}\choice[correct]{$y$}}.
+
+Since we have to integrate with respect to $y$, we should describe the line $y=e^x$ as a function of $y$.  Solving for $x$, we obtain $x=\answer[given]{\ln(y)}$.
+
+We draw a picture of the base and indicate a typical slice:
+ 
+ \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            domain=-10:1.8, ymax=3.4,xmax=1.8, ymin=-.4, xmin=-.4,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]                      
+        %curves
+            	\addplot [draw=penColor,very thick,smooth] {e^x};
+	       	\addplot [draw=penColor2,very thick,] coordinates {(1,-6)(1,20)};
+		\addplot [draw=black!50!green,very thick,dashed] coordinates {(-6,1)(6,1)};
+	                            
+            	\addplot [name path=A,domain=0:1,draw=none] {e^x};   
+            	\addplot [name path=B,domain=0:1,draw=none] {1};
+	        \addplot [name path=C,domain=0:1,draw=none] {0};
+            	\addplot [penColor!30] fill between[of=A and C];
+	        \addplot [penColor2!30] fill between[of=B and C];
+                      
+                      
+            	\node at (axis cs:.43,2.3) [penColor] {$x=\ln(y)$};
+            	\node at (axis cs:1.2,2) [penColor2] {$x=1$};
+		\node at (axis cs:1.5,.7) [black!50!green] {$y=1$};
+	\node at (axis cs:.5,.7) [black!75] {I};
+	\node at (axis cs:.6,1.3) [black!75] {II};
+	
+	%%%Draws the rectangles
+	\addplot [draw=penColor, fill = gray!50] plot coordinates {(0,.4) (1,.4) (1, .5) (0,.5) (0,.4)};        
+          \addplot [draw=penColor, fill = gray!50] plot coordinates {(ln(1.7),1.6) (1,1.6) (1, 1.7) (ln(1.7),1.7) (ln(1.7),1.6)};    
+	
+	%%%Draws dashed line
+	\addplot [draw=black!75,thick,dashed] coordinates {(2,0)(2,7)};
+	    
+	    %%%% draws brace and d
+
+    \draw[decoration={brace, mirror, raise=.1cm},decorate,thin] (axis cs:0,.4)--(axis cs:1,.4);  
+    \node[anchor=north] at (axis cs:0.5,.3) {$s_1$};
+
+    \draw[decoration={brace, mirror, raise=.2cm},decorate,thin] (axis cs:.53,1.7)--(axis cs:1,1.7);  
+    \node[anchor=north] at (axis cs:.75,1.5) {$s_2$};
+    
+	      \end{axis}
+            \end{tikzpicture}
+            \end{image}
+As you can see, the curve used to determine the lefthand coordinate of rectangle \wordChoice{\choice[correct]{changes}\choice{does not change}} depending on where the slice is drawn.  We thus need $\answer[given]{2}$ integrals to find the volume.
+
+
+The left curve will change at the $y$-value where the curve $x=\ln(y)$ intersects the $y$-axis, which occurs when $y=\answer[given]{1}$.  
+
+For the second region, we find the upper $y$-value by requiring that the curves $x=1$ and $x=\ln(y)$ intersect. This occurs when $y=\answer[given]{e}$.
+
+Using the picture above and the fact that since the cross-sections are equilateral triangles, $A= \frac{\sqrt{3}}{4}s^2$, we may write down the important information about each region.
+\[
+\begin{array}{ll}
+\text{In Region I:}  & \text{In Region II:}  \\
+\answer[given]{0} \le y \le \answer[given]{1}  \qquad \qquad \qquad \qquad & \answer[given]{1} \le y \le \answer[given]{e}\\
+x_{right} = \answer[given]{1}    &  x_{right} = \answer[given]{1} \\
+x_{left} = \answer[given]{0}  & x_{left} = \answer[given]{\ln(y)} \\
+s_1= \answer[given]{1} & s_2= \answer[given]{1-\ln(y)} \\
+A_1 = \frac{\sqrt{3}}{4} &  A_2  = \frac{\sqrt{3}}{4}(1-\ln(y))^2 \\
+\end{array}
+\]
+
+Putting this together, we can write down a sum of integrals that gives the volume:
+
+\[V= \int_{y= 0}^{y=1}\frac{\sqrt{3}}{4} \d y + \int_{y= 1}^{y=e} \frac{\sqrt{3}}{4}(1-\ln(y))^2 \d y \]
+  
+\end{explanation}            
+\end{example}
+
+
+\section{Final thoughts}
+To summarize some recurring ideas we have seen we have seen (and will see again), always draw and label a picture.  Interpret the quantities in your picture and write down the relevant geometric quantities in terms of the variable of integration.
+{\renewcommand*{\arraystretch}{1.5}
+\[
+\begin{array}{ll}
+\textrm{Shape} & \textrm{Area Formula} \\ 
+\textrm{Square:} & A=s^2, \textrm{where } s \textrm{ is the length of a side.} \\  
+\textrm{Equilateral Triangle:} & A=\frac{\sqrt{3}}{4} s^2, \textrm{where } s \textrm{ is the side length.} \\  
+\textrm{Right Isosceles Triangle:} & A=\frac{1}{2} s^2, \textrm{where } s \textrm{ is one of the equal side lengths.} \\  
+\textrm{Semicircle:} & A=\frac{1}{2} \pi r^2, \textrm{where } r \textrm{ is the radius of the circle.} 
+\end{array}
+\]
+}
+
+
+At the risk of being repetitive, let's summarize some recurring ideas we have seen in the past few sections and will see again.  
+
+\begin{itemize}
+\item Always draw and label a picture.  Interpret the quantities in your picture and write down anything you need in terms of the variable of integration.
+
+\item To find vertical distances, we always take $y_{top} - y_{bot}$.  To find horizontal distances, we always take $x_{right}-x_{left}$.
+
+\item When we integrate with respect to $x$, we use vertical slices and when we use vertical slices, we integrate with respect to $x$. When we integrate with respect to $y$, we use horizontal slices and when we use horizontal slices, we integrate with respect to $y$.
+\end{itemize}
+
+\begin{fact}
+Once we choose a variable of integration, everything in the integrand must be expressed in terms of that variable.  This includes both the limits of integration and any functions that arise in the integrand.
+\end{fact}
+
+Remember, it takes practice to learn math.  Don't just read through examples; work them out yourself as you read along. Calculus is a hard subject. Don't get discouraged.
+
+
+\begin{quote}
+``The only way to learn mathematics is to do mathematics.'' --- Paul Halmos
+\end{quote}
+
+
+\end{document}

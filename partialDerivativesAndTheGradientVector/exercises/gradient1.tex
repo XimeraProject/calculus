@@ -1,0 +1,35 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+
+\author{Jim Talamo}
+
+\outcome{Calculate the gradient.}
+
+\begin{document}
+
+\begin{exercise}
+Suppose that $F(x,y) = 4x^2+3xy+5$.  Then,
+
+\begin{align*}
+\grad{F}(x,y) &= \vector{\answer{8x+3y},\answer{3x}} \\
+\grad{F}(1,2) &= \vector{\answer{14},\answer{3}}
+\end{align*}
+
+\begin{hint}
+The gradient is a vector-valued function whose first component is the
+partial derivative of the function with respect to $x$ and whose
+second component is the partial derivative of the function with
+respect to $y$; that is
+
+\[
+\grad{F} = \vector{F_x(x,y) , F_y(x,y)}.
+\]
+
+To compute it, we just calculate the partial derivatives and insert them in the appropriate component.
+
+\end{hint}
+\end{exercise}
+
+\end{document}

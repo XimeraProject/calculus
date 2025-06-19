@@ -1,0 +1,78 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\begin{document}
+\author{Kyle Parson\and Nela Lakos}
+\outcome{Classify critical points.}
+\outcome{Apply the First Derivative Test.}
+\outcome{Apply the Second Derivative Test.}
+\outcome{Find inflection points.}
+
+
+\begin{exercise}
+Let $f(x)=x\ln x$. The domain of $f$ is
+$(\answer{0},\answer{\infty})$.
+\begin{exercise}
+\begin{selectAll}
+\choice{$f$ is not everywhere continuous on $(0,\infty)$}
+\choice[correct]{$f$ is continuous on $[M,\infty)$ for some $M>0$}
+\choice{There is some $M>0$ such that $f$ is not continuous on $[M,\infty)$.}
+\choice{$f$ is nowhere continuous on $(0,\infty)$}
+\choice[correct]{$f$ is continuous on $(\varepsilon,\infty)$ for every $\varepsilon>0$.}
+\choice[correct]{$f$ is continuous on $(0,\infty)$}
+\end{selectAll}
+\begin{exercise}
+The preceding statements regarding $f$ are true because
+\begin{multipleChoice}
+\choice{$f$ is the product of two functions whose intervals of continuity have union equal to $(0,\infty)$.}
+\choice{the natural logarithm is not continuous.}
+\choice{the limit $\lim_{x\to 0^+}f(x)$ exists and is equal to $0$.}
+\choice[correct]{$f$ is the product of two functions which are continuous on $(0,\infty)$.}
+\end{multipleChoice}
+\begin{exercise}
+Next, we shall classify the critical points of $f$.
+
+First, compute 
+\[
+f'(x)=\answer{1+\ln(x)}
+\]
+\begin{exercise}
+The function $f$ has $\answer{1}$ critical point(s). 
+\begin{exercise}
+The single critical point of $f$ is located at
+\[
+x=\answer{1/e}
+\]
+\begin{exercise}
+Now compute
+\[
+f''(x)=\answer{\frac{1}{x}}
+\]
+\begin{exercise}
+Because the value of $f''(\frac{1}{e})=\frac{1}{1/e}=e$ is \wordChoice{\choice[correct]{positive}\choice{negative}\choice{zero}}, the critical point the function  $f$ has at $x=1/e$ is \wordChoice{\choice{a local maximum}\choice[correct]{a local minimum}\choice{neither a local maximum nor a local minimum}\choice{possibly a local maximum, a local minimum or neither}} by the second derivative test.
+
+\begin{exercise}
+Finally, we shall identify the inflection points of $f$ and the intervals on which $f$ is concave up or concave down.
+
+The function $f$ has $\answer{0}$ inflection point(s).
+\begin{exercise}
+Since
+\[
+\frac{d^2}{dx^2}f(x)=\answer{1/x}
+\]
+$f''(x)$ is \wordChoice{\choice[correct]{positive}\choice{negative}} on $(0,\infty)$. 
+\begin{exercise}
+Since $f''(x)>0$ for all $x>0$, $f$ is \wordChoice{\choice[correct]{concave up}\choice{concave down}} on $(\answer{0},\answer{\infty})$.
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{document}

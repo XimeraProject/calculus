@@ -1,0 +1,212 @@
+\documentclass{ximera}
+
+\outcome{Understand how the derivative of an inverse function relates to the original derivative.}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{The Inverse Function Theorem}
+
+\begin{document}
+\begin{abstract}
+  We see the theoretical underpinning of finding the derivative of an
+  inverse function at a point.
+\end{abstract}
+\maketitle
+
+There is one catch to all the explanations given above where we
+computed derivatives of inverse functions. To write something like
+\[
+\ddx(e^y)=e^y\cdot y'
+\]
+we need to know that the function $y$ \textit{has} a derivative.  The
+\textit{Inverse Function Theorem} guarantees this.
+
+\begin{theorem}[Inverse Function Theorem]\index{Inverse Function Theorem}\label{theorem:IFT}
+	If $f$ is a differentiable function that is one-to-one near $a$ and $f'(a) \neq 0$, then
+	\begin{enumerate}
+		\item $f^{-1}(x)$ is \textbf{defined} for $x$ near $b=f(a)$,
+		\item $f^{-1}(x)$ is \textbf{differentiable} near $b=f(a)$, 
+		\item last, but not least:
+		  \[ \eval{\ddx f^{-1}(x)}_{x=b}  = \frac{1}{f'(a)}\qquad\text{where}\qquad b = f(a). \]
+	\end{enumerate}
+	\begin{explanation}
+		  We will only explain the last result. We know
+		  \[ f(f^{-1}(x)) = x, \]
+		  and now we use the chain rule to write
+		  \begin{align*}
+			  \ddx f(f^{-1}(x)) &= f'(f^{-1}(x)) (f^{-1})'(x)\\
+				  &=1.
+		  \end{align*}
+		  Solving for $(f^{-1})'(x)$ we see
+		  \[  (f^{-1})'(x) = \frac{1}{f'(f^{-1}(x))}. \]
+		  This is what we have written above.
+	\end{explanation}
+\end{theorem}
+
+It is worth giving one more piece of evidence for the formula above,
+this time based on increments in function, $\Delta f$, and increments in variable, $\Delta x$. Consider this plot of a function $f$ and its inverse:
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-.5,xmax=6,ymin=-.5,ymax=6,
+            axis lines=center,
+             unit vector ratio*=1 1 1,
+              width=4in,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, smooth, domain=(-.5:5)] {e^x};
+          \addplot [very thick, penColor2, samples=100, smooth, domain=(.002:6)] {ln(x)};
+          \addplot [dashed, textColor, domain=(-.5:6)] {x};
+          \node at (axis cs:1.2,4) [penColor] {$f$};
+          \node at (axis cs:4,1.6) [penColor2] {$f^{-1}$};
+
+          \addplot [draw=black,->] plot coordinates {(1,e) (1.6,e)};
+	  \addplot [draw=black,->] plot coordinates {(1.6,e) (1.6,1.8*e)};
+          \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(1,e)};  %% closed hole            
+          \node at (axis cs:1.25,e) [below] {$\Delta x$};
+          \node at (axis cs:1.54,3.8) [right] {$\Delta f$};
+
+          \addplot [draw=black,->] plot coordinates {(1.8*e,1) (1.8*e,1.6)};
+	  \addplot [draw=black,->] plot coordinates {(e,1) (1.8*e,1)};
+          \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(e,1)};  %% closed hole            
+          \node at (axis cs:5.9,1.3) [left] {$\Delta f^{-1}$};
+          \node at (axis cs:3.8,0.6) [above] {$\Delta x$};
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A plot of $e^x$ and $\ln(x)$. Since they are inverse
+%%   functions, they are reflections of each other across the line $y=x$.}
+%% \label{plot:e^x lnx}
+\end{image}
+Since the graph of the inverse of a function is the reflection of the graph of the function over
+the line $y=x$, we see that the increments are ``switched'' when
+reflected. Hence we see that
+\[ \dfrac{\Delta f^{-1}}{\Delta{x}} = \dfrac{\Delta x}{\Delta f}=\dfrac{1}{\dfrac{\Delta f}{\Delta x}}. \]
+Taking the limit as $\Delta x$ goes to $0$, we can obtain the expression for the derivative of $f^{-1}$. \\
+\[ \dd[f^{-1}]{x}  = \dfrac{1}{ \dd[f]{x} } \]
+
+The inverse function theorem gives us a recipe for computing the
+derivatives of inverses of functions at points.
+
+\begin{example}
+  Let $f$ be a differentiable function that has an inverse. In the
+  table below we give several values for both $f$ and $f'$:
+  \[
+  \begin{array}{|c|c|c|}\hline
+    x & f  & f' \\ \hline \hline
+    2 & 0  & 2  \\ \hline
+    3 &1  &5 \\ \hline
+    4 & 3 & 0  \\ \hline
+  \end{array}
+  \]
+  Compute
+  \[
+  \ddx f^{-1}(x)\;\text{at $x=1$.}
+  \]
+  \begin{explanation}
+    From the table above we see that
+    \[
+    1 = f(\answer [given]{3}).
+    \]
+    Hence, by the inverse function theorem
+    \[
+    \left(f^{-1}\right)' (1)= \frac{1}{f'(\answer[given]{3})} = \answer[given]{\frac{1}{5}}.
+    \]
+  \end{explanation}
+\end{example}
+
+If one example is good, three are better:
+
+\begin{example}
+  Let $f$ be a differentiable function that has an inverse. In the
+  table below we give several values for both $f$ and $f'$:
+  \[
+  \begin{array}{|c|c|c|}\hline
+    x & f  & f' \\ \hline \hline
+    2 & 0  & 2  \\ \hline
+    3 & 1  &5 \\ \hline
+    4 & 3 & 0  \\ \hline
+  \end{array}
+  \]
+  Compute
+  \[
+  \left(f^{-1}\right)'(0)
+  \]
+  \begin{explanation}
+    Note,
+    \[
+    \left(f^{-1}\right)'(0) = \ddx f^{-1}(x)\;\text{at $x=0$.}
+    \]
+    From the table above we see that
+    \[
+    0 = f(\answer[given]{2}).
+    \]
+    Hence, by the inverse function theorem
+    \[
+    \left(f^{-1}\right)'(0) = \frac{1}{f'(\answer[given]{2})} = \answer[given]{\frac{1}{2}}.
+    \]
+  \end{explanation}
+\end{example}
+
+
+
+\begin{example}
+	The function $g(x) = x^2 + 3$ is one-to-one when restricted to the interval $(0, \infty)$. Let $g^{-1}(x)$ be the 
+	inverse of this restriction. Find an equation of the line tangent to the graph of $y=g^{-1}(x)$ at the point $(7, 2)$.
+	\begin{explanation}
+		Since $g(2) = (2)^2 + 3 = 7$ we know that $(7, 2)$ is referring to the point on the graph of $g^{-1}$. In order to
+		find the slope of the line, we must calculate $\left( g^{-1}\right)'(7)$.
+		
+		By the inverse function theorem we know:
+		\begin{align*}
+			\left( g^{-1}\right)'(7) &= \dfrac{1}{g'\left( g^{-1}(7) \right)}\\
+				&= \dfrac{1}{g'\left( 2 \right)}.
+		\end{align*}
+		Since $g'(x) = 2x$, this gives $\left( g^{-1}\right)'(7) = \dfrac{1}{4}$.
+		
+		An equation of the tangent line can be given as:
+		\[ y-2 = \dfrac{1}{4}(x-7) \]
+	\end{explanation}
+\end{example}
+
+
+
+
+
+
+
+
+
+Finally, let's see an example where the theorem does not apply.
+
+\begin{example}
+  Let $f$ be a differentiable function that has an inverse. In the
+  table below we give several values for both $f$ and $f'$:
+  \[
+  \begin{array}{|c|c|c|}\hline
+    x & f  & f' \\ \hline \hline
+    2 & 0  & 2  \\ \hline
+    3 & 1  & 4 \\ \hline
+    4 & 3 & 0  \\ \hline
+  \end{array}
+  \]
+  Compute
+  \[
+  \eval{\ddx f^{-1}(x)}_{x=3}
+  \]
+  \begin{explanation}
+    From the table above we see that
+    \[
+    3 = f(\answer[given]{4}).
+    \]
+    Ah! But here, $f'(\answer[given]{4}) = \answer[given]{0}$, so we have no guarantee that the
+    inverse exists near the point $x=3$, but even if it did the inverse would not be differentiable there.
+      \end{explanation}
+\end{example}
+
+
+
+
+
+\end{document}

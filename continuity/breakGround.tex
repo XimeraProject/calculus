@@ -1,0 +1,97 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Understand the necessity of continuity for the Intermediate Value Theorem.}
+\outcome{Determine if the Intermediate Value Theorem applies.}
+
+\title[Break-Ground:]{Roxy and Yuri like food}
+
+\begin{document}
+\begin{abstract}
+Two young mathematicians discuss the eating habits of their cats.
+\end{abstract}
+\maketitle
+
+Check out this dialogue between two calculus students (based on a true
+story):
+
+\begin{dialogue}
+\item[Devyn] Yo Riley, I was watching my two cats
+  \textit{Roxy} and \textit{Yuri} eat their dry cat food last night.
+\item[Riley] Cats love food!  It's so weird that they swallow the pieces whole!
+\item[Devyn] I know! I noticed something else kinda funny though:
+  Both Roxy and Yuri start and finish eating at the same times; and
+  while I gave Roxy a little more food than Yuri, less food was left
+  in Roxy's bowl when they stopped eating.
+
+  I wonder, is there is a point in time when Roxy and Yuri have the
+  exact same amount of \textbf{dry cat food} in their bowls?
+\item[Riley] Hmmmmm. Do Roxy and Yuri both start and finish
+  drinking their water at the same times?  And does Roxy start with a
+  little more water than Yuri, and finish with less water left than
+  Yuri?
+\item[Devyn] Yes!
+\item[Riley] Interesting. I wonder, is there is a point in
+  time when Roxy and Yuri have the exact same amount of \textbf{water}
+  in their bowls?
+\end{dialogue}
+
+\begin{problem}
+  Is there a time when Roxy and Yuri have the same amount of dry cat
+  food in their bowls? Make the following assumptions:
+  \begin{itemize}
+  \item They start and finish eating at the same times.
+  \item Roxy starts with more food than Yuri, and leaves less food uneaten than Yuri. 
+  \end{itemize}
+  \begin{hint}
+  	You might want to try drawing a graph of this situation.
+  \end{hint}
+  \begin{prompt}
+  \begin{multipleChoice}
+    \choice{yes}
+    \choice{no}
+    \choice[correct]{There is no way to tell.}
+  \end{multipleChoice}
+  \end{prompt}
+\end{problem}
+
+\begin{problem}
+  Is there a time when Roxy and Yuri have the same amount of water in
+  their bowls? Make the following assumptions:
+  \begin{itemize}
+  \item They start and finish drinking at the same times.
+  \item Roxy starts with more water than Yuri, and leaves less water
+    left in her bowl than Yuri.
+  \end{itemize}
+    \begin{hint}
+  	You might want to try drawing a graph of this situation.
+    \end{hint}
+    \begin{prompt}
+    \begin{multipleChoice}
+    \choice[correct]{yes}
+    \choice{no}
+    \choice{There is no way to tell.}
+    \end{multipleChoice}
+    \end{prompt}
+\end{problem}
+
+
+
+\begin{problem}
+  Within the context of the two problems above, what is the difference
+  between ``dry cat food'' and ``water?''
+  \begin{freeResponse}
+    If we write the amount of dry cat food as a function of time, this function
+    is not continuous.  The reason it isn't continuous is that the dry cat food
+    is a collection of individual kibbles, which are eaten whole.
+    
+    On the other hand, if we write the amount of water as a function of time, 
+    this function is continuous.
+  \end{freeResponse}
+\end{problem}
+
+%\input{../leveledQuestions.tex}
+
+
+\end{document}

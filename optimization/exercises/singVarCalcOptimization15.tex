@@ -1,0 +1,61 @@
+\documentclass{ximera}
+\input{../../preamble.tex}
+\author{Bart Snapp\and nela Lakos}
+\license{Creative Commons 3.0 By-NC}
+\acknowledgement{https://www.whitman.edu/mathematics/calculus/}
+  \outcome{Interpret an optimization problem as the procedure used to make a system or design as effective or functional as possible.}
+  \outcome{Set up an optimization problem by identifying the objective function and appropriate constraints.}
+  \outcome{Solve optimization problems by finding the appropriate absolute extremum.}
+  \outcome{Solve basic word problems involving maxima or minima.}
+\begin{document}
+\begin{exercise}
+
+ A trough, shown in the figure, is 64 ft long and its ends have the shape of isosceles triangles whose sides are 2 ft long. 
+  \begin{image}
+    \begin{tikzpicture}[scale=.5]
+      \draw[penColor, very thick] (-2,4) -- (2,3.5) -- (0,0)--cycle;
+      \draw[penColor, very thick] (0,0) -- (9,1) -- (11,4.5) --(2,3.5);
+      \draw[penColor,very thick] (-2,4) -- (7,5) -- (7.45,4.11);
+      \draw[penColor,very thick] (11,4.5) -- (7,5);
+      \draw[penColor,very thick,dashed] (7.45,4.11) -- (9,1);
+      \node at (9,5.1) {$x$};
+      \node at (3,5) {$64$};
+      \node at (-1.5,2) {$2$};
+      \node at (1.5,1.8) {$2$};
+    \end{tikzpicture}
+  \end{image}
+  
+ 
+  Find  the length of the base of the two isosceles triangles, marked $x$ in the figure, that maximizes the volume.
+  \begin{hint}
+  Let V be the volume of the trough. Then
+  
+  V=(Area of the isosceles triangle)$\cdot 64$
+  
+  Let A be the area of the isosceles triangle. 
+   \begin{image}
+    \begin{tikzpicture}[scale=.5]
+      \draw[penColor,  thick] (-2,4) -- (2,4) -- (0,0)--cycle;
+    \draw[penColor2, dotted,thin] (0,0) -- (0,4) --(0,0)--cycle;
+      \node at (0,4.2) {$x$};
+       \node at (0.2,2.5) {$h$};
+      \node at (-1.5,2) {$2$};
+      \node at (1.5,1.8) {$2$};
+    \end{tikzpicture}
+  \end{image}
+
+ Then
+  $A=\frac{1}{2}\cdot x\cdot h$,
+  
+  and
+  
+  
+$A=\frac{1}{2}\cdot x\cdot\sqrt{4-\frac{x^2}{4}}$
+  \end{hint}
+  \begin{prompt}
+  \[
+  x = \answer{2\sqrt{2}}
+  \]
+  \end{prompt}
+\end{exercise}
+\end{document}
