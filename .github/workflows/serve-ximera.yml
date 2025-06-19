@@ -5,7 +5,8 @@ on:
 
 env: 
   XM_COMPILE_SEQUENCE: html
-  XM_TO_PROCESS: "testxourse.tex calculus1.tex"
+  # XM_TO_PROCESS: "testxourse.tex calculus1.tex"
+  XM_TO_PROCESS: "."
 
 jobs:
   build-ximera:
