@@ -74,15 +74,15 @@ jobs:
     steps:
 
 
-      - name: Restore ximera serve cache (only .git)
-        id: serve-cache-restore
-        uses: actions/cache/restore@v4
-        with:
-          fail-on-cache-miss: true
-          path: | 
-            xmScripts/**
-            .git/**
-          key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
+      # - name: Restore ximera serve cache (only .git)
+      #   id: serve-cache-restore
+      #   uses: actions/cache/restore@v4
+      #   with:
+      #     fail-on-cache-miss: true
+      #     path: | 
+      #       xmScripts/**
+      #       .git/**
+      #     key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
           
       - name: Serve
         env:
