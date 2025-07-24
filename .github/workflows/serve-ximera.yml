@@ -53,7 +53,8 @@ jobs:
           XM_JOBS: 6
         run: |
           ls -alrt
-          ./xmScripts/xmlatex ghaction -j 8 $XM_TO_PROCESS -f -s --compile html || echo NOK 
+          ./xmScripts/xmlatex ghaction -j 8 $XM_TO_PROCESS -f -s --compile html
+          git log --oneline --graph --decorate --all -n 10 
           echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
 
       - name: Setup ximera serve cache (only .git)
@@ -91,6 +92,7 @@ jobs:
           XIMERA_URL: ${{ vars.XIMERA_URL }}
           XIMERA_NAME: ${{ vars.XIMERA_NAME }}
         run: |
+          git log --oneline --graph --decorate --all -n 10
           ./xmScripts/xmlatex name         
           ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
           echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
