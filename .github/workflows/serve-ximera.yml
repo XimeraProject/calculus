@@ -74,15 +74,15 @@ jobs:
     steps:
 
 
-      # - name: Restore ximera serve cache (only .git)
-      #   id: serve-cache-restore
-      #   uses: actions/cache/restore@v4
-      #   with:
-      #     fail-on-cache-miss: true
-      #     path: | 
-      #       xmScripts/**
-      #       .git/**
-      #     key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
+      - name: Restore ximera serve cache (only .git)
+        id: serve-cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          fail-on-cache-miss: true
+          path: | 
+            xmScripts/**
+            .git/**
+          key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
           
       - name: Serve
         env:
@@ -92,7 +92,7 @@ jobs:
           XIMERA_NAME: ${{ vars.XIMERA_NAME }}
         run: |
           ./xmScripts/xmlatex name         
-          ./xmScripts/xmlatex serve -f $XM_TO_PROCESS
+          ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
           echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
 
 
