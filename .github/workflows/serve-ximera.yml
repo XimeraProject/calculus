@@ -5,6 +5,7 @@ on:
 
 env: 
   XM_COMPILE_SEQUENCE: html
+  XM_TO_PROCESS: "testxourse.tex calculus1.tex"
   # XM_TO_PROCESS: "testxourse.tex calculus1.tex calculus2.tex calculus3.tex calculusA2.tex calculusE.tex calculus1TextbookBySection  [a-z]*/exercises/exerciseList.tex"
   # XM_TO_PROCESS: "."
 
@@ -49,7 +50,7 @@ jobs:
           GPG_KEY: ${{ secrets.GPG_KEY }}
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
           XIMERA_URL: ${{ vars.XIMERA_URL }}
-          XIMERA_NAME: wimcalc0825
+          XIMERA_NAME: wimcalc0825a
           # XIMERA_NAME: ${{ vars.XIMERA_NAME }}${{ github.ref_name }}
           XM_JOBS: 6
         run: |
@@ -68,35 +69,35 @@ jobs:
           key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
 
 
-  publish-ximera:
-    name: Publish Ximera Courses
-    needs: build-ximera # Waits for the build job to complete
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
+  # publish-ximera:
+  #   name: Publish Ximera Courses
+  #   needs: build-ximera # Waits for the build job to complete
+  #   runs-on: ubuntu-latest
+  #   environment: production
+  #   steps:
 
 
-      - name: Restore ximera serve cache (only .git)
-        id: serve-cache-restore
-        uses: actions/cache/restore@v4
-        with:
-          fail-on-cache-miss: true
-          path: | 
-            xmScripts/**
-            .git/**
-          key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
+  #     - name: Restore ximera serve cache (only .git)
+  #       id: serve-cache-restore
+  #       uses: actions/cache/restore@v4
+  #       with:
+  #         fail-on-cache-miss: true
+  #         path: | 
+  #           xmScripts/**
+  #           .git/**
+  #         key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
           
-      - name: Serve
-        env:
-          GPG_KEY: ${{ secrets.GPG_KEY }}
-          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
-          XIMERA_URL: ${{ vars.XIMERA_URL }}
-          XIMERA_NAME: ${{ vars.XIMERA_NAME }}
-        run: |
-          git log --oneline --graph --decorate --all -n 10
-          ./xmScripts/xmlatex name         
-          ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
-          echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
+  #     - name: Serve
+  #       env:
+  #         GPG_KEY: ${{ secrets.GPG_KEY }}
+  #         GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+  #         XIMERA_URL: ${{ vars.XIMERA_URL }}
+  #         XIMERA_NAME: ${{ vars.XIMERA_NAME }}
+  #       run: |
+  #         git log --oneline --graph --decorate --all -n 10
+  #         ./xmScripts/xmlatex name         
+  #         ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
+  #         echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
 
 
 
