@@ -8,7 +8,6 @@
 \renewcommand{\oiint}{{\large\bigcirc}\kern-1.56em\iint}
 \fi
 
-
 \graphicspath{
   {./}
   {ximeraTutorial/}
@@ -92,6 +91,21 @@
 \renewcommand{\d}{\,d}
 %\def\d{\mathop{}\!d}
 %\def\d{\,d}
+
+\AddToHook{begindocument}{%
+  \renewcommand{\d}{\,d}     % lualatex redefines \d to underdot !!!
+}
+
+\pgfplotsset{
+    every axis/.style={
+        scale only axis,
+        enlargelimits=false,
+        trim axis left,
+        trim axis right,
+        clip=true,
+    }
+}
+
 \newcommand{\dd}[2][]{\frac{\d #1}{\d #2}}
 \newcommand{\pp}[2][]{\frac{\partial #1}{\partial #2}}
 \renewcommand{\l}{\ell}
