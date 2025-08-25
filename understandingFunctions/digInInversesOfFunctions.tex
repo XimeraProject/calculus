@@ -347,7 +347,7 @@ our next examples.
           \begin{tikzpicture}
 	    \begin{axis}[
 	        ticks=none,
-                domain=-2.5:2.5,
+                domain=-1.5:1.5,
                 width=6in,
                 height=3in,
                 xmin=-1.5, xmax=1.5,
@@ -356,7 +356,7 @@ our next examples.
                 every axis y label/.style={at=(current axis.above origin),anchor=south},
                 every axis x label/.style={at=(current axis.right of origin),anchor=west},
               ]
-              \addplot [very thick, penColor2, smooth, samples=100,domain=-2:2] {x^3-x-1/6};
+              \addplot [very thick, penColor2, smooth, samples=100] {x^3-x-1/6};
               \node at (axis cs:1.3,1.5) [penColor2, anchor=west] {$f$};
 
               \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-.9,0)};%%closed
@@ -545,6 +545,7 @@ of $f$ after being flipped over the line $y=x$.
 \begin{image}
 \begin{tikzpicture}
 	\begin{axis}[
+            clip=true,
             domain=-2:2,
             xmin=-2, xmax=2,
             ymin=-2, ymax=2,
@@ -552,7 +553,7 @@ of $f$ after being flipped over the line $y=x$.
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west},
           ]
-	  \addplot [very thick, penColor, smooth] {x^3};
+	  \addplot [very thick, penColor, smooth,domain=-1.5:1.5] {x^3};
           \addplot [very thick, penColor2, smooth, samples=100,domain=.01:2] {x^(1/3)};
           \addplot [very thick, penColor2, smooth, samples=100,domain=-2:-.01] {-abs(x)^(1/3)};
           \addplot [very thick, penColor2] plot coordinates {(.01,.215) (-.01,-.215)};
