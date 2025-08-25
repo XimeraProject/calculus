@@ -42,12 +42,13 @@ This tangent line is the graph of a linear function, called  the \textbf{linear 
 	            ticks=none,
 	            %width=3in,
 	            %height=2in,
+              domain=(0:2),
 	            unit vector ratio*=1 1 1,
 	            xlabel=$x$, ylabel=$y$,
 	            every axis y label/.style={at=(current axis.above origin),anchor=south},
 	            every axis x label/.style={at=(current axis.right of origin),anchor=west},
 	          ]        
-	          \addplot [ thick, penColor, smooth, domain=(0:3)] {3*sqrt(x)-2};
+	          \addplot [thick, penColor, smooth] {3*sqrt(x)-2};
 	          \addplot [thick, penColor2,smooth] {(3/2)*x+3/2-2};
 	          \node at (axis cs:1.7,1.5) [penColor] {$y=f(x)$};
 	          \node at (axis cs:1,1.5) [penColor2] {$y=L(x)$}; 
@@ -351,7 +352,6 @@ Also, two quantities, $\d x$ and $\d f$, and a point $P$ are marked in the figur
       \choice{$\d f=x-a$}
       \choice[correct]{$\d f=L(x)-f(a)$}
           \choice[correct]{$\d f=L(x)-L(a)$}
-         
     \end{selectAll}
    
   \end{question}
