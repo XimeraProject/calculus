@@ -5,6 +5,7 @@ on:
 
 env: 
   XM_COMPILE_SEQUENCE: html
+  XM_TO_PROCESS: "testxourse.tex calculus1.tex"
   # XM_TO_PROCESS: "testxourse.tex calculus1.tex calculus2.tex calculus3.tex calculusA2.tex calculusE.tex calculus1TextbookBySection  [a-z]*/exercises/exerciseList.tex"
   # XM_TO_PROCESS: "."
 
@@ -48,10 +49,10 @@ jobs:
         env:
           GPG_KEY: ${{ secrets.GPG_KEY }}
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
-          XIMERA_URL: ${{ vars.XIMERA_URL }}
-          XIMERA_NAME: wimcalc0825
+          XIMERA_URL: "https://ximera.osu.edu/"
+          XIMERA_NAME: wimcalc0826
+          # XIMERA_URL: ${{ vars.XIMERA_URL }}
           # XIMERA_NAME: ${{ vars.XIMERA_NAME }}${{ github.ref_name }}
-          XM_JOBS: 6
         run: |
           ls -alrt
           ./xmScripts/xmlatex ghaction -j 8 $XM_TO_PROCESS -f -s --compile html
@@ -69,7 +70,7 @@ jobs:
 
 
   publish-ximera:
-    name: Publish Ximera Courses
+    name: Publish to Xerxes
     needs: build-ximera # Waits for the build job to complete
     runs-on: ubuntu-latest
     environment: production
@@ -90,8 +91,10 @@ jobs:
         env:
           GPG_KEY: ${{ secrets.GPG_KEY }}
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
-          XIMERA_URL: ${{ vars.XIMERA_URL }}
-          XIMERA_NAME: ${{ vars.XIMERA_NAME }}
+          XIMERA_URL: "https://xerxes.ximera.org/"
+          XIMERA_NAME: "wimcalc0826"
+          # XIMERA_URL: ${{ vars.XIMERA_URL }}
+          # XIMERA_NAME: ${{ vars.XIMERA_NAME }}
         run: |
           git log --oneline --graph --decorate --all -n 10
           ./xmScripts/xmlatex name         
