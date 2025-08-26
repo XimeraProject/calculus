@@ -4,14 +4,18 @@ on:
   push:      
 
 env: 
+  GPG_KEY: ${{ secrets.GPG_KEY }}
+  GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+  XIMERA_URL: "https://ximera.osu.edu/"
+  XIMERA_NAME: wimcalc0826
   XM_COMPILE_SEQUENCE: html
-  XM_TO_PROCESS: "testxourse.tex calculus1.tex"
+  XM_TO_PROCESS: "testxourse.tex calculus1.tex calculus2"
   # XM_TO_PROCESS: "testxourse.tex calculus1.tex calculus2.tex calculus3.tex calculusA2.tex calculusE.tex calculus1TextbookBySection  [a-z]*/exercises/exerciseList.tex"
   # XM_TO_PROCESS: "."
 
 jobs:
   build-ximera:
-    name: Build and preview Ximera Courses
+    name: Build and publish (to ximera.osu.org)
     runs-on: ubuntu-latest
 
 
@@ -46,16 +50,14 @@ jobs:
 
 
       - name: Build and publish Ximera courses
-        env:
-          GPG_KEY: ${{ secrets.GPG_KEY }}
-          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
-          XIMERA_URL: "https://ximera.osu.edu/"
-          XIMERA_NAME: wimcalc0826
-          # XIMERA_URL: ${{ vars.XIMERA_URL }}
-          # XIMERA_NAME: ${{ vars.XIMERA_NAME }}${{ github.ref_name }}
+        # env:
+        #   XIMERA_URL: ${{ vars.XIMERA_URL }}
+        #   XIMERA_NAME: ${{ vars.XIMERA_NAME }}${{ github.ref_name }}
         run: |
+          echo -e "\nBaking and Serving to $XIMERA_URL$XIMERA_NAME\n" 
           ls -alrt
           ./xmScripts/xmlatex ghaction -j 8 $XM_TO_PROCESS -f -s --compile html
+          echo "Recent git log:"
           git log --oneline --graph --decorate --all -n 10 
           echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
 
@@ -89,16 +91,14 @@ jobs:
           
       - name: Serve
         env:
-          GPG_KEY: ${{ secrets.GPG_KEY }}
-          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
           XIMERA_URL: "https://xerxes.ximera.org/"
-          XIMERA_NAME: "wimcalc0826"
-          # XIMERA_URL: ${{ vars.XIMERA_URL }}
-          # XIMERA_NAME: ${{ vars.XIMERA_NAME }}
+          # XIMERA_NAME: "wimcalc0826"
         run: |
-          git log --oneline --graph --decorate --all -n 10
+          echo -e "\nServing to $XIMERA_URL$XIMERA_NAME\n"
           ./xmScripts/xmlatex name         
           ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
+          echo "Recent git log:"
+          git log --oneline --graph --decorate --all -n 10 
           echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
 
 
