@@ -54,7 +54,7 @@ jobs:
         #   XIMERA_URL: ${{ vars.XIMERA_URL }}
         #   XIMERA_NAME: ${{ vars.XIMERA_NAME }}${{ github.ref_name }}
         run: |
-          echo -e "\nBaking and Serving to $XIMERA_URL$XIMERA_NAME\n" 
+          echo "Baking and Serving to $XIMERA_URL$XIMERA_NAME" 
           ls -alrt
           ./xmScripts/xmlatex ghaction -j 8 $XM_TO_PROCESS -f -s --compile html
           echo "Recent git log:"
@@ -92,9 +92,9 @@ jobs:
       - name: Serve
         env:
           XIMERA_URL: "https://xerxes.ximera.org/"
-          # XIMERA_NAME: "wimcalc0826"
+          XIMERA_NAME: "calculus"
         run: |
-          echo -e "\nServing to $XIMERA_URL$XIMERA_NAME\n"
+          echo "Serving to $XIMERA_URL$XIMERA_NAME"
           ./xmScripts/xmlatex name         
           ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
           echo "Recent git log:"
