@@ -55,7 +55,8 @@ jobs:
 
       - name: Build and publish Ximera courses      
         env:
-          XIMERA_NAME: mooculuspreview
+          XIMERA_NAME: mooculus
+          ## XIMERA_NAME: mooculuspreview
           ##notused#   XIMERA_URL: ${{ vars.XIMERA_URL }}
           ##notused#   XIMERA_NAME: ${{ vars.XIMERA_NAME }}${{ github.ref_name }}
         run: |
