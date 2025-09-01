@@ -1,2 +1,50 @@
 \def\xmNotExpandableAsAccordion{true}
 \def\xmNotHintAsExpandable{true}
+
+
+
+\ifdefined\HCode
+  % Force TikZ to use PDF driver even in TeX4ht runs
+%   \def\pgfsysdriver{pgfsys-dvips.def}
+  \def\pgfsysdriver{pgfsys-dvisvgm4ht.def}
+\fi
+
+\usepackage{tikz}
+\usetikzlibrary{external}
+
+% Conditional system call
+\makeatletter
+
+
+% Create a 'tikz' folder when TikZ externalization is really used
+\def\tikz@createexternaldir{%
+    \immediate\write18{mkdir -p tikz}%
+}
+% Patch TikZ so this runs just before writing the .md5 file
+\pretocmd\tikzexternalize{\tikz@createexternaldir}{}{}
+
+% Setup externalization
+\ifdefined\HCode
+    % in htlatex, just include the svg files
+    \def\pgfsys@imagesuffixlist{.svg}
+  
+    \tikzexternalize[verbose,prefix=tikz/,mode=graphics if exists]
+\else
+    % --- Normal PDF build ---
+    \tikzset{
+        external/system call={
+            mkdir -p tikz &&
+            pdflatex \tikzexternalcheckshellescape
+            -halt-on-error -interaction=batchmode
+            -jobname "\image" "\texsource" &&
+            dvisvgm --pdf --page=1- "\image".pdf -o "\image".svg &&
+            mutool draw -r 150 -c rgbalpha -o "\image".png "\image".pdf &&
+            ebb -x "\image".png &&
+            echo "DONE pdflatex \image"
+        },
+        % external/figure name=test3-tikz
+    }
+    \tikzexternalize[verbose,prefix=tikz/,optimize=true]
+\fi
+
+\makeatother
