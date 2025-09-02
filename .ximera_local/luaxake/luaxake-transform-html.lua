@@ -469,7 +469,7 @@ for _, img in ipairs(dom:query_selector("img")) do
   local src = img:get_attribute("src")
   if src then
     local pat = file.basename .. "(%d+)x%.svg"
-    local new = src:gsub(pat, "tikz/"..file.basename.."-figure%1.svg")
+    local new = src:gsub(pat, "tikz/"..file.basename.."-figure%1.png")
     log:debugf("Set src in %s to %s (from %s).", file.basename, new, src)
 
     img:set_attribute("src", new)
