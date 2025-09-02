@@ -14,8 +14,8 @@ env:
   ##XM_COMPILE_SEQUENCE: html
   # XM_TO_PROCESS: "testxourse.tex" 
   # XM_TO_PROCESS: "testxourse.tex calculus1.tex calculus2.tex calculus3.tex calculusA2.tex calculusE.tex calculus1TextbookBySection  [a-z]*/exercises/exerciseList.tex"
-  XM_TO_PROCESS: "testxourse.tex calculus1.tex  review/*/exerciseList.tex calculus1TextbookBySection/*.tex"
-  # XM_TO_PROCESS: "."
+  # XM_TO_PROCESS: "testxourse.tex calculus1.tex  review/*/exerciseList.tex calculus1TextbookBySection/*.tex"
+  XM_TO_PROCESS: "."
 
 jobs:
   build-ximera:
@@ -74,40 +74,40 @@ jobs:
             .git/**
           key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
 
-  ###
-  ### To uncommented once 'production' setup works, ie repo no longer private
-  ###
-  # publish-ximera:
-  #   name: Publish to mooculus
-  #   needs: build-ximera # Waits for the build job to complete
-  #   runs-on: ubuntu-latest
-  #   environment: production
-  #   steps:
+  ##
+  ## To uncommented once 'production' setup works, ie repo no longer private
+  ##
+  publish-ximera:
+    name: Publish to mooculus
+    needs: build-ximera # Waits for the build job to complete
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
 
 
-  #     - name: Restore ximera serve cache (only .git)
-  #       id: serve-cache-restore
-  #       uses: actions/cache/restore@v4
-  #       with:
-  #         fail-on-cache-miss: true
-  #         path: | 
-  #           xmScripts/**
-  #           .git/**
-  #         key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
+      - name: Restore ximera serve cache (only .git)
+        id: serve-cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          fail-on-cache-miss: true
+          path: | 
+            xmScripts/**
+            .git/**
+          key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
           
-  #     - name: Serve
-  #       env:
-  #         # XIMERA_URL: "https://ximera.osu.edu/"
-  #         XIMERA_NAME: "mooculus"
-  #         # XIMERA_URL: "https://xerxes.ximera.org/"
-  #         # XIMERA_NAME: "calculus"
-  #       run: |
-  #         echo "Serving to $XIMERA_URL$XIMERA_NAME"
-  #         ./xmScripts/xmlatex name         
-  #         ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
-  #         echo "Recent git log:"
-  #         git log --oneline --graph --decorate --all -n 10 
-  #         echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
+      - name: Serve
+        env:
+          # XIMERA_URL: "https://ximera.osu.edu/"
+          # XIMERA_NAME: "mooculus"
+          XIMERA_URL: "https://xerxes.ximera.org/"
+          XIMERA_NAME: "calculus"
+        run: |
+          echo "Serving to $XIMERA_URL$XIMERA_NAME"
+          ./xmScripts/xmlatex name         
+          ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
+          echo "Recent git log:"
+          git log --oneline --graph --decorate --all -n 10 
+          echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
 
 
 
