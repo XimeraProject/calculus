@@ -1,5 +1,14 @@
+\typeout{Start loading xmPreamble.tex}%
+
 \makeatletter
 \typeout{**** Class options: \@classoptionslist ****}
+
+\@ifclassloaded{xourse}{%
+    \typeout{Start loading preamble.tex (in a XOURSE)}%
+    \def\isXourse{true}  % could/should be in xourse.cls !
+}{%
+    \typeout{Start loading preamble.tex (NOT in a XOURSE)}%
+}
 \makeatother
 
 \ifdefined\isXourse
@@ -38,12 +47,15 @@
             pdflatex \tikzexternalcheckshellescape
             -halt-on-error -interaction=batchmode
             -jobname "\image" "\string\PassOptionsToClass{tikzexport}{ximera}\texsource" &&
-            dvisvgm --pdf --page=1- "\image".pdf -o "\image".svg &&
+            mutool draw -F svg "\image".pdf  >"\image".svg;
             mutool draw -r 150 -c rgbalpha -o "\image".png "\image".pdf &&
             ebb -x "\image".png &&
             echo "DONE pdflatex \image"
         },
     }
 \fi
+
+%            dvisvgm --pdf --page=1- "\image".pdf -o "\image".svg &&
+
 
 \makeatother
