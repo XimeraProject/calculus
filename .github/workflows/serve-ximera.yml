@@ -2,15 +2,15 @@ name: Ximera Workflow
 
 on:
   push:    
-    # branches:
-    #     - 'main'
+    branches:
+        - 'main'
 
 env: 
   GPG_KEY: ${{ secrets.GPG_KEY }}
   GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
   XIMERA_NAME: mooculuspreview   # (re-) set infra per job
-  # XIMERA_URL: "https://ximera.osu.edu/"
-  XIMERA_URL: "https://xerxes.ximera.org/"  
+  XIMERA_URL: "https://ximera.osu.edu/"
+  # XIMERA_URL: "https://xerxes.ximera.org/"  
   ##XM_COMPILE_SEQUENCE: html
   XM_TO_PROCESS: "testxourse.tex" 
   # XM_TO_PROCESS: "testxourse.tex calculus1.tex calculus2.tex calculus3.tex calculusA2.tex calculusE.tex calculus1TextbookBySection  [a-z]*/exercises/exerciseList.tex"
