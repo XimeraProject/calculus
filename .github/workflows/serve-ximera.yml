@@ -12,7 +12,7 @@ env:
   XIMERA_URL: "https://ximera.osu.edu/"
   ##XM_COMPILE_SEQUENCE: html
   # XIMERA_URL: "https://xerxes.ximera.org/"  
-  XM_TO_PROCESS: "testxourse.tex"
+  XM_TO_PROCESS: "testxourse.tex calculus1.tex" 
   # XM_TO_PROCESS: "testxourse.tex calculus1.tex calculus2.tex calculus3.tex calculusA2.tex calculusE.tex calculus1TextbookBySection  [a-z]*/exercises/exerciseList.tex"
   # XM_TO_PROCESS: "review/*/exerciseList.tex *TextbookBySection/*.tex"
   # XM_TO_PROCESS: "."
