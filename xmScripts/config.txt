@@ -39,7 +39,7 @@ YOUR_EMAIL="DUMMY@ximera.org"
 # For testing/debugging
 #
 # : "${DEBUG:=1}"
-# : "${COMMAND:=./xmScripts/xmlatex.test}"
+: "${COMMAND:=.ximera_local/xmScripts/xmlatex}"
 #
 # for LOCALLY generated/tagged images, use:
 # export DOCKER_REPO=" "
@@ -49,8 +49,8 @@ YOUR_EMAIL="DUMMY@ximera.org"
 #
 # For use in Actions, and perhaps to adapt the functionality of the PDF/HTML/SERVE buttons
 #
-export XM_COMPILE_SEQUENCE=pdf,htmlexport            # which output to generate, eg "pdf,handout.pdf,html"
-export XM_TO_PROCESS=calculus1TextbookBySection/higherOrderDerivativesAndGraphs.tex      # only build/frost/serve these files/courses
+# export XM_COMPILE_SEQUENCE=pdf,html            # which output to generate, eg "pdf,handout.pdf,html"
+# export XM_TO_PROCESS=calculus1TextbookBySection/higherOrderDerivativesAndGraphs.tex      # only build/frost/serve these files/courses
 # export XM_TO_PROCESS=aFirstXourse.tex      # only build/frost/serve these files/courses
 # export XM_CONFIGFILE=more.cfg              # exotic: if you want to use a different TeX4ht config file
 # export XM_SETTINGSFILE=config.lua          # yet another way to set some options/Settings
