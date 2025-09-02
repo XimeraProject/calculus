@@ -62,6 +62,7 @@ jobs:
         run: |
           echo "Baking and Serving to $XIMERA_URL$XIMERA_NAME" 
           ls -alrt
+          ./xmScripts/xmlatex veryclean 
           ./xmScripts/xmlatex ghaction -j 8 $XM_TO_PROCESS -f -s 
           # echo "Recent git log:"
           # git log --oneline --graph --decorate --all -n 10 
