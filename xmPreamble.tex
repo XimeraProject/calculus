@@ -1,2 +1,61 @@
-\def\xmNotExpandableAsAccordion{true}
-\def\xmNotHintAsExpandable{true}
+\typeout{Start loading xmPreamble.tex}%
+
+\makeatletter
+\typeout{**** Class options: \@classoptionslist ****}
+
+\@ifclassloaded{xourse}{%
+    \typeout{Start loading preamble.tex (in a XOURSE)}%
+    \def\isXourse{true}  % could/should be in xourse.cls !
+}{%
+    \typeout{Start loading preamble.tex (NOT in a XOURSE)}%
+}
+\makeatother
+
+\ifdefined\isXourse
+    \typeout{tikzexport: in xourse no exports in xourse}
+\else
+    \typeout{tikzexport: global export settings}
+
+\usepackage{tikz}
+\usetikzlibrary{external}
+
+\makeatletter
+% Make sure folder tikz/ exists
+\def\tikz@createexternaldir{%
+    \immediate\write18{mkdir -p tikz}%
+}
+% Patch TikZ so this runs just before writing the .md5 file
+\pretocmd\tikzexternalize{\tikz@createexternaldir}{}{}
+
+% Setup externalization
+\ifdefined\HCode
+    % in htlatex, just include the svg files
+    \typeout{tikzexport: in HTML}
+    \def\pgfsys@imagesuffixlist{.svg}
+    \def\pgfsysdriver{pgfsys-dvisvgm4ht.def}    
+%    \tikzexternalize[verbose,prefix=tikz/,mode=graphics if exists]
+% \else
+%    \tikzexternalize[verbose,prefix=tikz/,optimize=false]
+\fi
+
+% Always externalize...
+
+    \tikzexternalize[verbose,prefix=tikz/,optimize=false]
+    \tikzset{
+        external/system call={
+            mkdir -p tikz &&
+            pdflatex \tikzexternalcheckshellescape
+            -halt-on-error -interaction=batchmode
+            -jobname "\image" "\string\PassOptionsToClass{tikzexport}{ximera}\texsource" &&
+            mutool draw -F svg "\image".pdf  >"\image".svg;
+            mutool draw -r 150 -c rgbalpha -o "\image".png "\image".pdf &&
+            ebb -x "\image".png &&
+            echo "DONE pdflatex \image"
+        },
+    }
+\fi
+
+%            dvisvgm --pdf --page=1- "\image".pdf -o "\image".svg &&
+
+
+\makeatother
