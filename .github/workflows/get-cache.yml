@@ -1,0 +1,24 @@
+name: Download cache and Upload
+
+on:
+   push:
+    
+jobs:
+  cache-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ./cache-folder
+          key: ximera-main-a6baae8a83be8e55be8c8132ec6ad24a8f4c5ed0
+        #   key: ${{ github.event.inputs.cache_key }}
+
+      - name: Upload cached folder as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cache-artifact
+          path: ./cache-folder
