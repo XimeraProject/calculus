@@ -20,7 +20,7 @@ jobs:
 
       # Upload the restored cache as an artifact
       - name: Upload Cache as Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: downloaded-cache
           path: ./mycache
