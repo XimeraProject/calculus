@@ -40,7 +40,9 @@ jobs:
           path: | 
             **/*.html
             **/*.pdf
+            **/*.log
             **/*.svg
+            **/*.png
             **/*.aux
             **/*.xref
             **/*.toc
