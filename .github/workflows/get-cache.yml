@@ -15,7 +15,7 @@ jobs:
       - name: Restore Cache
         uses: actions/cache@v4
         with:
-          path: ./mycache
+          path: .
           key: ximera-main-a6baae8a83be8e55be8c8132ec6ad24a8f4c5ed0
 
       # Upload the restored cache as an artifact
@@ -23,4 +23,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: downloaded-cache
-          path: ./mycache
+          path: .
