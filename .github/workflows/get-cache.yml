@@ -1,24 +1,26 @@
-name: Download cache and Upload
+name: Download Specific Cache
 
 on:
-   push:
-    
+  workflow_dispatch: # Allows manual trigger from the Actions tab
+
 jobs:
-  cache-upload:
+  download-cache:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Cache dependencies
+      # Restore the cache you want
+      - name: Restore Cache
         uses: actions/cache@v4
         with:
-          path: ./cache-folder
+          path: ./mycache
           key: ximera-main-a6baae8a83be8e55be8c8132ec6ad24a8f4c5ed0
-        #   key: ${{ github.event.inputs.cache_key }}
 
-      - name: Upload cached folder as artifact
-        uses: actions/upload-artifact@v4
+      # Upload the restored cache as an artifact
+      - name: Upload Cache as Artifact
+        uses: actions/upload-artifact@v3
         with:
-          name: cache-artifact
-          path: ./cache-folder
+          name: downloaded-cache
+          path: ./mycache
