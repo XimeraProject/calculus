@@ -65,6 +65,12 @@ jobs:
           # git log --oneline --graph --decorate --all -n 10 
           echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
 
+      - name: Upload Working Folder as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rootFolder
+          path: .          
+
       - name: Setup ximera serve cache (only .git)
         id: serve-cache
         uses: actions/cache/save@v4
