@@ -1,0 +1,111 @@
+name: TEST Workflow
+
+on:
+  push:    
+    branches:
+        - 'test-cache'
+
+env: 
+  GPG_KEY: ${{ secrets.GPG_KEY }}
+  GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+  XIMERA_NAME: mooculuspreview   # (re-) set infra per job
+  # XIMERA_URL: "https://ximera.osu.edu/"
+  XIMERA_URL: "https://xerxes.ximera.org/"  
+  ##XM_COMPILE_SEQUENCE: html
+  # XM_TO_PROCESS: "testxourse.tex" 
+  XM_TO_PROCESS: "testxourse.tex calculus1.tex calculus2.tex calculus3.tex calculusA2.tex calculusE.tex calculus1TextbookBySection  [a-z]*/exercises/exerciseList.tex"
+  # XM_TO_PROCESS: "testxourse.tex calculus1.tex  review/*/exerciseList.tex calculus1TextbookBySection/*.tex"
+  # XM_TO_PROCESS: "."
+
+jobs:
+  build-ximera:
+    name: Build and publish to mooculuspreview
+    runs-on: ubuntu-latest
+
+
+    permissions:
+      actions: read
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full 
+
+      - name: Setup cache
+        uses: actions/cache@v4
+        with:
+          path: | 
+            **/*.html
+            **/*.pdf
+            **/*.svg
+            **/*.aux
+            **/*.xref
+            **/*.toc
+            !xmPictures/**
+            !.git/**
+            !.github/**
+          key: ximera-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            ximera-main-a6baae8a83be8e55be8c8132ec6ad24a8f4c5ed0
+
+      - name: Build and publish Ximera courses      
+        env:
+          XIMERA_NAME: mooculuspreview
+        run: |
+          echo "Baking and Serving to $XIMERA_URL$XIMERA_NAME" 
+          ls -alrt
+          # ./xmScripts/xmlatex veryclean
+          ./xmScripts/xmlatex all -j 6 $XM_TO_PROCESS || echo $NOK
+          # echo "Recent git log:"
+          # git log --oneline --graph --decorate --all -n 10 
+          echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
+
+      - name: Setup ximera serve cache (only .git)
+        id: serve-cache
+        uses: actions/cache/save@v4
+        with:
+          path: | 
+            xmScripts/**
+            .git/**
+          key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
+
+  ##
+  ## To uncommented once 'production' setup works, ie repo no longer private
+  ##
+  publish-ximera:
+    name: Publish to mooculus
+    needs: build-ximera # Waits for the build job to complete
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+
+
+      - name: Restore ximera serve cache (only .git)
+        id: serve-cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          fail-on-cache-miss: true
+          path: | 
+            xmScripts/**
+            .git/**
+          key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
+          
+      - name: Serve
+        env:
+          # XIMERA_URL: "https://ximera.osu.edu/"
+          # XIMERA_NAME: "mooculus"
+          XIMERA_URL: "https://xerxes.ximera.org/"
+          XIMERA_NAME: "calculus"
+        run: |
+          echo "Serving to $XIMERA_URL$XIMERA_NAME"
+          ./xmScripts/xmlatex name         
+          ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
+          echo "Recent git log:"
+          git log --oneline --graph --decorate --all -n 10 
+          echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
+
+
+
