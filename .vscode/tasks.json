@@ -22,17 +22,15 @@
         {
             "label": "HTML",
             "args": [
-                "ghaction",
+                "htmltask",
                 "--force",
-                "--compile html",
                 "${relativeFile}"
             ],
         },
         {
             "label": "SERVE",
             "args": [
-                "all",
-                "-s",
+                "servetask",
             ],
         },
         {
