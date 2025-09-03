@@ -1,13 +1,8 @@
 name: Download cache and Upload
 
 on:
-  workflow_dispatch:
-    inputs:
-      cache_key:
-        description: 'Cache key'
-        required: true
-        type: string
-
+   push:
+    
 jobs:
   cache-upload:
     runs-on: ubuntu-latest
@@ -19,7 +14,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ./cache-folder
-          key: ${{ github.event.inputs.cache_key }}
+          key: ximera-main-a6baae8a83be8e55be8c8132ec6ad24a8f4c5ed0
+        #   key: ${{ github.event.inputs.cache_key }}
 
       - name: Upload cached folder as artifact
         uses: actions/upload-artifact@v4
