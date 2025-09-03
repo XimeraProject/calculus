@@ -3,7 +3,7 @@ name: Ximera Workflow
 on:
   push:    
     branches:
-        - 'xxmain'
+        - 'test-cache2'
 
 env: 
   GPG_KEY: ${{ secrets.GPG_KEY }}
@@ -13,7 +13,7 @@ env:
   # XIMERA_URL: "https://xerxes.ximera.org/"  
   ##XM_COMPILE_SEQUENCE: html
   # XM_TO_PROCESS: "testxourse.tex" 
-  XM_TO_PROCESS: "testxourse.tex calculus1.tex calculus2.tex" # calculus3.tex calculusA2.tex calculusE.tex calculus1TextbookBySection  [a-z]*/exercises/exerciseList.tex"
+  XM_TO_PROCESS: "testxourse.tex" #  calculus1.tex calculus2.tex" # calculus3.tex calculusA2.tex calculusE.tex calculus1TextbookBySection  [a-z]*/exercises/exerciseList.tex"
   # XM_TO_PROCESS: "testxourse.tex calculus1.tex  review/*/exerciseList.tex calculus1TextbookBySection/*.tex"
   # XM_TO_PROCESS: "."
 
@@ -55,7 +55,7 @@ jobs:
 
       - name: Build and publish Ximera courses      
         env:
-          XIMERA_NAME: mooculuspreview
+          XIMERA_NAME: wimcalc0903
         run: |
           echo "Baking and Serving to $XIMERA_URL$XIMERA_NAME" 
           ls -alrt
