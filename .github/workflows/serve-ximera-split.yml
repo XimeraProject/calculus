@@ -12,7 +12,7 @@ env:
   XIMERA_NAME: wimcalc20250904
   XIMERA_URL: "https://ximera.osu.edu/"
   # XIMERA_URL: "https://xerxes.ximera.org/"
-  XM_TO_PROCESS: "testxourse.tex calculus*.tex"
+  XM_TO_PROCESS: "testxourse.tex calculusEPart1.tex"
 
 jobs:
 
@@ -60,6 +60,9 @@ jobs:
       - name: "XIMERA: pdfexport (prepare for tikzpictures)"
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          # HACK for lulu<x>.sty !
+          mkdir -p .git/refs/heads
+          [[ -f ".git/refs/heads/master.tex" ]] ||  date >".git/refs/heads/master.tex" 
           xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS
 
       # Upload artifact for next job
