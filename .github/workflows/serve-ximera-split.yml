@@ -46,33 +46,17 @@ jobs:
             **/*.png
             !.git/**
             !.github/**
-          key: ximeraPDF-${{ github.ref_name }}-${{ github.sha }}
+          key: ximeraPDF-${{ github.ref_name }}-latest
           restore-keys: |
             ximeraPDF-${{ github.ref_name }}-
             ximeraPDF-
 
       - run: |
-            pwd
-            ls -alrt
-            type xmlatex
-            env
-            git config --global --add safe.directory /code
-            git config --global --add safe.directory /__w/calculus/calculus
-            ls -al /usr/local/bin/
-            ls -al /root/texmf
-            find /root/texmf
-            id
-            chmod  +rx /root
-            df -h
-            ls -al /root
-            kpsewhich -var-value=TEXMFHOME
-            export TEXMFHOME=/root/texmf
-            kpsewhich -var-value=TEXMFHOME
-            export LUA_PATH="/root/texmf/tex/latex/ximeraLatex/luaxake/?.lua;;"
-            echo $LUA_PATH
-            strace -o brol -f luaxake -h || echo NOK
-            grep luaxake brol
-            xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS
+          git config --global --add safe.directory /code
+          git config --global --add safe.directory /__w/calculus/calculus
+          export TEXMFHOME=/root/texmf
+          export LUA_PATH="/root/texmf/tex/latex/ximeraLatex/luaxake/?.lua;;"
+          xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS
 
       - uses: actions/cache/save@v4
         with:
@@ -88,7 +72,7 @@ jobs:
             **/*.png
             !.git/**
             !.github/**
-          key: ximeraPDF-${{ github.ref_name }}-${{ github.sha }}
+          key: ximeraPDF-${{ github.ref_name }}-latest
 
       - uses: actions/upload-artifact@v4
         with:
@@ -125,17 +109,16 @@ jobs:
             **/*.png
             !.git/**
             !.github/**
-          key: ximeraPDF-${{ github.ref_name }}-${{ github.sha }}
+          key: ximeraPDF-${{ github.ref_name }}-latest
           restore-keys: |
             ximeraPDF-${{ github.ref_name }}-
             ximeraPDF-
 
       - run: |
-            git config --global --add safe.directory /code
-            git config --global --add safe.directory /__w/calculus/calculus
-            export TEXMFHOME=/root/texmf
-            pwd
-            xmlatex bake --compile htmlexport -j 5 $XM_TO_PROCESS
+          git config --global --add safe.directory /code
+          git config --global --add safe.directory /__w/calculus/calculus
+          export TEXMFHOME=/root/texmf
+          xmlatex bake --compile htmlexport -j 5 $XM_TO_PROCESS
 
       - uses: actions/cache/save@v4
         with:
@@ -151,7 +134,7 @@ jobs:
             **/*.png
             !.git/**
             !.github/**
-          key: ximeraHTML-${{ github.ref_name }}-${{ github.sha }}
+          key: ximeraHTML-${{ github.ref_name }}-latest
 
       - uses: actions/upload-artifact@v4
         with:
@@ -188,25 +171,26 @@ jobs:
             **/*.png
             !.git/**
             !.github/**
-          key: ximeraHTML-${{ github.ref_name }}-${{ github.sha }}
+          key: ximeraHTML-${{ github.ref_name }}-latest
+          restore-keys: |
+            ximeraHTML-${{ github.ref_name }}-
+            ximeraHTML-
 
       - run: |
-            git config --global --add safe.directory /code
-            git config --global --add safe.directory /__w/calculus/calculus
-            export TEXMFHOME=/root/texmf
-            pwd
-            xmlatex name
-            xmlatex frost $XM_TO_PROCESS
-            xmlatex serve $XM_TO_PROCESS
-            echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
-
+          git config --global --add safe.directory /code
+          git config --global --add safe.directory /__w/calculus/calculus
+          export TEXMFHOME=/root/texmf
+          xmlatex name
+          xmlatex frost $XM_TO_PROCESS
+          xmlatex serve $XM_TO_PROCESS
+          echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
 
       - uses: actions/cache/save@v4
         with:
           path: |
             xmScripts/**
             .git/**
-          key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
+          key: ximeraSERVE-${{ github.ref_name }}-latest
 
       - uses: actions/upload-artifact@v4
         with:
@@ -228,18 +212,18 @@ jobs:
           path: |
             xmScripts/**
             .git/**
-          key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
+          key: ximeraSERVE-${{ github.ref_name }}-latest
 
       - run: |
-            echo "Serving to $XIMERA_URL$XIMERA_NAME"
-            git config --global --add safe.directory /code
-            git config --global --add safe.directory /__w/calculus/calculus
-            export TEXMFHOME=/root/texmf
-            xmlatex name
-            xmlatex serve -t $XM_TO_PROCESS
-            echo "Recent git log:"
-            git log --oneline --graph --decorate --all -n 10
-            echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
+          echo "Serving to $XIMERA_URL$XIMERA_NAME"
+          git config --global --add safe.directory /code
+          git config --global --add safe.directory /__w/calculus/calculus
+          export TEXMFHOME=/root/texmf
+          xmlatex name
+          xmlatex serve -t $XM_TO_PROCESS
+          echo "Recent git log:"
+          git log --oneline --graph --decorate --all -n 10
+          echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
         env:
           XIMERA_URL: "https://xerxes.ximera.org/"
           XIMERA_NAME: "calculus"
