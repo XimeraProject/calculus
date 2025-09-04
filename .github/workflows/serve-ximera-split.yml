@@ -157,7 +157,7 @@ jobs:
           name: htmlexport
           path: .
 
-      - name: "Serve to ${{env.XIMERA_URL}}/${{env.XIMERA_NAME}}"
+      - name: "Serve to ${{env.XIMERA_NAME}} on ${{env.XIMERA_URL}}"
         run: |
           git config --global --add safe.directory /code
           git config --global --add safe.directory /__w/calculus/calculus
