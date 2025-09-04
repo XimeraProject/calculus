@@ -11,14 +11,16 @@ env:
   XIMERA_NAME: wimcalc20250904
   XIMERA_URL: "https://xerxes.ximera.org/"
   XM_TO_PROCESS: "testxourse.tex"
-  XIMERA_CONTAINER: "ghcr.io/ximeraproject/ximeralatex:v2.7.5fix2"   # ← container image variable
+
+# YAML anchor for the container image
+x-container: &x-container
+  image: ghcr.io/ximeraproject/ximeralatex:v2.7.5fix2
 
 jobs:
   build-ximera-pdfexport:
     name: Build pdfexport
     runs-on: ubuntu-latest
-    container:
-      image: ${{ env.XIMERA_CONTAINER }}  # ← use variable here
+    container: *x-container
     steps:
       - uses: actions/checkout@v4
       - run: ./xmScripts/xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS
@@ -27,8 +29,7 @@ jobs:
     name: Build htmlexport
     needs: build-ximera-pdfexport
     runs-on: ubuntu-latest
-    container:
-      image: ${{ env.XIMERA_CONTAINER }}
+    container: *x-container
     steps:
       - uses: actions/checkout@v4
       - run: ./xmScripts/xmlatex bake --compile htmlexport -j 5 $XM_TO_PROCESS
@@ -37,8 +38,7 @@ jobs:
     name: Serve
     needs: build-ximera-htmlexport
     runs-on: ubuntu-latest
-    container:
-      image: ${{ env.XIMERA_CONTAINER }}
+    container: *x-container
     steps:
       - uses: actions/checkout@v4
       - run: ./xmScripts/xmlatex name
@@ -49,7 +49,6 @@ jobs:
     name: Publish
     needs: build-ximera-serve
     runs-on: ubuntu-latest
-    container:
-      image: ${{ env.XIMERA_CONTAINER }}
+    container: *x-container
     steps:
       - run: ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
