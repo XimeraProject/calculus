@@ -46,9 +46,12 @@ jobs:
             **/*.png
             !.git/**
             !.github/**
-          key: ximeraHTMLexport-${{ github.ref_name }}-latest
+          key: ximeraPDFexport-${{ github.ref_name }}-${{ github.run_id }}
           restore-keys: |
-            ximeraPDFexport-${{ github.ref_name }}-latest
+            ximeraHTMLexport-${{ github.ref_name }}-
+            ximeraPDFexport-${{ github.ref_name }}-
+            ximeraPDFexport-
+            ximeraHTMLexport-
 
       - run: |
           # git config --global --add safe.directory /code
@@ -57,21 +60,21 @@ jobs:
           export LUA_PATH="/root/texmf/tex/latex/ximeraLatex/luaxake/?.lua;;"
           xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS
 
-      # Save cache for future runs
-      - uses: actions/cache/save@v4
-        with:
-          path: |
-            **/*.pdf
-            **/*.html
-            **/*.aux
-            **/*.log
-            **/*.toc
-            **/*.xref
-            **/*.svg
-            **/*.png
-            !.git/**
-            !.github/**
-          key: ximeraPDFexport-${{ github.ref_name }}-latest
+      # # Save cache for future runs
+      # - uses: actions/cache/save@v4
+      #   with:
+      #     path: |
+      #       **/*.pdf
+      #       **/*.html
+      #       **/*.aux
+      #       **/*.log
+      #       **/*.toc
+      #       **/*.xref
+      #       **/*.svg
+      #       **/*.png
+      #       !.git/**
+      #       !.github/**
+      #     key: ximeraPDFexport-${{ github.ref_name }}-latest
 
       # Upload artifact for next job
       - uses: actions/upload-artifact@v4
@@ -121,7 +124,7 @@ jobs:
             **/*.png
             !.git/**
             !.github/**
-          key: ximeraHTMLexport-${{ github.ref_name }}-latest
+          key: ximeraHTMLexport-${{ github.ref_name }}-${{ github.run_id }}
 
       # Upload artifact
       - uses: actions/upload-artifact@v4
