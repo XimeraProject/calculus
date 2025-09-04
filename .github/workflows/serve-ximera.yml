@@ -1,122 +1,167 @@
 name: Ximera Workflow
 
 on:
-  push:    
+  push:
     branches:
         - 'nowhere-for-now'
 
-env: 
+env:
+  TEXMFHOME: /root/texmf     # Should be set in xmlatex !  
   GPG_KEY: ${{ secrets.GPG_KEY }}
   GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
-  XIMERA_NAME: mooculuspreview   # (re-) set infra per job
+  XIMERA_NAME: wimcalc20250904
   XIMERA_URL: "https://ximera.osu.edu/"
-  # XIMERA_URL: "https://xerxes.ximera.org/"  
-  ##XM_COMPILE_SEQUENCE: html
-  # XM_TO_PROCESS: "testxourse.tex" 
-  # XM_TO_PROCESS: "testxourse.tex calculus1.tex " # calculus2.tex" # calculus3.tex calculusA2.tex calculusE.tex calculus1TextbookBySection  [a-z]*/exercises/exerciseList.tex"
-  # XM_TO_PROCESS: "testxourse.tex calculus1.tex  review/*/exerciseList.tex calculus1TextbookBySection/*.tex"
-  XM_TO_PROCESS: "."
+  # XIMERA_URL: "https://xerxes.ximera.org/"
+  XM_TO_PROCESS: "testxourse.tex"
 
 jobs:
-  build-ximera:
-    name: Build and publish to mooculuspreview
+
+  build-ximera-htmlexport:
+    name: Run pdfexport and htmlexport
     runs-on: ubuntu-latest
-
-
+    continue-on-error: true
+    container: &x-container
+      image: ghcr.io/ximeraproject/ximeralatex:v2.7.5fix2-full
+      options: >-
+        --workdir /code
     permissions:
       actions: read
       contents: read
       packages: write
 
     steps:
+      - name: "Prepare: Checkout code"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Restore cache for cross-run speedup
+      - name: "Prepare: Restore cache"
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            **/*.pdf
+            **/*.html
+            **/*.aux
+            **/*.log
+            **/*.toc
+            **/*.xref
+            **/*.svg
+            **/*.png
+            !.git/**
+            !.github/**
+          key: ximeraPDFexport-${{ github.ref_name }}-${{ github.run_id }}
+          restore-keys: |
+            ximeraHTMLexport-${{ github.ref_name }}-
+            ximeraPDFexport-${{ github.ref_name }}-
+            ximeraPDFexport-
+            ximeraHTMLexport-
+
+      - name: "XIMERA: pdf and html (tikzexternalize/html)"
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          xmlatex bake --compile pdfexport  -j 5 $XM_TO_PROCESS
+          xmlatex bake --compile htmlexport -j 5 $XM_TO_PROCESS
+
+      # Save cache
+      - name: "Postprocess: Save cache"
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            **/*.pdf
+            **/*.html
+            **/*.aux
+            **/*.log
+            **/*.toc
+            **/*.xref
+            **/*.svg
+            **/*.png
+            !.git/**
+            !.github/**
+          key: ximeraHTMLexport-${{ github.ref_name }}-${{ github.run_id }}
+
+      # Upload artifact
+      - name: "Postprocess: Save artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: htmlexport
+          path: .
+
+  serve-ximera-preview:
+    name: "Run serve for (automatic) preview version"
+    needs: build-ximera-htmlexport
+    # continue-on-error: true
+    runs-on: ubuntu-latest
+    container: *x-container
+    permissions:
+      actions: read
+      contents: read
+      packages: write
+
+    steps:
+      - name: "Prepare: Checkout code"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Download artifact from previous job
+      - name: "Prepare: Checkout artifacts (from previous step)"
+        uses: actions/download-artifact@v4
+        with:
+          name: htmlexport
+          path: .
+
+      - name: "XIMERA: Serve PREVIEW version to ximeraserver"
+        run: |
+          echo "Serving to $XIMERA_URL$XIMERA_NAME"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          xmlatex name
+          xmlatex frost $XM_TO_PROCESS
+          xmlatex serve $XM_TO_PROCESS
+          echo "✅ Published to $XIMERA_URL$XIMERA_NAME "
+          echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
+
+      # - name: "Store artifacts"
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: serve
+      #     path: .
+
+  publish-ximera:
+    name: Run serve for public version
+    needs: serve-ximera-preview
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    container: *x-container
+    environment: production
+
+    steps:
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # full 
+          fetch-depth: 0
 
-      - name: Setup cache
-        uses: actions/cache@v4
+      # Download final artifact
+      - name: Restore artifacts from previous job
+        uses: actions/download-artifact@v4
         with:
-          path: | 
-            **/*.html
-            **/*.pdf
-            **/*.log
-            **/*.svg
-            **/*.png
-            **/*.aux
-            **/*.xref
-            **/*.toc
-            !xmPictures/**
-            !.git/**
-            !.github/**
-          key: ximera-${{ github.ref_name }}-${{ github.sha }}
-          restore-keys: |
-            ximera-${{ github.ref_name }}-
-            ximera-
-
-
-      - name: Build and publish Ximera courses      
-        env:
-          XIMERA_NAME: mooculuspreview
-          # XIMERA_NAME: wimcalc0903
-        run: |
-          echo "Baking and Serving to $XIMERA_URL$XIMERA_NAME" 
-          ls -alrt
-          # ./xmScripts/xmlatex veryclean
-          ./xmScripts/xmlatex all -j 5 $XM_TO_PROCESS || echo $NOK
-          # echo "Recent git log:"
-          # git log --oneline --graph --decorate --all -n 10 
-          echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
-
-      - name: Upload Working Folder as Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: rootFolder
+          name: htmlexport
           path: .          
 
-      - name: Setup ximera serve cache (only .git)
-        id: serve-cache
-        uses: actions/cache/save@v4
-        with:
-          path: | 
-            xmScripts/**
-            .git/**
-          key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
-
-  ##
-  ## To uncommented once 'production' setup works, ie repo no longer private
-  ##
-  publish-ximera:
-    name: Publish to mooculus
-    needs: build-ximera # Waits for the build job to complete
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-
-
-      - name: Restore ximera serve cache (only .git)
-        id: serve-cache-restore
-        uses: actions/cache/restore@v4
-        with:
-          fail-on-cache-miss: true
-          path: | 
-            xmScripts/**
-            .git/**
-          key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
-          
-      - name: Serve
+      - name: "XIMERA BUILD: Serve to ximeraserver (to public URL)"
         env:
-          # XIMERA_URL: "https://ximera.osu.edu/"
-          # XIMERA_NAME: "mooculus"
           XIMERA_URL: "https://xerxes.ximera.org/"
-          XIMERA_NAME: "calculus"
+          # XIMERA_URL: "https://ximera.osu.edu/"
+          XIMERA_NAME: "mooculus"
         run: |
           echo "Serving to $XIMERA_URL$XIMERA_NAME"
-          ./xmScripts/xmlatex name         
-          ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
-          echo "Recent git log:"
-          git log --oneline --graph --decorate --all -n 10 
+          git config --global --add safe.directory /__w/calculus/calculus
+          export TEXMFHOME=/root/texmf
+          xmlatex name
+          xmlatex serve -t $XM_TO_PROCESS
+          # echo "Recent git log:"
+          # git log --oneline --graph --decorate --all -n 10
+          echo "✅ Published to $XIMERA_URL$XIMERA_NAME "
           echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
-
-
 
