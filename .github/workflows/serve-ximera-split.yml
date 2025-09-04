@@ -61,6 +61,9 @@ jobs:
             ls -al /root
             id
             chmod  +rx /root
+            df -h
+            ls -al /root
+            luaxake -h
             xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS
 
       - uses: actions/cache/save@v4
