@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     container: &x-container
-      image: ghcr.io/ximeraproject/ximeralatex:v2.7.5fix2
+      image: ghcr.io/ximeraproject/ximeralatex:v2.7.5fix2-full
       options: >-
         --workdir /code
     permissions:
