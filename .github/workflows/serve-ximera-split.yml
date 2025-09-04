@@ -128,7 +128,12 @@ jobs:
             ximeraPDF-${{ github.ref_name }}-
             ximeraPDF-
 
-      - run: xmlatex bake --compile htmlexport -j 5 $XM_TO_PROCESS
+      - run: |
+            git config --global --add safe.directory /code
+            git config --global --add safe.directory /__w/calculus/calculus
+            export TEXMFHOME=/root/texmf
+            pwd
+            xmlatex bake --compile htmlexport -j 5 $XM_TO_PROCESS
 
       - uses: actions/cache/save@v4
         with:
@@ -183,9 +188,13 @@ jobs:
           key: ximeraHTML-${{ github.ref_name }}-${{ github.sha }}
 
       - run: |
-          xmlatex name
-          xmlatex frost $XM_TO_PROCESS
-          xmlatex serve $XM_TO_PROCESS
+            git config --global --add safe.directory /code
+            git config --global --add safe.directory /__w/calculus/calculus
+            export TEXMFHOME=/root/texmf
+            pwd
+            xmlatex name
+            xmlatex frost $XM_TO_PROCESS
+            xmlatex serve $XM_TO_PROCESS
 
       - uses: actions/cache/save@v4
         with:
