@@ -20,8 +20,7 @@ jobs:
     continue-on-error: true
     container: &x-container
       image: ghcr.io/ximeraproject/ximeralatex:v2.7.5fix2
-      options: >-
-        --workdir /code
+      options: --workdir /code
     permissions:
       actions: read
       contents: read
@@ -32,6 +31,7 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Restore cache for cross-run speedup
       - uses: actions/cache/restore@v4
         with:
           path: |
@@ -53,11 +53,11 @@ jobs:
 
       - run: |
           git config --global --add safe.directory /code
-          git config --global --add safe.directory /__w/calculus/calculus
           export TEXMFHOME=/root/texmf
           export LUA_PATH="/root/texmf/tex/latex/ximeraLatex/luaxake/?.lua;;"
           xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS
 
+      # Save cache for future runs
       - uses: actions/cache/save@v4
         with:
           path: |
@@ -74,10 +74,11 @@ jobs:
             !.github/**
           key: ximeraPDF-${{ github.ref_name }}-latest
 
+      # Upload artifact for next job
       - uses: actions/upload-artifact@v4
         with:
           name: pdfexport
-          path: .
+          path: build/**
 
   build-ximera-htmlexport:
     name: Run htmlexport
@@ -95,6 +96,7 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Restore cache
       - uses: actions/cache/restore@v4
         with:
           path: |
@@ -111,15 +113,21 @@ jobs:
             !.github/**
           key: ximeraPDF-${{ github.ref_name }}-latest
           restore-keys: |
-            ximeraPDF-${{ github.ref_name }}-
-            ximeraPDF-
+            ximeraHTML-${{ github.ref_name }}-
+            ximeraHTML-
+
+      # Download artifact from previous job
+      - uses: actions/download-artifact@v4
+        with:
+          name: pdfexport
+          path: build
 
       - run: |
           git config --global --add safe.directory /code
-          git config --global --add safe.directory /__w/calculus/calculus
           export TEXMFHOME=/root/texmf
           xmlatex bake --compile htmlexport -j 5 $XM_TO_PROCESS
 
+      # Save cache
       - uses: actions/cache/save@v4
         with:
           path: |
@@ -136,16 +144,17 @@ jobs:
             !.github/**
           key: ximeraHTML-${{ github.ref_name }}-latest
 
+      # Upload artifact
       - uses: actions/upload-artifact@v4
         with:
           name: htmlexport
-          path: .
+          path: build/**
 
   build-ximera-serve:
     name: Run frost/serve preview
     needs: build-ximera-htmlexport
-    continue-on-error: true
     runs-on: ubuntu-latest
+    continue-on-error: true
     container: *x-container
     permissions:
       actions: read
@@ -157,45 +166,40 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Restore cache
       - uses: actions/cache/restore@v4
         with:
-          path: |
-            build/**
-            **/*.pdf
-            **/*.html
-            **/*.aux
-            **/*.log
-            **/*.toc
-            **/*.xref
-            **/*.svg
-            **/*.png
-            !.git/**
-            !.github/**
-          key: ximeraHTML-${{ github.ref_name }}-latest
+          path: build/**
+          key: ximeraSERVE-${{ github.ref_name }}-latest
           restore-keys: |
-            ximeraHTML-${{ github.ref_name }}-
-            ximeraHTML-
+            ximeraSERVE-${{ github.ref_name }}-
+            ximeraSERVE-
+
+      # Download artifact from previous job
+      - uses: actions/download-artifact@v4
+        with:
+          name: htmlexport
+          path: build
 
       - run: |
           git config --global --add safe.directory /code
-          git config --global --add safe.directory /__w/calculus/calculus
           export TEXMFHOME=/root/texmf
           xmlatex name
           xmlatex frost $XM_TO_PROCESS
           xmlatex serve $XM_TO_PROCESS
           echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
 
+      # Save cache
       - uses: actions/cache/save@v4
         with:
-          path: |
-            xmScripts/**
-            .git/**
+          path: build/**
           key: ximeraSERVE-${{ github.ref_name }}-latest
 
+      # Upload artifact
       - uses: actions/upload-artifact@v4
         with:
           name: serve
-          path: .
+          path: build/**
 
   publish-ximera:
     name: Run serve to mooculus
@@ -206,23 +210,18 @@ jobs:
     environment: production
 
     steps:
-      - uses: actions/cache/restore@v4
+      # Download final artifact
+      - uses: actions/download-artifact@v4
         with:
-          fail-on-cache-miss: true
-          path: |
-            xmScripts/**
-            .git/**
-          key: ximeraSERVE-${{ github.ref_name }}-latest
+          name: serve
+          path: build
 
       - run: |
           echo "Serving to $XIMERA_URL$XIMERA_NAME"
           git config --global --add safe.directory /code
-          git config --global --add safe.directory /__w/calculus/calculus
           export TEXMFHOME=/root/texmf
           xmlatex name
           xmlatex serve -t $XM_TO_PROCESS
-          echo "Recent git log:"
-          git log --oneline --graph --decorate --all -n 10
           echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
         env:
           XIMERA_URL: "https://xerxes.ximera.org/"
