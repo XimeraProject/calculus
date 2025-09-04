@@ -9,7 +9,7 @@ env:
   TEXMFHOME: /root/texmf     # Should be set in xmlatex !  
   GPG_KEY: ${{ secrets.GPG_KEY }}
   GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
-  XIMERA_NAME: wimcalc20250904
+  XIMERA_NAME: wimcalc20250905
   XIMERA_URL: "https://ximera.osu.edu/"
   # XIMERA_URL: "https://xerxes.ximera.org/"
   XM_TO_PROCESS: "testxourse.tex calculus*.tex  calculus1TextbookBySection  [a-z]*/exercises/exerciseList.tex"
