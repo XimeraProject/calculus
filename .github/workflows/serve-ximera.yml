@@ -3,7 +3,7 @@ name: Ximera Workflow
 on:
   push:
     branches:
-        - 'nowhere-for-now'
+        - 'main'
 
 env:
   TEXMFHOME: /root/texmf     # Should be set in xmlatex !  
@@ -12,7 +12,8 @@ env:
   XIMERA_NAME: wimcalc20250904
   XIMERA_URL: "https://ximera.osu.edu/"
   # XIMERA_URL: "https://xerxes.ximera.org/"
-  XM_TO_PROCESS: "testxourse.tex"
+  XM_TO_PROCESS: "testxourse.tex calculus*.tex  calculus1TextbookBySection  [a-z]*/exercises/exerciseList.tex"
+
 
 jobs:
 
