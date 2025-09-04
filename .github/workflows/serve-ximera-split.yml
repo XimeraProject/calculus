@@ -3,7 +3,7 @@ name: Ximera Workflow
 on:
   push:
     branches:
-      - 'split'
+      - 'main'
 
 env:
   GPG_KEY: ${{ secrets.GPG_KEY }}
