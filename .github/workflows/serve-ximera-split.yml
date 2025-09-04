@@ -1,4 +1,4 @@
-name: Ximera Workflow
+name: "Ximera Workflow (split pdf/html)"
 
 on:
   push:
@@ -182,7 +182,7 @@ jobs:
 
   publish-ximera:
     name: Run serve for public version
-    needs: build-ximera-serve
+    needs: serve-ximera-preview
     runs-on: ubuntu-latest
     continue-on-error: true
     container: *x-container
