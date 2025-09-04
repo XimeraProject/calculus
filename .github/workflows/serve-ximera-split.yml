@@ -94,7 +94,10 @@ jobs:
       packages: write
 
     steps:
-      
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       # Download artifact from previous job
       - uses: actions/download-artifact@v4
         with:
@@ -142,6 +145,10 @@ jobs:
       packages: write
 
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+                  
       # Download artifact from previous job
       - uses: actions/download-artifact@v4
         with:
