@@ -48,7 +48,11 @@ jobs:
             ximeraPDF-${{ github.ref_name }}-
             ximeraPDF-
 
-      - run: xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS
+      - run: |
+            pwd
+            ls -alrt
+            git config --global --add safe.directory /__w/calculus/calculus
+            xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS
 
       - uses: actions/cache/save@v4
         with:
