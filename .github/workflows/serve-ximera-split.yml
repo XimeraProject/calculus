@@ -61,7 +61,7 @@ jobs:
           echo "Baking pdfexport" 
           ls -alrt
           # ./xmScripts/xmlatex veryclean
-          ./xmScripts/xmlatex --compile pdfexport -j 5 $XM_TO_PROCESS 
+          ./xmScripts/xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS 
 
       - name: Upload Working Folder as Artifact
         uses: actions/upload-artifact@v4
@@ -108,7 +108,7 @@ jobs:
           echo "Baking htmlexport" 
           ls -alrt
           # ./xmScripts/xmlatex veryclean
-          ./xmScripts/xmlatex --compile htmlexport -j 5 $XM_TO_PROCESS 
+          ./xmScripts/xmlatex bake --compile htmlexport -j 5 $XM_TO_PROCESS 
 
       - name: Upload Working Folder as Artifact
         uses: actions/upload-artifact@v4
