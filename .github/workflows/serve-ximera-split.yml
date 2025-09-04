@@ -11,7 +11,7 @@ env:
   XIMERA_NAME: wimcalc20250904
   XIMERA_URL: "https://ximera.osu.edu/"
   # XIMERA_URL: "https://xerxes.ximera.org/"
-  XM_TO_PROCESS: "testxourse.tex calculus1.tex"
+  XM_TO_PROCESS: "testxourse.tex calculus*.tex"
 
 jobs:
 
