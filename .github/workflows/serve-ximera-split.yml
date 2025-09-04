@@ -13,14 +13,12 @@ env:
   XM_TO_PROCESS: "testxourse.tex"
 
 jobs:
-  # dummy job to define the container anchor
-  _container: &x-container
-    image: ghcr.io/ximeraproject/ximeralatex:v2.7.5fix2
 
   build-ximera-pdfexport:
     name: Build pdfexport
     runs-on: ubuntu-latest
-    container: *x-container
+    container: &x-container
+      image: ghcr.io/ximeraproject/ximeralatex:v2.7.5fix2
     permissions:
       actions: read
       contents: read
@@ -151,3 +149,56 @@ jobs:
             build/**
             **/*.pdf
             **/*.html
+            **/*.aux
+            **/*.log
+            **/*.toc
+            **/*.xref
+            **/*.svg
+            **/*.png
+            !.git/**
+            !.github/**
+          key: ximeraHTML-${{ github.ref_name }}-${{ github.sha }}
+
+      - run: |
+          ./xmScripts/xmlatex name
+          ./xmScripts/xmlatex frost $XM_TO_PROCESS
+          ./xmScripts/xmlatex serve $XM_TO_PROCESS
+
+      - uses: actions/cache/save@v4
+        with:
+          path: |
+            xmScripts/**
+            .git/**
+          key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: serve
+          path: .
+
+  publish-ximera:
+    name: Publish to mooculus
+    needs: build-ximera-serve
+    runs-on: ubuntu-latest
+    container: *x-container
+    environment: production
+
+    steps:
+      - uses: actions/cache/restore@v4
+        with:
+          fail-on-cache-miss: true
+          path: |
+            xmScripts/**
+            .git/**
+          key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
+
+      - run: |
+          echo "Serving to $XIMERA_URL$XIMERA_NAME"
+          ./xmScripts/xmlatex name
+          ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
+          echo "Recent git log:"
+          git log --oneline --graph --decorate --all -n 10
+          echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
+        env:
+          XIMERA_URL: "https://xerxes.ximera.org/"
+          XIMERA_NAME: "calculus"
