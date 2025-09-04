@@ -12,43 +12,142 @@ env:
   XIMERA_URL: "https://xerxes.ximera.org/"
   XM_TO_PROCESS: "testxourse.tex"
 
-# YAML anchor for the container image
-x-container: &x-container
-  image: ghcr.io/ximeraproject/ximeralatex:v2.7.5fix2
-
 jobs:
+  # dummy job to define the container anchor
+  _container: &x-container
+    image: ghcr.io/ximeraproject/ximeralatex:v2.7.5fix2
+
   build-ximera-pdfexport:
     name: Build pdfexport
     runs-on: ubuntu-latest
     container: *x-container
+    permissions:
+      actions: read
+      contents: read
+      packages: write
+
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            build/**
+            **/*.pdf
+            **/*.html
+            **/*.aux
+            **/*.log
+            **/*.toc
+            **/*.xref
+            **/*.svg
+            **/*.png
+            !.git/**
+            !.github/**
+          key: ximeraPDF-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            ximeraPDF-${{ github.ref_name }}-
+            ximeraPDF-
+
       - run: ./xmScripts/xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS
+
+      - uses: actions/cache/save@v4
+        with:
+          path: |
+            build/**
+            **/*.pdf
+            **/*.html
+            **/*.aux
+            **/*.log
+            **/*.toc
+            **/*.xref
+            **/*.svg
+            **/*.png
+            !.git/**
+            !.github/**
+          key: ximeraPDF-${{ github.ref_name }}-${{ github.sha }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pdfexport
+          path: .
 
   build-ximera-htmlexport:
     name: Build htmlexport
     needs: build-ximera-pdfexport
     runs-on: ubuntu-latest
     container: *x-container
+    permissions:
+      actions: read
+      contents: read
+      packages: write
+
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            build/**
+            **/*.pdf
+            **/*.html
+            **/*.aux
+            **/*.log
+            **/*.toc
+            **/*.xref
+            **/*.svg
+            **/*.png
+            !.git/**
+            !.github/**
+          key: ximeraPDF-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            ximeraPDF-${{ github.ref_name }}-
+            ximeraPDF-
+
       - run: ./xmScripts/xmlatex bake --compile htmlexport -j 5 $XM_TO_PROCESS
+
+      - uses: actions/cache/save@v4
+        with:
+          path: |
+            build/**
+            **/*.pdf
+            **/*.html
+            **/*.aux
+            **/*.log
+            **/*.toc
+            **/*.xref
+            **/*.svg
+            **/*.png
+            !.git/**
+            !.github/**
+          key: ximeraHTML-${{ github.ref_name }}-${{ github.sha }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: htmlexport
+          path: .
 
   build-ximera-serve:
     name: Serve
     needs: build-ximera-htmlexport
     runs-on: ubuntu-latest
     container: *x-container
+    permissions:
+      actions: read
+      contents: read
+      packages: write
+
     steps:
       - uses: actions/checkout@v4
-      - run: ./xmScripts/xmlatex name
-      - run: ./xmScripts/xmlatex frost $XM_TO_PROCESS 
-      - run: ./xmScripts/xmlatex serve $XM_TO_PROCESS
+        with:
+          fetch-depth: 0
 
-  publish-ximera:
-    name: Publish
-    needs: build-ximera-serve
-    runs-on: ubuntu-latest
-    container: *x-container
-    steps:
-      - run: ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            build/**
+            **/*.pdf
+            **/*.html
