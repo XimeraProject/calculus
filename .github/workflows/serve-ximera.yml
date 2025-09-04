@@ -17,7 +17,7 @@ env:
 jobs:
 
   build-ximera-htmlexport:
-    name: Run pdfexport andhtmlexport
+    name: Run pdfexport and htmlexport
     runs-on: ubuntu-latest
     continue-on-error: true
     container: &x-container
@@ -60,17 +60,9 @@ jobs:
       - name: "XIMERA: pdf and html (tikzexternalize/html)"
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS
+          xmlatex bake --compile pdfexport  -j 5 $XM_TO_PROCESS
           xmlatex bake --compile htmlexport -j 5 $XM_TO_PROCESS
 
-      # Upload artifact for next job
-      - name: "Postprocess: Save artifacts"
-        uses: actions/upload-artifact@v4
-        with:
-          name: htmlexport
-          path: .
-
-  
       # Save cache
       - name: "Postprocess: Save cache"
         uses: actions/cache/save@v4
