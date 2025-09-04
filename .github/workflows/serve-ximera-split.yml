@@ -24,7 +24,6 @@ jobs:
       image: ghcr.io/ximeraproject/ximeralatex:v2.7.5fix2
       options: >-
         --workdir /code
-        --user $(id -u):$(id -g)
     permissions:
       actions: read
       contents: read
@@ -35,6 +34,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: true
 
       # Restore cache for cross-run speedup
       - name: "Prepare: Restore cache"
@@ -101,6 +101,7 @@ jobs:
       - name: "Prepare: Checkout code"
         uses: actions/checkout@v4
         with:
+          persist-credentials: true
           fetch-depth: 0
 
       # Download artifact from previous job
