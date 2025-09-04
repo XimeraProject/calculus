@@ -2,8 +2,8 @@ name: "Ximera Workflow (split pdf/html)"
 
 on:
   push:
-    # branches:
-    #   - 'main'
+    branches:
+      - 'main'
 
 env:
   TEXMFHOME: /root/texmf     # Should be set in xmlatex !  
