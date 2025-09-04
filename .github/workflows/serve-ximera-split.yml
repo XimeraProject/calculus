@@ -9,7 +9,8 @@ env:
   GPG_KEY: ${{ secrets.GPG_KEY }}
   GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
   XIMERA_NAME: wimcalc20250904
-  XIMERA_URL: "https://xerxes.ximera.org/"
+  XIMERA_URL: "https://ximera.osu.edu/"
+  # XIMERA_URL: "https://xerxes.ximera.org/"
   XM_TO_PROCESS: "testxourse.tex"
 
 jobs:
@@ -144,17 +145,20 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       # Download artifact from previous job
-      - uses: actions/download-artifact@v4
+      - name: Restore artifacts from previous job
+        uses: actions/download-artifact@v4
         with:
           name: htmlexport
           path: .
 
-      - run: |
+      - name: "Serve to ${{env.XIMERA_URL}}/${{env.XIMERA_NAME}}"
+        run: |
           git config --global --add safe.directory /code
           git config --global --add safe.directory /__w/calculus/calculus
           export TEXMFHOME=/root/texmf
@@ -163,17 +167,11 @@ jobs:
           xmlatex serve $XM_TO_PROCESS
           echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
 
-      # - uses: actions/cache/save@v4
+      # - name: "Store artifacts"
+      #   uses: actions/upload-artifact@v4
       #   with:
-      #     path: |
-      #       xmScripts/**
-      #       .git/**
-      #     key: ximeraSERVE-${{ github.ref_name }}-latest
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: serve
-          path: .
+      #     name: serve
+      #     path: .
 
   publish-ximera:
     name: Run serve to mooculus
@@ -184,13 +182,6 @@ jobs:
     environment: production
 
     steps:
-    #   - uses: actions/cache/restore@v4
-    #     with:
-    #       fail-on-cache-miss: true
-    #       path: |
-    #         xmScripts/**
-    #         .git/**
-    #       key: ximeraSERVE-${{ github.ref_name }}-latest
       # Download final artifact
       - uses: actions/download-artifact@v4
         with:
@@ -209,4 +200,5 @@ jobs:
           echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
         env:
           XIMERA_URL: "https://xerxes.ximera.org/"
-          XIMERA_NAME: "calculus"
+          # XIMERA_URL: "https://ximera.osu.edu/"
+          XIMERA_NAME: "mooculus"
