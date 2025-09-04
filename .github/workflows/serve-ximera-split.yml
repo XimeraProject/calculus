@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     container: &x-container
       image: ghcr.io/ximeraproject/ximeralatex:v2.7.5fix2
+      options: >-
+        --workdir /code
     permissions:
       actions: read
       contents: read
@@ -51,6 +53,9 @@ jobs:
       - run: |
             pwd
             ls -alrt
+            type xmlatex
+            env
+            git config --global --add safe.directory /code
             git config --global --add safe.directory /__w/calculus/calculus
             xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS
 
