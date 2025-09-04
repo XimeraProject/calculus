@@ -57,6 +57,10 @@ jobs:
             env
             git config --global --add safe.directory /code
             git config --global --add safe.directory /__w/calculus/calculus
+            ls -al /usr/local/bin/
+            ls -al /root
+            id
+            chmod  +rx /root
             xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS
 
       - uses: actions/cache/save@v4
