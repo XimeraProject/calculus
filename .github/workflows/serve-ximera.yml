@@ -63,7 +63,7 @@ jobs:
           echo "Baking and Serving to $XIMERA_URL$XIMERA_NAME" 
           ls -alrt
           # ./xmScripts/xmlatex veryclean
-          ./xmScripts/xmlatex all -j 6 $XM_TO_PROCESS || echo $NOK
+          ./xmScripts/xmlatex all -j 8 $XM_TO_PROCESS || echo $NOK
           # echo "Recent git log:"
           # git log --oneline --graph --decorate --all -n 10 
           echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
