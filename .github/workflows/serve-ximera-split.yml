@@ -47,9 +47,8 @@ jobs:
             !.git/**
             !.github/**
           key: ximeraPDFexport-${{ github.ref_name }}-latest
-        #   restore-keys: |
-        #     ximeraPDFexport-${{ github.ref_name }}-
-        #     ximeraPDFexport-
+          restore-keys: |
+            ximeraHTMLexport-${{ github.ref_name }}-latest
 
       - run: |
           # git config --global --add safe.directory /code
@@ -122,7 +121,7 @@ jobs:
             **/*.png
             !.git/**
             !.github/**
-          key: ximeraPDFexport-${{ github.ref_name }}-latest
+          key: ximeraHTMLexport-${{ github.ref_name }}-latest
 
       # Upload artifact
       - uses: actions/upload-artifact@v4
