@@ -160,12 +160,12 @@ jobs:
           xmlatex serve $XM_TO_PROCESS
           echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
 
-      - uses: actions/cache/save@v4
-        with:
-          path: |
-            xmScripts/**
-            .git/**
-          key: ximeraSERVE-${{ github.ref_name }}-latest
+      # - uses: actions/cache/save@v4
+      #   with:
+      #     path: |
+      #       xmScripts/**
+      #       .git/**
+      #     key: ximeraSERVE-${{ github.ref_name }}-latest
 
       - uses: actions/upload-artifact@v4
         with:
