@@ -2,8 +2,8 @@ name: Ximera Workflow
 
 on:
   push:
-    # branches:
-    #     - 'nowhere-for-now'
+    branches:
+        - 'nowhere-for-now'
 
 env:
   TEXMFHOME: /root/texmf     # Should be set in xmlatex !  
