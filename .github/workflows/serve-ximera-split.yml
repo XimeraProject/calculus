@@ -12,6 +12,7 @@ env:
   # XIMERA_URL: "https://ximera.osu.edu/"
   XIMERA_URL: "https://xerxes.ximera.org/"
   XM_TO_PROCESS: "testxourse.tex"
+  TEXMFHOME: /root/texmf     # Should be set in xmlatex !
 
 jobs:
 
@@ -58,8 +59,7 @@ jobs:
 
       - name: "XIMERA: pdfexport (prepare for tikzpictures)"
         run: |
-          git config --global --add safe.directory /__w/calculus/calculus
-          export TEXMFHOME=/root/texmf
+          # git config --global --add safe.directory /__w/calculus/calculus
           xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS
 
       # # Save cache for future runs
