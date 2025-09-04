@@ -64,6 +64,9 @@ jobs:
             chmod  +rx /root
             df -h
             ls -al /root
+            kpsewhich -var-value=TEXMFHOME
+            export TEXMFHOME=/root/texmf
+            kpsewhich -var-value=TEXMFHOME
             export LUA_PATH="/root/texmf/tex/latex/ximeraLatex/luaxake/?.lua;;"
             echo $LUA_PATH
             strace -o brol -f luaxake -h || echo NOK
