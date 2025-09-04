@@ -5,140 +5,51 @@ on:
     branches:
       - 'split'
 
-env: 
+env:
   GPG_KEY: ${{ secrets.GPG_KEY }}
   GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
   XIMERA_NAME: wimcalc20250904
   XIMERA_URL: "https://xerxes.ximera.org/"
   XM_TO_PROCESS: "testxourse.tex"
+  XIMERA_CONTAINER: "ghcr.io/ximeraproject/ximeralatex:v2.7.5fix2"   # ← container image variable
 
 jobs:
   build-ximera-pdfexport:
     name: Build pdfexport
     runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      packages: write
-
+    container:
+      image: ${{ env.XIMERA_CONTAINER }}  # ← use variable here
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      # (Optional) Cache dependencies (not build outputs!)
-      - name: Cache .git and scripts
-        uses: actions/cache@v4
-        with:
-          path: |
-            xmScripts/**
-            .git/**
-          key: ximera-deps-${{ github.ref_name }}
-
-      - name: Build pdfexport
-        run: |
-          echo "Baking pdfexport"
-          ./xmScripts/xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS 
-
-      - name: Upload pdfexport as Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: pdfexport
-          path: .
+      - uses: actions/checkout@v4
+      - run: ./xmScripts/xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS
 
   build-ximera-htmlexport:
     name: Build htmlexport
     needs: build-ximera-pdfexport
     runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      packages: write
-
+    container:
+      image: ${{ env.XIMERA_CONTAINER }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Download PDF Export Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: pdfexport
-          path: .
-
-      - name: Build htmlexport
-        run: |
-          echo "Baking htmlexport"
-          ./xmScripts/xmlatex bake --compile htmlexport -j 5 $XM_TO_PROCESS 
-
-      - name: Upload htmlexport as Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: htmlexport
-          path: .
+      - uses: actions/checkout@v4
+      - run: ./xmScripts/xmlatex bake --compile htmlexport -j 5 $XM_TO_PROCESS
 
   build-ximera-serve:
     name: Serve
     needs: build-ximera-htmlexport
     runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      packages: write
-
+    container:
+      image: ${{ env.XIMERA_CONTAINER }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Download HTML Export Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: htmlexport
-          path: .
-
-      - name: Build frost + serve
-        run: |
-          echo "Frost and serve"
-          ./xmScripts/xmlatex name 
-          ./xmScripts/xmlatex frost $XM_TO_PROCESS 
-          ./xmScripts/xmlatex serve $XM_TO_PROCESS 
-
-      - name: Upload serve as Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: serve
-          path: .
+      - uses: actions/checkout@v4
+      - run: ./xmScripts/xmlatex name
+      - run: ./xmScripts/xmlatex frost $XM_TO_PROCESS 
+      - run: ./xmScripts/xmlatex serve $XM_TO_PROCESS
 
   publish-ximera:
-    name: Publish to mooculus
+    name: Publish
     needs: build-ximera-serve
     runs-on: ubuntu-latest
-    environment: production
-
+    container:
+      image: ${{ env.XIMERA_CONTAINER }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Download Serve Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: serve
-          path: .
-
-      - name: Serve
-        env:
-          XIMERA_URL: "https://xerxes.ximera.org/"
-          XIMERA_NAME: "calculus"
-        run: |
-          echo "Serving to $XIMERA_URL$XIMERA_NAME"
-          ./xmScripts/xmlatex name         
-          ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
-          echo "Recent git log:"
-          git log --oneline --graph --decorate --all -n 10 
-          echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
+      - run: ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
