@@ -24,6 +24,7 @@ jobs:
       image: ghcr.io/ximeraproject/ximeralatex:v2.7.5fix2
       options: >-
         --workdir /code
+        --user 1000:1000
     permissions:
       actions: read
       contents: read
