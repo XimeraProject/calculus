@@ -58,12 +58,15 @@ jobs:
             git config --global --add safe.directory /code
             git config --global --add safe.directory /__w/calculus/calculus
             ls -al /usr/local/bin/
-            ls -al /root
+            ls -al /root/texmf
+            find /root/texmf
             id
             chmod  +rx /root
             df -h
             ls -al /root
             luaxake -h
+            strace -o brol -f luaxake -h
+            grep luaxake brol
             xmlatex bake --compile pdfexport -j 5 $XM_TO_PROCESS
 
       - uses: actions/cache/save@v4
