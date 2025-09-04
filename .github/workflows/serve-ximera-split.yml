@@ -15,8 +15,9 @@ env:
 jobs:
 
   build-ximera-pdfexport:
-    name: Build pdfexport
+    name: Run pdfexport
     runs-on: ubuntu-latest
+    continue-on-error: true
     container: &x-container
       image: ghcr.io/ximeraproject/ximeralatex:v2.7.5fix2
       options: >-
@@ -95,9 +96,10 @@ jobs:
           path: .
 
   build-ximera-htmlexport:
-    name: Build htmlexport
+    name: Run htmlexport
     needs: build-ximera-pdfexport
     runs-on: ubuntu-latest
+    continue-on-error: true
     container: *x-container
     permissions:
       actions: read
@@ -157,8 +159,9 @@ jobs:
           path: .
 
   build-ximera-serve:
-    name: Serve
+    name: Run frost/serve preview
     needs: build-ximera-htmlexport
+    continue-on-error: true
     runs-on: ubuntu-latest
     container: *x-container
     permissions:
@@ -195,6 +198,8 @@ jobs:
             xmlatex name
             xmlatex frost $XM_TO_PROCESS
             xmlatex serve $XM_TO_PROCESS
+            echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
+
 
       - uses: actions/cache/save@v4
         with:
@@ -209,9 +214,10 @@ jobs:
           path: .
 
   publish-ximera:
-    name: Publish to mooculus
+    name: Run serve to mooculus
     needs: build-ximera-serve
     runs-on: ubuntu-latest
+    continue-on-error: true
     container: *x-container
     environment: production
 
@@ -225,12 +231,15 @@ jobs:
           key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
 
       - run: |
-          echo "Serving to $XIMERA_URL$XIMERA_NAME"
-          xmlatex name
-          xmlatex serve -t $XM_TO_PROCESS
-          echo "Recent git log:"
-          git log --oneline --graph --decorate --all -n 10
-          echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
+            echo "Serving to $XIMERA_URL$XIMERA_NAME"
+            git config --global --add safe.directory /code
+            git config --global --add safe.directory /__w/calculus/calculus
+            export TEXMFHOME=/root/texmf
+            xmlatex name
+            xmlatex serve -t $XM_TO_PROCESS
+            echo "Recent git log:"
+            git log --oneline --graph --decorate --all -n 10
+            echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
         env:
           XIMERA_URL: "https://xerxes.ximera.org/"
           XIMERA_NAME: "calculus"
