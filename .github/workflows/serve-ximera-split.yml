@@ -64,7 +64,7 @@ jobs:
             chmod  +rx /root
             df -h
             ls -al /root
-            export LUA_PATH: "/root/texmf/tex/latex/ximeraLatex/luaxake/?.lua;;"
+            export LUA_PATH="/root/texmf/tex/latex/ximeraLatex/luaxake/?.lua;;"
             echo $LUA_PATH
             strace -o brol -f luaxake -h || echo NOK
             grep luaxake brol
