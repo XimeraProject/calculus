@@ -64,6 +64,7 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           mkdir -p .git/refs/heads
           [[ -f ".git/refs/heads/master.tex" ]] ||  date >".git/refs/heads/master.tex"           
+          ./xmScripts/add_xbb.sh *
           # xmlatex bake --compile pdfexport  -j 5 $XM_TO_PROCESS
           xmlatex bake --compile htmlexport -j 5 $XM_TO_PROCESS
 
