@@ -68,7 +68,7 @@ jobs:
           ls -alR understandingFunctions
           # xmlatex bake --compile pdfexport  -j 5 $XM_TO_PROCESS
           xmlatex bake --compile htmlexport -j 5 $XM_TO_PROCESS
-          du -hs ximera-downloads/*
+          du -hs ximera-downloads/* || echo No ximera-downloads folder
           rm -rf ximera-downloads/pdfexport
 
       # Save cache
