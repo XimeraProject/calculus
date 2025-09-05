@@ -124,9 +124,9 @@ jobs:
         run: |
           echo "Serving to $XIMERA_URL$XIMERA_NAME"
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          du -hs ximera-downloads
-          rm -rf  ximera-downloads/*
-          du -hs .
+          # du -hs ximera-downloads 
+          # rm -rf  ximera-downloads/*
+          # du -hs .
           xmlatex name
           xmlatex frost $XM_TO_PROCESS
           xmlatex serve $XM_TO_PROCESS
