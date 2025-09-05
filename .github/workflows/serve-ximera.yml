@@ -66,7 +66,7 @@ jobs:
           mkdir -p .git/refs/heads
           [ -f ".git/refs/heads/master.tex" ] ||  date >".git/refs/heads/master.tex"           
           echo "Add .xbb"
-          ./xmScripts/add_xbb.sh *
+          ./xmScripts/add_xbb.sh .
           ls -alR understandingFunctions
           # xmlatex bake --compile pdfexport  -j 5 $XM_TO_PROCESS
           xmlatex bake --compile htmlexport -j 5 $XM_TO_PROCESS
