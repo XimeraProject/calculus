@@ -23,15 +23,15 @@ find "$FOLDER" -type f -name "*.svg" ! -name "*x.svg" | while read -r svgfile; d
     continue
   fi
   if [ ! -f "$pngfile" ]; then
-    echo "Generating: $pngfile"
+    echo "Generating: $pngfile and svg"
     mutool draw -r 150 -c rgbalpha -o "$pngfile" "$pdffile"
-    ebb -x "$svgfile"
+    ebb -x "$pngfile"
 #   else
 #     echo "Skipping (exists): $xbbfile"
   fi
   if [ ! -f "$xbbfile" ]; then
     echo "Generating: $xbbfile"
-    ebb -x "$svgfile"
+    ebb -x "$pngfile"
 #   else
 #     echo "Skipping (exists): $xbbfile"
   fi
