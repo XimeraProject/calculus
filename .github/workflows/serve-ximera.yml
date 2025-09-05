@@ -11,6 +11,7 @@ env:
   GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
   # XIMERA_NAME: wimcalc20250905
   XIMERA_NAME: wimcalchints
+  # XIMERA_NAME: mooculuspreview
   XIMERA_URL: "https://ximera.osu.edu/"
   # XIMERA_URL: "https://xerxes.ximera.org/"
   XM_TO_PROCESS: "testxourse.tex"
@@ -65,9 +66,11 @@ jobs:
           mkdir -p .git/refs/heads
           [ -f ".git/refs/heads/master.tex" ] ||  date >".git/refs/heads/master.tex"           
           echo "Add .xbb"
-          ./xmScripts/add_xbb.sh linesAndCurvesInSpace
+          ./xmScripts/add_xbb.sh *
           # xmlatex bake --compile pdfexport  -j 5 $XM_TO_PROCESS
           xmlatex bake --compile htmlexport -j 5 $XM_TO_PROCESS
+          du -hs ximera-downloads/*
+          rm -rf ximera-downloads/pdfexport
 
       # Save cache
       - name: "Postprocess: Save cache"
