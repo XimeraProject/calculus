@@ -3,18 +3,19 @@ name: Ximera Workflow
 on:
   push:
     branches:
-        - 'main'
+        - 'fix-hints'
 
 env:
   TEXMFHOME: /root/texmf     # Should be set in xmlatex !  
   GPG_KEY: ${{ secrets.GPG_KEY }}
   GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
   # XIMERA_NAME: wimcalc20250905
-  XIMERA_NAME: mooculuspreview
+  XIMERA_NAME: wimcalchints
   XIMERA_URL: "https://ximera.osu.edu/"
   # XIMERA_URL: "https://xerxes.ximera.org/"
+  XM_TO_PROCESS: "testxourse.tex"
   # XM_TO_PROCESS: "testxourse.tex calculus*.tex  calculus*TextbookBySection  [a-z]*/exercises/exerciseList.tex"
-  XM_TO_PROCESS: "."
+  # XM_TO_PROCESS: "."
 
 
 jobs:
@@ -57,8 +58,6 @@ jobs:
           restore-keys: |
             ximeraHTMLexport-${{ github.ref_name }}-
             ximeraPDFexport-${{ github.ref_name }}-
-            ximeraPDFexport-
-            ximeraHTMLexport-
 
       - name: "XIMERA: pdf and html (tikzexternalize/html)"
         run: |
