@@ -1,18 +1,18 @@
-name: Ximera Workflow
+name: Ximera Workflow ADHOCFIX
 
 on:
-  push:
-    branches:
-        - 'mainNOWHERE'
+  workflow_dispatch:
 
 env:
   TEXMFHOME: /root/texmf     # Should be set in xmlatex !  
   GPG_KEY: ${{ secrets.GPG_KEY }}
   GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
   # XIMERA_NAME: wimcalc20250905
+  # XIMERA_NAME: wimcalchints
   XIMERA_NAME: mooculuspreview
   XIMERA_URL: "https://ximera.osu.edu/"
   # XIMERA_URL: "https://xerxes.ximera.org/"
+  # XM_TO_PROCESS: "testxourse.tex"
   # XM_TO_PROCESS: "testxourse.tex calculus*.tex  calculus*TextbookBySection  [a-z]*/exercises/exerciseList.tex"
   XM_TO_PROCESS: "."
 
@@ -57,16 +57,19 @@ jobs:
           restore-keys: |
             ximeraHTMLexport-${{ github.ref_name }}-
             ximeraPDFexport-${{ github.ref_name }}-
-            ximeraPDFexport-
-            ximeraHTMLexport-
 
       - name: "XIMERA: pdf and html (tikzexternalize/html)"
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           mkdir -p .git/refs/heads
-          [[ -f ".git/refs/heads/master.tex" ]] ||  date >".git/refs/heads/master.tex"           
-          xmlatex bake --compile pdfexport  -j 5 $XM_TO_PROCESS
+          [ -f ".git/refs/heads/master.tex" ] ||  date >".git/refs/heads/master.tex"           
+          echo "Add .xbb"
+          ./xmScripts/add_xbb.sh .
+          ls -alR understandingFunctions
+          # xmlatex bake --compile pdfexport  -j 5 $XM_TO_PROCESS
           xmlatex bake --compile htmlexport -j 5 $XM_TO_PROCESS
+          du -hs ximera-downloads/* || echo No ximera-downloads folder
+          rm -rf ximera-downloads/pdfexport
 
       # Save cache
       - name: "Postprocess: Save cache"
@@ -120,9 +123,9 @@ jobs:
         run: |
           echo "Serving to $XIMERA_URL$XIMERA_NAME"
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          du -hs ximera-downloads
-          rm -rf  ximera-downloads/*
-          du -hs .
+          # du -hs ximera-downloads 
+          # rm -rf  ximera-downloads/*
+          # du -hs .
           xmlatex name
           xmlatex frost $XM_TO_PROCESS
           xmlatex serve $XM_TO_PROCESS
@@ -139,6 +142,7 @@ jobs:
     name: Run serve for public version
     needs: serve-ximera-preview
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'    
     continue-on-error: true
     container: *x-container
     environment: production
