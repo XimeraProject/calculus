@@ -14,8 +14,21 @@ if ! command -v ebb >/dev/null 2>&1; then
 fi
 
 # Find all .svg files in subfolders and process them if .xbb is missing
-find "$FOLDER" -type f -name "*.png" | while read -r svgfile; do
-  xbbfile="${svgfile%.png}.xbb"
+find "$FOLDER" -type f -name "*.svg" ! -name "*x.svg" | while read -r svgfile; do
+  xbbfile="${svgfile%.svg}.xbb"
+  pngfile="${svgfile%.svg}.png"
+  pdffile="${svgfile%.svg}.pdf"
+  if [ ! -f "$pdffile" ]; then
+    echo "Missing PDF file for $svgfile"
+    continue
+  fi
+  if [ ! -f "$pngfile" ]; then
+    echo "Generating: $pngfile"
+    mutool draw -r 150 -c rgbalpha -o "$pngfile" "$pdffile"
+    ebb -x "$svgfile"
+#   else
+#     echo "Skipping (exists): $xbbfile"
+  fi
   if [ ! -f "$xbbfile" ]; then
     echo "Generating: $xbbfile"
     ebb -x "$svgfile"
